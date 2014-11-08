@@ -35,6 +35,9 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
+      <widget class="QComboBox" name="UsercomboBox"/>
+     </item>
+     <item>
       <widget class="QPushButton" name="UserpushButton">
        <property name="text">
         <string>User</string>
@@ -49,7 +52,7 @@
         </font>
        </property>
        <property name="text">
-        <string>level</string>
+        <string/>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -71,7 +74,7 @@
         </font>
        </property>
        <property name="text">
-        <string>name</string>
+        <string/>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -122,12 +125,12 @@
       <widget class="QLabel" name="Pointslabel">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <pointsize>13</pointsize>
          <italic>true</italic>
         </font>
        </property>
        <property name="text">
-        <string>points</string>
+        <string>Sun Points</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -135,58 +138,58 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="P1pushButton">
+      <widget class="QPushButton" name="PeaShooterpushButton">
        <property name="text">
-        <string>P1</string>
+        <string>Pea Shooter</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="P2pushButton">
+      <widget class="QPushButton" name="SunFlowerpushButton">
        <property name="text">
-        <string>P2</string>
+        <string>Sun Flower</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="P3pushButton">
+      <widget class="QPushButton" name="CherryBombpushButton">
        <property name="text">
-        <string>P3</string>
+        <string>Cherry Bomb</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="P4pushButton">
+      <widget class="QPushButton" name="WallNutpushButton">
        <property name="text">
-        <string>P4</string>
+        <string>Wall Nut</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="P5pushButton">
+      <widget class="QPushButton" name="PotatoMinepushButton">
        <property name="text">
-        <string>P5</string>
+        <string>Potato Mine</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="P6pushButton">
+      <widget class="QPushButton" name="SnowPeapushButton">
        <property name="text">
-        <string>P6</string>
+        <string>Snow Pea</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="P7pushButton">
+      <widget class="QPushButton" name="ChomperpushButton">
        <property name="text">
-        <string>P7</string>
+        <string>Chomper</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="P8pushButton">
+      <widget class="QPushButton" name="RepeaterpushButton">
        <property name="text">
-        <string>P8</string>
+        <string>Repeater</string>
        </property>
       </widget>
      </item>
