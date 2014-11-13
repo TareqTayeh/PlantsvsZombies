@@ -4,6 +4,8 @@
 #include "readingcsvfiles.h"
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QDebug>
+#include <QFile>
 
 namespace Ui {
 class MainWindow;
@@ -16,6 +18,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
 
 private slots:
     void on_DeletepushButton_clicked();
@@ -32,6 +35,10 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QString currentUserName;
+    QString currentUserLevel;
+    QString currentUserTime;
+
 };
 
 #endif // MAINWINDOW_H

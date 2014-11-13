@@ -1,21 +1,26 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-ReadingCSVFiles csvUser;
+ReadingCSVFiles user;
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->UsercomboBox->addItem("Tareq");
-    ui->UsercomboBox->addItem("Tayeh");
     ui->NamelineEdit->setPlaceholderText("Name");
     ui->LevellineEdit->setPlaceholderText("Level");
+    QString playersFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
+    QString levelsFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_levels.csv");
+    user.Read(playersFile); //Reading the pvz_players.csv
+    user.Read2(levelsFile); //Reading the pvz_levels.csv
+    user.Sort();
 }
 
 MainWindow::~MainWindow()
 {
+    user.Write(); //Saving upon exit
     delete ui;
 }
 
@@ -27,12 +32,16 @@ void MainWindow::on_DeletepushButton_clicked()
 void MainWindow::on_NewpushButton_clicked()
 {
     //Validate name
-    //Write user to csv file, level 1, timestamp is automatic
     QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this,"Title",ui->NamelineEdit->text()+ "?", QMessageBox::Ok|QMessageBox::Cancel);
+    reply = QMessageBox::question(this,"New User",ui->NamelineEdit->text()+ "?", QMessageBox::Ok|QMessageBox::Cancel);
     QString userName = ui->NamelineEdit->text();
     if (reply == QMessageBox::Ok)
-        csvUser.setUser(userName);
+    {
+        ui->UsercomboBox->addItem(userName);
+        currentUserName = userName;
+        currentUserLevel = 1;
+        currentUserTime = QDateTime::currentDateTime().toTime_t();
+    } 
 }
 
 void MainWindow::on_StartpushButton_clicked()
