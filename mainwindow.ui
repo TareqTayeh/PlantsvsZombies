@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>792</width>
-    <height>486</height>
+    <height>570</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>80</y>
-      <width>641</width>
-      <height>351</height>
+      <y>150</y>
+      <width>671</width>
+      <height>361</height>
      </rect>
     </property>
    </widget>
@@ -28,7 +28,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>80</y>
+      <y>160</y>
       <width>91</width>
       <height>351</height>
      </rect>
@@ -117,7 +117,7 @@
       <x>0</x>
       <y>0</y>
       <width>783</width>
-      <height>71</height>
+      <height>51</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -190,6 +190,74 @@
       <widget class="QPushButton" name="RepeaterpushButton">
        <property name="text">
         <string>Repeater</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>39</y>
+      <width>691</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="PeaShooterLabel">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="SunFlowerLabel">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="CherryBombLabel">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="WallNutLabel">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="PotatoMineLabel">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="SnowPeaLabel">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="ChomperLabel">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="RepeaterLabel">
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </item>

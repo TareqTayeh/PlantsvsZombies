@@ -60,7 +60,6 @@ bool ReadingCSVFiles::Write()
     QString playersFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
     QFile mFilename(playersFile);
 
-
     if(mFilename.open(QFile::WriteOnly | QFile::Truncate))
     {
         QTextStream stream(&mFilename);
@@ -75,7 +74,7 @@ bool ReadingCSVFiles::Write()
 
 }
 
-void ReadingCSVFiles::Sort()
+void ReadingCSVFiles::Sort() //Sorting in ascending order of time stamp
 {
     QString temp;
     for(int i = 0; i < total; i++)
@@ -95,7 +94,22 @@ void ReadingCSVFiles::Sort()
                     lastLevelPlayedList[j] = temp;
                 }
             }
-        }
+    }
+}
+
+QStringList ReadingCSVFiles::Search(QString name)
+{
+    for (int i = 0; i < total; i++)
+     {
+         if (name == userList[i])
+         {
+            QString user = userList[i];
+            QString time = timeStampList[i];
+            QString level = lastLevelPlayedList[i];
+            info[0] = user; info[1] = time; info[2] = level;
+            return info;
+         }
+     }
 }
 
 QString ReadingCSVFiles::getUser() const // function to return current user

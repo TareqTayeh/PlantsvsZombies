@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QFile>
+#include <QPixmap>
 
 namespace Ui {
 class MainWindow;

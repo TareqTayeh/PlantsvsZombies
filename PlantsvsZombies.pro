@@ -14,9 +14,15 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    readingcsvfiles.cpp
+    readingcsvfiles.cpp \
+    plants.cpp \
+    zombies.cpp \
+    bullets.cpp
 
 HEADERS  += mainwindow.h \
-    readingcsvfiles.h
+    readingcsvfiles.h \
+    plants.h \
+    zombies.h \
+    bullets.h
 
 FORMS    += mainwindow.ui
