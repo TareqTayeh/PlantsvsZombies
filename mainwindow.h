@@ -7,6 +7,11 @@
 #include <QDebug>
 #include <QFile>
 #include <QPixmap>
+#include <QGraphicsScene>
+#include <QGraphicsRectItem>
+#include <QIcon>
+#include <QToolButton>
+#include <QToolTip>
 
 namespace Ui {
 class MainWindow;
@@ -19,6 +24,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void setPictures();
 
 
 private slots:
@@ -39,6 +45,8 @@ private:
     QString currentUserName;
     QString currentUserLevel;
     QString currentUserTime;
+    QGraphicsScene *scene;
+    QGraphicsRectItem *rect;
 
 };
 

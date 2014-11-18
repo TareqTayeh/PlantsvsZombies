@@ -9,8 +9,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->UsercomboBox->addItem("Tarek");
-    ui->UsercomboBox->addItem("Tayeh");
+    ui->UsercomboBox->addItem("Tarek", 1);
+    ui->UsercomboBox->addItem("Tayeh", 2);
     ui->NamelineEdit->setPlaceholderText("Name");
     ui->LevellineEdit->setPlaceholderText("Level");
 
@@ -20,29 +20,68 @@ MainWindow::MainWindow(QWidget *parent) :
     user.Read2(levelsFile); //Reading the pvz_levels.csv
     user.Sort(); //Sorting the users
 
-    //Setting pictures to appear in mainwindow.ui
-    QPixmap PeaShooter("C://Users/User/Desktop/Plants vs Zombies files/Peashooter_HD.png");
-    ui->PeaShooterLabel->setPixmap(PeaShooter);
-    QPixmap SunFlower("C://Users/User/Desktop/Plants vs Zombies files/Sunflower_HD.png");
-    ui->SunFlowerLabel->setPixmap(SunFlower);
-    QPixmap CherryBomb("C://Users/User/Desktop/Plants vs Zombies files/Cherry Bomb HD.png");
-    ui->CherryBombLabel->setPixmap(CherryBomb);
-    QPixmap Walnut("C://Users/User/Desktop/Plants vs Zombies files/Hd_Wall-nut.png");
-    ui->WallNutLabel->setPixmap(Walnut);
-    QPixmap PotatoMine("C://Users/User/Desktop/Plants vs Zombies files/Potato_Mine_HD.png");
-    ui->PotatoMineLabel->setPixmap(PotatoMine);
-    QPixmap SnowPea("C://Users/User/Desktop/Plants vs Zombies files/Snow_Pea_(HD_size).png");
-    ui->SnowPeaLabel->setPixmap(SnowPea);
-    QPixmap Chomper("C://Users/User/Desktop/Plants vs Zombies files/ChomperHD2.png");
-    ui->ChomperLabel->setPixmap(Chomper);
-    QPixmap Repeater("C://Users/User/Desktop/Plants vs Zombies files/Repeater_HD_HD.png");
-    ui->RepeaterLabel->setPixmap(Repeater);
+    setPictures(); //Setting pictures to appear in mainwindow.ui
+
+
+    // Drawing 10x5 lawn grid
+    scene = new QGraphicsScene(this);
+    ui->graphicsView->setScene(scene);
+
+    QBrush darkGreenBrush(Qt::darkGreen);
+    QPen greenPen(Qt::green);
+    greenPen.setWidth(1);
+
+    rect = scene->addRect(-450,0,70,70,greenPen,darkGreenBrush);
 }
 
 MainWindow::~MainWindow()
 {
     user.Write(); //Saving upon exit
     delete ui;
+}
+
+void MainWindow::setPictures() //Setting pictures to appear in mainwindow.ui
+{
+    QPixmap PeaShooter("C://Users/User/Desktop/Plants vs Zombies files/Peashooter_HD.png");
+    ui->PeaShooterToolButton->setIcon(QIcon(PeaShooter));
+    QString tooltip="Pea Shooter \nCost 100";
+    ui->PeaShooterToolButton->setToolTip(tooltip);
+
+    QPixmap SunFlower("C://Users/User/Desktop/Plants vs Zombies files/Sunflower_HD.png");
+    ui->SunFlowerToolButton->setIcon(QIcon(SunFlower));
+    QString tooltip1="Sun Flower \nCost 50";
+    ui->SunFlowerToolButton->setToolTip(tooltip1);
+
+    QPixmap CherryBomb("C://Users/User/Desktop/Plants vs Zombies files/Cherry Bomb HD.png");
+    ui->CherryBombToolButton->setIcon(QIcon(CherryBomb));
+    QString tooltip2="Cherry Bomb \nCost 150";
+    ui->CherryBombToolButton->setToolTip(tooltip2);
+
+    QPixmap Walnut("C://Users/User/Desktop/Plants vs Zombies files/Hd_Wall-nut.png");
+    ui->WalNutToolButton->setIcon(QIcon(Walnut));
+    QString tooltip3="WalNut \nCost 50";
+    ui->WalNutToolButton->setToolTip(tooltip3);
+
+    QPixmap PotatoMine("C://Users/User/Desktop/Plants vs Zombies files/Potato_Mine_HD.png");
+    ui->PotatoMineToolButton->setIcon(QIcon(PotatoMine));
+    QString tooltip4="Potato Mine \nCost 25";
+    ui->PotatoMineToolButton->setToolTip(tooltip4);
+
+    QPixmap SnowPea("C://Users/User/Desktop/Plants vs Zombies files/Snow_Pea_(HD_size).png");
+    ui->SnowPeaToolButton->setIcon(QIcon(SnowPea));
+    QString tooltip5="Snow Pea \nCost 175";
+    ui->SnowPeaToolButton->setToolTip(tooltip5);
+
+    QPixmap Chomper("C://Users/User/Desktop/Plants vs Zombies files/ChomperHD2.png");
+    ui->ChomperToolButton->setIcon(QIcon(Chomper));
+    QString tooltip6="Chomper \nCost 150";
+    ui->ChomperToolButton->setToolTip(tooltip6);
+
+    QPixmap Repeater("C://Users/User/Desktop/Plants vs Zombies files/Repeater_HD_HD.png");
+    ui->RepeaterToolButton->setIcon(QIcon(Repeater));
+    QString tooltip7="Repeater \nCost 200";
+    ui->RepeaterToolButton->setToolTip(tooltip7);
+
 }
 
 void MainWindow::on_DeletepushButton_clicked()
