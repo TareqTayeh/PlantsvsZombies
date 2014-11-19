@@ -26,15 +26,10 @@ MainWindow::MainWindow(QWidget *parent) :
     setPictures(); //Setting pictures to appear in mainwindow.ui
 
 
-    // Drawing 10x5 lawn grid
+    // Drawing main screen picture
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
-
-    QBrush darkGreenBrush(Qt::darkGreen);
-    QPen greenPen(Qt::green);
-
-    scene->setBackgroundBrush(QBrush(darkGreenBrush));
-    //rect = scene->addRect(-450,0,70,70,greenPen,darkGreenBrush);
+    scene->addPixmap(QPixmap("C://Users/User/Desktop/Plants vs Zombies files/plants-vs-zombies.png"));
 }
 
 MainWindow::~MainWindow()
@@ -96,6 +91,7 @@ void MainWindow::on_DeletepushButton_clicked()
       if (reply == QMessageBox::Yes) {
         qDebug() << "Yes delete was clicked";
         //WRITE FUNCTIONALITY
+        textSearch = ui->UsercomboBox->currentText();
       } else {
         qDebug() << "Yes delete was *not* clicked";
       }
@@ -110,17 +106,52 @@ void MainWindow::on_NewpushButton_clicked()
     QString userName = (ui->NamelineEdit->text());
     if (reply == QMessageBox::Ok)
     {
-        ui->UsercomboBox->addItem(userName);
-        QString time = QString::number(QDateTime::currentDateTime().toTime_t());
-        user.addLists(time,userName,"1");
-        user.Read("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
-        user.Sort();
+        if (user.getTotal()< 5)
+        {
+            ui->UsercomboBox->addItem(userName);
+            QString time = QString::number(QDateTime::currentDateTime().toTime_t());
+            user.addLists(time,userName,"1");
+            user.Read("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
+            user.Sort();
+        }
+        else
+            QMessageBox::question(this,"Max 5 Users", "Maximum users reached. Delete a user before creating a new one.",
+                                  QMessageBox::Ok|QMessageBox::Cancel); //Max 5 users in csv
     } 
 }
 
 void MainWindow::on_StartpushButton_clicked()
 {
+    //Drawing 10x5 lawnmower
+    scene->clear();
+    QBrush darkGreenBrush(Qt::darkGreen);
+    QBrush brown (QColor(102,51,0));
+    QPen blackPen(Qt::black);
+    scene->setBackgroundBrush(QBrush(darkGreenBrush));
 
+    //Adding brown tiles
+    scene->addRect(0,0,60,375,blackPen,brown);
+
+    //Adding lines vertically
+    scene->addLine(0,0,0,375,blackPen);
+    scene->addLine(60,0,60,375,blackPen);
+    scene->addLine(120,0,120,375,blackPen);
+    scene->addLine(180,0,180,375,blackPen);
+    scene->addLine(240,0,240,375,blackPen);
+    scene->addLine(300,0,300,375,blackPen);
+    scene->addLine(360,0,360,375,blackPen);
+    scene->addLine(420,0,420,375,blackPen);
+    scene->addLine(480,0,480,375,blackPen);
+    scene->addLine(540,0,540,375,blackPen);
+    scene->addLine(600,0,600,375,blackPen);
+
+    //Adding lines horizontally
+    scene->addLine(0,0,600,0,blackPen);
+    scene->addLine(0,75,600,75,blackPen);
+    scene->addLine(0,150,600,150,blackPen);
+    scene->addLine(0,225,600,225,blackPen);
+    scene->addLine(0,300,600,300,blackPen);
+    scene->addLine(0,375,600,375,blackPen);    
 }
 
 void MainWindow::on_RestartpushButton_clicked()
@@ -146,6 +177,8 @@ void MainWindow::on_UserpushButton_clicked()
     QMessageBox::information(this,"Title",ui->UsercomboBox->currentText());
     textSearch = ui->UsercomboBox->currentText();
     QString name,time,level;
+
+    //Searches for username in csv
     name = user.SearchName(textSearch);
     time = user.SearchTime(textSearch);
     level = user.SearchLevel(textSearch);

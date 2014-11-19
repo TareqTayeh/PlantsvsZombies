@@ -90,7 +90,7 @@ void ReadingCSVFiles::Sort() //Sorting in ascending order of time stamp
     }
 }
 
-QString ReadingCSVFiles::SearchName(QString name)
+QString ReadingCSVFiles::SearchName(QString name) //Searches for name when user button clicked and returns name
 {
     for (int i = 0; i < total; i++)
      {
@@ -102,7 +102,7 @@ QString ReadingCSVFiles::SearchName(QString name)
     }
 }
 
-QString ReadingCSVFiles::SearchTime(QString name)
+QString ReadingCSVFiles::SearchTime(QString name) //Searches for name when user button clicked and returns time of user
 {
     for (int i = 0; i < total; i++)
      {
@@ -114,7 +114,7 @@ QString ReadingCSVFiles::SearchTime(QString name)
     }
 }
 
-QString ReadingCSVFiles::SearchLevel(QString name)
+QString ReadingCSVFiles::SearchLevel(QString name) //Searches for name when user button clicked and returns level of user
 {
     for (int i = 0; i < total; i++)
      {
@@ -150,13 +150,12 @@ QString ReadingCSVFiles::getIndex() const
     return temp;
 }
 
-QString ReadingCSVFiles::getTotal() const
+int ReadingCSVFiles::getTotal() const
 {
-    QString temp = QString::number(total);
-    return temp;
+    return total;
 }
 
-void ReadingCSVFiles::addLists(QString time, QString userName, QString level)
+void ReadingCSVFiles::addLists(QString time, QString userName, QString level) //Called when new button is pressed, writes to csv file
 {
     QString playersFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
     QFile mFilename(playersFile);

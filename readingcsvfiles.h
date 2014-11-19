@@ -27,7 +27,7 @@ public:
     QString getLastLevelPlayed() const;
     QString getTimeStamp() const;
     QString getIndex() const;
-    QString getTotal() const;
+    int getTotal() const;
     void addLists(QString, QString, QString);
 
 private:

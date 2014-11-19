@@ -47,10 +47,7 @@ private:
     QString currentUserName;
     QString currentUserTime;
     QString currentUserLevel;
-    QGraphicsScene sc;
     QGraphicsScene *scene;
-    QGraphicsRectItem *rect;
-
 };
 
 #endif // MAINWINDOW_H
