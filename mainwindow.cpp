@@ -3,23 +3,26 @@
 
 ReadingCSVFiles user;
 
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->UsercomboBox->addItem("Tarek", 1);
-    ui->UsercomboBox->addItem("Tayeh", 2);
     ui->NamelineEdit->setPlaceholderText("Name");
     ui->LevellineEdit->setPlaceholderText("Level");
 
     QString playersFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
     QString levelsFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_levels.csv");
     user.Read(playersFile); //Reading the pvz_players.csv
-    user.Read2(levelsFile); //Reading the pvz_levels.csv
-    user.Sort(); //Sorting the users
+    for (int i = 0; i < 5 ; i++)
+    {
+        if (user.getUser(i)!=NULL)
+        {
+            ui->UsercomboBox->addItem(user.getUser(i));
+        }
+    }
 
+    user.Sort(); //Sorting the users
     setPictures(); //Setting pictures to appear in mainwindow.ui
 
 
@@ -29,20 +32,20 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QBrush darkGreenBrush(Qt::darkGreen);
     QPen greenPen(Qt::green);
-    greenPen.setWidth(1);
 
-    rect = scene->addRect(-450,0,70,70,greenPen,darkGreenBrush);
+    scene->setBackgroundBrush(QBrush(darkGreenBrush));
+    //rect = scene->addRect(-450,0,70,70,greenPen,darkGreenBrush);
 }
 
 MainWindow::~MainWindow()
 {
-    user.Write(); //Saving upon exit
+    user.Write();
     delete ui;
 }
 
 void MainWindow::setPictures() //Setting pictures to appear in mainwindow.ui
 {
-    QPixmap PeaShooter("C://Users/User/Desktop/Plants vs Zombies files/Peashooter_HD.png");
+    QPixmap PeaShooter("C://Users/User/Desktop/Plants vs Zombies files/Peashooter_HDD.png");
     ui->PeaShooterToolButton->setIcon(QIcon(PeaShooter));
     QString tooltip="Pea Shooter \nCost 100";
     ui->PeaShooterToolButton->setToolTip(tooltip);
@@ -104,13 +107,14 @@ void MainWindow::on_NewpushButton_clicked()
     //Validate name
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this,"New User",ui->NamelineEdit->text()+ "?", QMessageBox::Ok|QMessageBox::Cancel);
-    QString userName = ui->NamelineEdit->text();
+    QString userName = (ui->NamelineEdit->text());
     if (reply == QMessageBox::Ok)
     {
         ui->UsercomboBox->addItem(userName);
-        currentUserName = userName;
-        currentUserLevel = 1;
-        currentUserTime = QDateTime::currentDateTime().toTime_t();
+        QString time = QString::number(QDateTime::currentDateTime().toTime_t());
+        user.addLists(time,userName,"1");
+        user.Read("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
+        user.Sort();
     } 
 }
 
@@ -140,7 +144,9 @@ void MainWindow::on_QuitpushButton_clicked() //Application closes when user pres
 void MainWindow::on_UserpushButton_clicked()
 {
     QMessageBox::information(this,"Title",ui->UsercomboBox->currentText());
-    QStringList info = user.Search(ui->UsercomboBox->currentText());
+    textSearch = ui->UsercomboBox->currentText();
+    qDebug() << textSearch;
+    //QStringList info = user.Search(textSearch);
     //currentUserName = info[0];
     //currentUserTime = info[1];
     //currentUserLevel = info[2];

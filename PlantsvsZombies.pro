@@ -17,12 +17,14 @@ SOURCES += main.cpp\
     readingcsvfiles.cpp \
     plants.cpp \
     zombies.cpp \
-    bullets.cpp
+    bullets.cpp \
+    mouseclicking.cpp
 
 HEADERS  += mainwindow.h \
     readingcsvfiles.h \
     plants.h \
     zombies.h \
-    bullets.h
+    bullets.h \
+    mouseclicking.h
 
 FORMS    += mainwindow.ui

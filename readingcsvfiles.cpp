@@ -50,11 +50,6 @@ bool ReadingCSVFiles::Read(QString Filename)
     mFile.close();
 }
 
-bool ReadingCSVFiles::Read2(QString)
-{
-
-}
-
 bool ReadingCSVFiles::Write()
 {
     QString playersFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
@@ -65,13 +60,11 @@ bool ReadingCSVFiles::Write()
         QTextStream stream(&mFilename);
         for (int i = 0; i < total; i++)
         {
-            //stream << QDateTime::currentDateTime().toTime_t() << ":" << userName << ":" << 1 <<"\n";
+            stream << timeStampList[i] << ":" << userList[i] << ":" << lastLevelPlayedList[i] <<"\r\n";
         }
 
+         mFilename.close();
     }
-        mFilename.flush();
-        mFilename.close();
-
 }
 
 void ReadingCSVFiles::Sort() //Sorting in ascending order of time stamp
@@ -81,7 +74,7 @@ void ReadingCSVFiles::Sort() //Sorting in ascending order of time stamp
         {
             for(int j = i; j < total; j++)
             {
-                if(timeStampList[j] < timeStampList[i])
+                if(timeStampList[j] > timeStampList[i])
                 {
                     temp = timeStampList[i];
                     timeStampList[i] = timeStampList[j];
@@ -112,9 +105,12 @@ QStringList ReadingCSVFiles::Search(QString name)
      }
 }
 
-QString ReadingCSVFiles::getUser() const // function to return current user
+QString ReadingCSVFiles::getUser(int x) const// function to return current user
 {
-    return userList.at(index);
+    if (total > x)
+        return userList[x];
+    else
+        return NULL;
 }
 
 QString ReadingCSVFiles::getLastLevelPlayed() const // function used to return user last level played
@@ -137,6 +133,19 @@ QString ReadingCSVFiles::getTotal() const
 {
     QString temp = QString::number(total);
     return temp;
+}
+
+void ReadingCSVFiles::addLists(QString time, QString userName, QString level)
+{
+    QString playersFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
+    QFile mFilename(playersFile);
+
+    if(mFilename.open(QFile::WriteOnly | QIODevice::Append))
+    {
+        QTextStream stream(&mFilename);
+        stream << time << ":" << userName << ":" << level <<"\r\n";
+        mFilename.close();
+    }
 }
 
 

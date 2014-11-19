@@ -1,5 +1,7 @@
 #ifndef READINGCSVFILES_H
 #define READINGCSVFILES_H
+#include "mainwindow.h"
+
 #include <QString>
 #include <QFile>
 #include <QStringList>
@@ -16,17 +18,16 @@ class ReadingCSVFiles
 public:
     ReadingCSVFiles();
     bool Read(QString);
-    bool Read2(QString);
     bool Write();
     void Sort();
     QStringList Search(QString);
-    QString getUser() const;
+    QString getUser(int) const;
     QString getLastLevelPlayed() const;
     QString getTimeStamp() const;
     QString getIndex() const;
     QString getTotal() const;
     QStringList info;
-
+    void addLists(QString, QString, QString);
 
 private:
     QStringList userList;

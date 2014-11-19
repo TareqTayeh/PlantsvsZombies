@@ -12,6 +12,7 @@
 #include <QIcon>
 #include <QToolButton>
 #include <QToolTip>
+#include <string>
 
 namespace Ui {
 class MainWindow;
@@ -25,6 +26,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void setPictures();
+    QString textSearch;
 
 
 private slots:
@@ -43,8 +45,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QString currentUserName;
-    QString currentUserLevel;
     QString currentUserTime;
+    QString currentUserLevel;
+    QGraphicsScene sc;
     QGraphicsScene *scene;
     QGraphicsRectItem *rect;
 
