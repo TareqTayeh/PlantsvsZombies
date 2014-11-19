@@ -145,10 +145,12 @@ void MainWindow::on_UserpushButton_clicked()
 {
     QMessageBox::information(this,"Title",ui->UsercomboBox->currentText());
     textSearch = ui->UsercomboBox->currentText();
-    qDebug() << textSearch;
-    //QStringList info = user.Search(textSearch);
-    //currentUserName = info[0];
-    //currentUserTime = info[1];
-    //currentUserLevel = info[2];
-
+    QString name,time,level;
+    name = user.SearchName(textSearch);
+    time = user.SearchTime(textSearch);
+    level = user.SearchLevel(textSearch);
+    currentUserName = name;
+    currentUserTime = time;
+    currentUserLevel = level;
+    qDebug() << name << time << level;
 }

@@ -90,19 +90,40 @@ void ReadingCSVFiles::Sort() //Sorting in ascending order of time stamp
     }
 }
 
-QStringList ReadingCSVFiles::Search(QString name)
+QString ReadingCSVFiles::SearchName(QString name)
 {
     for (int i = 0; i < total; i++)
      {
          if (name == userList[i])
          {
             QString user = userList[i];
-            QString time = timeStampList[i];
-            QString level = lastLevelPlayedList[i];
-            info[0] = user; info[1] = time; info[2] = level;
-            return info;
+            return user;
          }
-     }
+    }
+}
+
+QString ReadingCSVFiles::SearchTime(QString name)
+{
+    for (int i = 0; i < total; i++)
+     {
+         if (name == userList[i])
+         {
+            QString time = timeStampList[i];
+            return time;
+         }
+    }
+}
+
+QString ReadingCSVFiles::SearchLevel(QString name)
+{
+    for (int i = 0; i < total; i++)
+     {
+         if (name == userList[i])
+         {
+            QString level = lastLevelPlayedList[i];
+            return level;
+         }
+    }
 }
 
 QString ReadingCSVFiles::getUser(int x) const// function to return current user

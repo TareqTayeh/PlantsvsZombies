@@ -20,13 +20,14 @@ public:
     bool Read(QString);
     bool Write();
     void Sort();
-    QStringList Search(QString);
+    QString SearchName(QString);
+    QString SearchTime(QString);
+    QString SearchLevel(QString);
     QString getUser(int) const;
     QString getLastLevelPlayed() const;
     QString getTimeStamp() const;
     QString getIndex() const;
     QString getTotal() const;
-    QStringList info;
     void addLists(QString, QString, QString);
 
 private:
