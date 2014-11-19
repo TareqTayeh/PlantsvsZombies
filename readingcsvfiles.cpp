@@ -3,7 +3,7 @@
 
 ReadingCSVFiles::ReadingCSVFiles()
 {
-    index = 0; total = 0;
+   total = 0;
 }
 
 bool ReadingCSVFiles::Read(QString Filename)
@@ -134,20 +134,19 @@ QString ReadingCSVFiles::getUser(int x) const// function to return current user
         return NULL;
 }
 
-QString ReadingCSVFiles::getLastLevelPlayed() const // function used to return user last level played
+QString ReadingCSVFiles::getUser1() const
 {
-    return lastLevelPlayedList.at(index);
+    return userList[0];
 }
 
-QString ReadingCSVFiles::getTimeStamp() const // function used to return time stamp of user
+QString ReadingCSVFiles::getLevelofUser1() const
 {
-    return timeStampList.at(index);
+    return lastLevelPlayedList[0];
 }
 
-QString ReadingCSVFiles::getIndex() const
+QString ReadingCSVFiles::getTimeofUser1() const
 {
-    QString temp = QString::number(index+1);
-    return temp;
+    return timeStampList[0];
 }
 
 int ReadingCSVFiles::getTotal() const

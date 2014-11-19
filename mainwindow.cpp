@@ -23,6 +23,11 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     user.Sort(); //Sorting the users
+    //Assigning player that last played to current user
+    currentUserName = user.getUser1();
+    currentUserLevel = user.getLevelofUser1();
+    currentUserTime = user.getTimeofUser1();
+
     setPictures(); //Setting pictures to appear in mainwindow.ui
 
 
@@ -122,15 +127,37 @@ void MainWindow::on_NewpushButton_clicked()
 
 void MainWindow::on_StartpushButton_clicked()
 {
-    //Drawing 10x5 lawnmower
+    //Showing current user level on screen
+    ui->LevellineEdit->setText(currentUserLevel);
+
+    //Drawing 10x5 lawn grid
     scene->clear();
     QBrush darkGreenBrush(Qt::darkGreen);
     QBrush brown (QColor(102,51,0));
+    QBrush pale (QColor(255,229,204));
     QPen blackPen(Qt::black);
     scene->setBackgroundBrush(QBrush(darkGreenBrush));
 
-    //Adding brown tiles
-    scene->addRect(0,0,60,375,blackPen,brown);
+    //Adding brown and pale tiles according to level
+    if(currentUserLevel.toInt() == 1)
+    {
+        scene->addRect(0,0,60,375,blackPen,pale);
+        scene->addRect(60,0,540,75,blackPen,brown);
+        scene->addRect(60,75,540,75,blackPen,brown);
+        scene->addRect(60,225,540,75,blackPen,brown);
+        scene->addRect(60,300,540,75,blackPen,brown);
+    }
+
+    if(currentUserLevel.toInt() == 2)
+    {
+        scene->addRect(60,0,540,75,blackPen,brown);
+        scene->addRect(0,0,60,375,blackPen,pale);
+        scene->addRect(60,300,540,75,blackPen,brown);
+    }
+    if(currentUserLevel.toInt() > 2)
+    {
+        scene->addRect(0,0,60,375,blackPen,pale);
+    }
 
     //Adding lines vertically
     scene->addLine(0,0,0,375,blackPen);
@@ -151,7 +178,10 @@ void MainWindow::on_StartpushButton_clicked()
     scene->addLine(0,150,600,150,blackPen);
     scene->addLine(0,225,600,225,blackPen);
     scene->addLine(0,300,600,300,blackPen);
-    scene->addLine(0,375,600,375,blackPen);    
+    scene->addLine(0,375,600,375,blackPen);
+
+    //Adjusting graphicsview size
+    ui->graphicsView->adjustSize();
 }
 
 void MainWindow::on_RestartpushButton_clicked()

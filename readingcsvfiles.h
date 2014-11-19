@@ -24,9 +24,9 @@ public:
     QString SearchTime(QString);
     QString SearchLevel(QString);
     QString getUser(int) const;
-    QString getLastLevelPlayed() const;
-    QString getTimeStamp() const;
-    QString getIndex() const;
+    QString getUser1() const;
+    QString getLevelofUser1() const;
+    QString getTimeofUser1() const;
     int getTotal() const;
     void addLists(QString, QString, QString);
 
@@ -34,7 +34,6 @@ private:
     QStringList userList;
     QStringList lastLevelPlayedList;
     QStringList timeStampList;
-    int index;
     int total;
 };
 
