@@ -18,13 +18,15 @@ SOURCES += main.cpp\
     plants.cpp \
     zombies.cpp \
     bullets.cpp \
-    mouseclicking.cpp
+    mouseclicking.cpp \
+    sunpoints.cpp
 
 HEADERS  += mainwindow.h \
     readingcsvfiles.h \
     plants.h \
     zombies.h \
     bullets.h \
-    mouseclicking.h
+    mouseclicking.h \
+    sunpoints.h
 
 FORMS    += mainwindow.ui

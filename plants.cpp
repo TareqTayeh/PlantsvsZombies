@@ -13,6 +13,12 @@ plants::plants()
     seeding = 0;
     sun = 0;
     need = 0;
+    plantID = 0;
+}
+
+int plants::getPlantID()
+{
+    return plantID;
 }
 
 
@@ -28,6 +34,7 @@ PeaShooterClass::PeaShooterClass()
     seeding = 7.5;
     sun = 0;
     need = 0;
+    plantID = 1;
 }
 
 
@@ -44,6 +51,7 @@ SunFlowerClass::SunFlowerClass()
     seeding = 7.5;
     sun = 1;
     need = 0;
+    plantID = 2;
 }
 
 
@@ -60,6 +68,7 @@ CherryBombClass::CherryBombClass()
     seeding = 50;
     sun = 0;
     need = 0;
+    plantID = 3;
 }
 
 WallNutClass::WallNutClass()
@@ -75,6 +84,7 @@ WallNutClass::WallNutClass()
     seeding = 30;
     sun = 0;
     need = 0;
+    plantID = 4;
 }
 
 PotatoMineClass::PotatoMineClass()
@@ -90,6 +100,7 @@ PotatoMineClass::PotatoMineClass()
     seeding = 30;
     sun = 0;
     need = 0;
+    plantID = 5;
 }
 
 SnowPeaClass::SnowPeaClass()
@@ -105,6 +116,7 @@ SnowPeaClass::SnowPeaClass()
     seeding = 7.5;
     sun = 0;
     need = 0;
+    plantID = 6;
 }
 
 ChomperClass::ChomperClass()
@@ -120,6 +132,7 @@ ChomperClass::ChomperClass()
     seeding = 7.5;
     sun = 0;
     need = 0;
+    plantID = 7;
 }
 
 RepeaterClass::RepeaterClass()
@@ -135,4 +148,5 @@ RepeaterClass::RepeaterClass()
     seeding = 7.5;
     sun = 0;
     need = 1;
+    plantID = 8;
 }

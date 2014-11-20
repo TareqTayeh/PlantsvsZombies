@@ -5,7 +5,8 @@ class plants
 {
 public:
     plants();
-    void setLife();
+    int setLife();
+    int getPlantID();
 
 protected:
     int cost;
@@ -19,6 +20,7 @@ protected:
     double seeding;
     int sun;
     int need;
+    int plantID;
 };
 
 class PeaShooterClass : public plants

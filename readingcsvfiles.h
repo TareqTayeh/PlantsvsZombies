@@ -29,6 +29,7 @@ public:
     QString getTimeofUser1() const;
     int getTotal() const;
     void addLists(QString, QString, QString);
+    void deleteUser(QString);
 
 private:
     QStringList userList;

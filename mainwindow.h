@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include "readingcsvfiles.h"
+#include "mouseclicking.h"
+#include "plants.h"
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QDebug>
@@ -13,6 +15,8 @@
 #include <QToolButton>
 #include <QToolTip>
 #include <string>
+#include <QGraphicsPixmapItem>
+#include <ctime>
 
 namespace Ui {
 class MainWindow;
@@ -28,7 +32,6 @@ public:
     void setPictures();
     QString textSearch;
 
-
 private slots:
     void on_DeletepushButton_clicked();
 
@@ -41,6 +44,8 @@ private slots:
     void on_QuitpushButton_clicked();
 
     void on_UserpushButton_clicked();
+
+    void on_PeaShooterToolButton_clicked();
 
 private:
     Ui::MainWindow *ui;

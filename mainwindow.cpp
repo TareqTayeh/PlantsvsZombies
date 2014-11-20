@@ -14,16 +14,18 @@ MainWindow::MainWindow(QWidget *parent) :
     QString playersFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
     QString levelsFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_levels.csv");
     user.Read(playersFile); //Reading the pvz_players.csv
+    user.Sort(); //Sorting the users
+
     for (int i = 0; i < 5 ; i++)
     {
-        if (user.getUser(i)!=NULL)
+        if (user.getUser(i)!=NULL && user.getUser(i)!="NULL")
         {
             ui->UsercomboBox->addItem(user.getUser(i));
         }
     }
 
-    user.Sort(); //Sorting the users
-    //Assigning player that last played to current user
+
+   //Assigning player that last played to current user
     currentUserName = user.getUser1();
     currentUserLevel = user.getLevelofUser1();
     currentUserTime = user.getTimeofUser1();
@@ -84,19 +86,27 @@ void MainWindow::setPictures() //Setting pictures to appear in mainwindow.ui
     ui->RepeaterToolButton->setIcon(QIcon(Repeater));
     QString tooltip7="Repeater \nCost 200";
     ui->RepeaterToolButton->setToolTip(tooltip7);
-
 }
 
 void MainWindow::on_DeletepushButton_clicked()
 {
+    textSearch = ui->UsercomboBox->currentText();
+
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, "Delete User", "Are you sure you want to delete user '"
                                   + ui->UsercomboBox->currentText() + "' ?",
                                     QMessageBox::Yes|QMessageBox::No);
       if (reply == QMessageBox::Yes) {
         qDebug() << "Yes delete was clicked";
-        //WRITE FUNCTIONALITY
-        textSearch = ui->UsercomboBox->currentText();
+        user.deleteUser(textSearch); //Deletes User
+        ui->UsercomboBox->clear(); //Clears combobox before readding non NULL users
+        for (int i = 0; i < 5 ; i++)
+        {
+            if (user.getUser(i)!=NULL && user.getUser(i)!="NULL")
+            {
+                 ui->UsercomboBox->addItem(user.getUser(i));
+            }
+        }
       } else {
         qDebug() << "Yes delete was *not* clicked";
       }
@@ -137,51 +147,59 @@ void MainWindow::on_StartpushButton_clicked()
     QBrush pale (QColor(255,229,204));
     QPen blackPen(Qt::black);
     scene->setBackgroundBrush(QBrush(darkGreenBrush));
+    scene->addRect(0,0,75,375,blackPen,pale); //adding pale tile, the home coloumn
 
-    //Adding brown and pale tiles according to level
-    if(currentUserLevel.toInt() == 1)
+    //Adding brown tiles according to level
+    if(currentUserLevel.toInt() == 1) //Only 1 green row will be shown
     {
-        scene->addRect(0,0,60,375,blackPen,pale);
-        scene->addRect(60,0,540,75,blackPen,brown);
-        scene->addRect(60,75,540,75,blackPen,brown);
-        scene->addRect(60,225,540,75,blackPen,brown);
-        scene->addRect(60,300,540,75,blackPen,brown);
+        scene->addRect(75,0,675,75,blackPen,brown);
+        scene->addRect(75,75,675,75,blackPen,brown);
+        scene->addRect(75,225,675,75,blackPen,brown);
+        scene->addRect(75,300,675,75,blackPen,brown);
     }
 
-    if(currentUserLevel.toInt() == 2)
+    if(currentUserLevel.toInt() == 2) //Only 3 green rows will be shown
     {
-        scene->addRect(60,0,540,75,blackPen,brown);
-        scene->addRect(0,0,60,375,blackPen,pale);
-        scene->addRect(60,300,540,75,blackPen,brown);
-    }
-    if(currentUserLevel.toInt() > 2)
-    {
-        scene->addRect(0,0,60,375,blackPen,pale);
+        scene->addRect(75,0,675,75,blackPen,brown);
+        scene->addRect(75,300,675,75,blackPen,brown);
     }
 
     //Adding lines vertically
     scene->addLine(0,0,0,375,blackPen);
-    scene->addLine(60,0,60,375,blackPen);
-    scene->addLine(120,0,120,375,blackPen);
-    scene->addLine(180,0,180,375,blackPen);
-    scene->addLine(240,0,240,375,blackPen);
+    scene->addLine(75,0,75,375,blackPen);
+    scene->addLine(150,0,150,375,blackPen);
+    scene->addLine(225,0,225,375,blackPen);
     scene->addLine(300,0,300,375,blackPen);
-    scene->addLine(360,0,360,375,blackPen);
-    scene->addLine(420,0,420,375,blackPen);
-    scene->addLine(480,0,480,375,blackPen);
-    scene->addLine(540,0,540,375,blackPen);
+    scene->addLine(375,0,375,375,blackPen);
+    scene->addLine(450,0,450,375,blackPen);
+    scene->addLine(525,0,525,375,blackPen);
     scene->addLine(600,0,600,375,blackPen);
+    scene->addLine(675,0,675,375,blackPen);
+    scene->addLine(750,0,750,375,blackPen);
 
     //Adding lines horizontally
-    scene->addLine(0,0,600,0,blackPen);
-    scene->addLine(0,75,600,75,blackPen);
-    scene->addLine(0,150,600,150,blackPen);
-    scene->addLine(0,225,600,225,blackPen);
-    scene->addLine(0,300,600,300,blackPen);
-    scene->addLine(0,375,600,375,blackPen);
+    scene->addLine(0,0,750,0,blackPen);
+    scene->addLine(0,75,750,75,blackPen);
+    scene->addLine(0,150,750,150,blackPen);
+    scene->addLine(0,225,750,225,blackPen);
+    scene->addLine(0,300,750,300,blackPen);
+    scene->addLine(0,375,750,375,blackPen);
 
     //Adjusting graphicsview size
     ui->graphicsView->adjustSize();
+
+    //Adding lawn mowers in the home column
+    QPixmap LawnMower("C://Users/User/Desktop/Plants vs Zombies files/Lawn_Mower.png");
+    scene->addPixmap(LawnMower)->setOffset(0,10);
+    scene->addPixmap(LawnMower)->setOffset(0,85);
+    scene->addPixmap(LawnMower)->setOffset(0,160);
+    scene->addPixmap(LawnMower)->setOffset(0,235);
+    scene->addPixmap(LawnMower)->setOffset(0,310);
+
+    //Adding sun(testing)
+    srand(time(NULL));
+    QPixmap Sun("C://Users/User/Desktop/Plants vs Zombies files/Sun.png");
+    scene->addPixmap(Sun)->setOffset((rand()%675)+70,(rand()%300)+70);
 }
 
 void MainWindow::on_RestartpushButton_clicked()
@@ -216,4 +234,12 @@ void MainWindow::on_UserpushButton_clicked()
     currentUserTime = time;
     currentUserLevel = level;
     qDebug() << name << time << level;
+
+    //Showing current user level on screen
+    ui->LevellineEdit->setText(currentUserLevel);
+}
+
+void MainWindow::on_PeaShooterToolButton_clicked()
+{
+
 }

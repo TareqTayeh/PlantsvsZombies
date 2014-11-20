@@ -6,7 +6,7 @@ ReadingCSVFiles::ReadingCSVFiles()
    total = 0;
 }
 
-bool ReadingCSVFiles::Read(QString Filename)
+bool ReadingCSVFiles::Read(QString Filename) //Reads the file
 {
     QFile mFile(Filename);
 
@@ -50,7 +50,7 @@ bool ReadingCSVFiles::Read(QString Filename)
     mFile.close();
 }
 
-bool ReadingCSVFiles::Write()
+bool ReadingCSVFiles::Write() //Writes to the file
 {
     QString playersFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
     QFile mFilename(playersFile);
@@ -88,6 +88,10 @@ void ReadingCSVFiles::Sort() //Sorting in ascending order of time stamp
                 }
             }
     }
+
+    qDebug() << timeStampList;
+    qDebug() << userList;
+    qDebug() << lastLevelPlayedList;
 }
 
 QString ReadingCSVFiles::SearchName(QString name) //Searches for name when user button clicked and returns name
@@ -134,22 +138,22 @@ QString ReadingCSVFiles::getUser(int x) const// function to return current user
         return NULL;
 }
 
-QString ReadingCSVFiles::getUser1() const
+QString ReadingCSVFiles::getUser1() const //Returns the name of the user with the highest timestamp(as its sorted)
 {
     return userList[0];
 }
 
-QString ReadingCSVFiles::getLevelofUser1() const
+QString ReadingCSVFiles::getLevelofUser1() const //Returns the level of the user with the highest timestamp(as its sorted)
 {
     return lastLevelPlayedList[0];
 }
 
-QString ReadingCSVFiles::getTimeofUser1() const
+QString ReadingCSVFiles::getTimeofUser1() const //Returns the time of the user with the highest timestamp(as its sorted)
 {
     return timeStampList[0];
 }
 
-int ReadingCSVFiles::getTotal() const
+int ReadingCSVFiles::getTotal() const //Returns total number of users
 {
     return total;
 }
@@ -166,5 +170,21 @@ void ReadingCSVFiles::addLists(QString time, QString userName, QString level) //
         mFilename.close();
     }
 }
+
+void ReadingCSVFiles::deleteUser(QString name) //Deletes User
+{
+    for (int i = 0; i < total; i++)
+     {
+         if (name == userList[i])
+         {
+            userList[i]="NULL";
+            lastLevelPlayedList[i]="NULL";
+            timeStampList[i]="NULL";
+         }
+    }
+    Write();
+    Read("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
+}
+
 
 
