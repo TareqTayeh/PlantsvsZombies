@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include "readingcsvfiles.h"
-#include "mouseclicking.h"
 #include "plants.h"
 #include "sunpoints.h"
 #include "zombies.h"
@@ -34,6 +33,15 @@ public:
     ~MainWindow();
     void setPictures();
     QString textSearch;
+    void drawRect(int,int);
+    void drawPeaShooter(int,int);
+    void drawSunFlower(int,int);
+    void drawCherryBomb(int,int);
+    void drawWalNut(int,int);
+    void drawPotatoMine(int,int);
+    void drawSnowPea(int,int);
+    void drawChomper(int,int);
+    void drawRepeater(int,int);
 
 private slots:
     void on_DeletepushButton_clicked();
@@ -50,6 +58,20 @@ private slots:
 
     void on_PeaShooterToolButton_clicked();
 
+    void on_SunFlowerToolButton_clicked();
+
+    void on_CherryBombToolButton_clicked();
+
+    void on_WalNutToolButton_clicked();
+
+    void on_PotatoMineToolButton_clicked();
+
+    void on_SnowPeaToolButton_clicked();
+
+    void on_ChomperToolButton_clicked();
+
+    void on_RepeaterToolButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QString currentUserName;
@@ -57,6 +79,7 @@ private:
     QString currentUserLevel;
     QGraphicsScene *scene;
     QTimer *timer;
+    int plant_ID;
 };
 
 #endif // MAINWINDOW_H

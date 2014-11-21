@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->NamelineEdit->setPlaceholderText("Name");
     ui->LevellineEdit->setPlaceholderText("Level");
 
+    plant_ID = 0;
+
     QString playersFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
     QString levelsFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_levels.csv");
     user.Read(playersFile); //Reading the pvz_players.csv
@@ -41,6 +43,9 @@ MainWindow::MainWindow(QWidget *parent) :
     //Timer
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
+
+    //Allowing drawing rectangles on screen(testing)
+    ui->graphicsView->mainwindow = this;
 }
 
 MainWindow::~MainWindow()
@@ -90,6 +95,108 @@ void MainWindow::setPictures() //Setting pictures to appear in mainwindow.ui
     ui->RepeaterToolButton->setIcon(QIcon(Repeater));
     QString tooltip7="Repeater \nCost 200";
     ui->RepeaterToolButton->setToolTip(tooltip7);
+}
+
+void MainWindow::drawRect(int x, int y) //Testing
+{
+    scene->addRect(x,y,20,20,QPen(Qt::red),QBrush(Qt::red));
+}
+
+void MainWindow::drawPeaShooter(int x, int y) //Drawing Pea Shooter when clicked
+{
+    if (plant_ID == 1)
+    {
+        QPixmap PeaShooter("C://Users/User/Desktop/Plants vs Zombies files/Peashooter_HD.png");
+        QGraphicsPixmapItem *PeaShooterItem = new PeaShooterClass();
+        PeaShooterItem->setPixmap(PeaShooter);
+        scene->addItem(PeaShooterItem);
+        PeaShooterItem->setOffset(x,y);
+    }
+}
+
+void MainWindow::drawSunFlower(int x, int y) //Drawing Sun Flower when clicked
+{
+    if (plant_ID == 2)
+    {
+        QPixmap SunFlower("C://Users/User/Desktop/Plants vs Zombies files/Sunflower_HD - Copy.png");
+        QGraphicsPixmapItem *SunFlowerItem = new SunFlowerClass();
+        SunFlowerItem->setPixmap(SunFlower);
+        scene->addItem(SunFlowerItem);
+        SunFlowerItem->setOffset(x,y);
+    }
+}
+
+void MainWindow::drawCherryBomb(int x, int y)
+{
+    if (plant_ID == 3)
+    {
+        QPixmap CherryBomb("C://Users/User/Desktop/Plants vs Zombies files/Cherry Bomb HD - Copy.png");
+        QGraphicsPixmapItem *CherryBombItem = new CherryBombClass();
+        CherryBombItem->setPixmap(CherryBomb);
+        scene->addItem(CherryBombItem);
+        CherryBombItem->setOffset(x,y);
+    }
+}
+
+void MainWindow::drawWalNut(int x, int y)
+{
+    if (plant_ID == 4)
+    {
+        QPixmap WalNut("C://Users/User/Desktop/Plants vs Zombies files/Hd_Wall-nut - Copy.png");
+        QGraphicsPixmapItem *WalNutItem = new WallNutClass;
+        WalNutItem->setPixmap(WalNut);
+        scene->addItem(WalNutItem);
+        WalNutItem->setOffset(x,y);
+    }
+}
+
+void MainWindow::drawPotatoMine(int x, int y)
+{
+    if (plant_ID == 5)
+    {
+        QPixmap PotatoMine("C://Users/User/Desktop/Plants vs Zombies files/Potato_Mine_HD - Copy.png");
+        QGraphicsPixmapItem *PotatoMineItem = new PotatoMineClass;
+        PotatoMineItem->setPixmap(PotatoMine);
+        scene->addItem(PotatoMineItem);
+        PotatoMineItem->setOffset(x,y);
+    }
+}
+
+void MainWindow::drawSnowPea(int x, int y)
+{
+    if (plant_ID == 6)
+    {
+        QPixmap SnowPea("C://Users/User/Desktop/Plants vs Zombies files/Snow_Pea_(HD_size) - Copy.png");
+        QGraphicsPixmapItem *SnowPeaItem = new SnowPeaClass;
+        SnowPeaItem->setPixmap(SnowPea);
+        scene->addItem(SnowPeaItem);
+        SnowPeaItem->setOffset(x,y);
+    }
+
+}
+
+void MainWindow::drawChomper(int x, int y)
+{
+    if (plant_ID == 7)
+    {
+        QPixmap Chomper("C://Users/User/Desktop/Plants vs Zombies files/ChomperHD2 - Copy.png");
+        QGraphicsPixmapItem *ChomperItem = new ChomperClass;
+        ChomperItem->setPixmap(Chomper);
+        scene->addItem(ChomperItem);
+        ChomperItem->setOffset(x,y);
+    }
+}
+
+void MainWindow::drawRepeater(int x, int y)
+{
+    if (plant_ID == 8)
+    {
+        QPixmap Repeater("C://Users/User/Desktop/Plants vs Zombies files/Repeater_HD_HD - Copy.png");
+        QGraphicsPixmapItem *RepeaterItem = new RepeaterClass;
+        RepeaterItem->setPixmap(Repeater);
+        scene->addItem(RepeaterItem);
+        RepeaterItem->setOffset(x,y);
+    }
 }
 
 void MainWindow::on_DeletepushButton_clicked()
@@ -201,9 +308,9 @@ void MainWindow::on_StartpushButton_clicked()
     scene->addItem(SunItem);
 
     //Adding zombie(testing)
-    QPixmap zombie("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
+    QPixmap regularzombie("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
     QGraphicsPixmapItem *zombieItem = new zombies();
-    zombieItem->setPixmap(zombie);
+    zombieItem->setPixmap(regularzombie);
     scene->addItem(zombieItem);
     zombieItem->setOffset(680,120);
     timer->start(58);
@@ -224,7 +331,8 @@ void MainWindow::on_QuitpushButton_clicked() //Application closes when user pres
         {
             scene->setBackgroundBrush(QBrush(Qt::white));
             scene->clear();
-            scene->addPixmap(QPixmap("C://Users/User/Desktop/Plants vs Zombies files/plants-vs-zombies.png"));
+            scene->addPixmap(QPixmap("C://Users/User/Desktop/Plants vs Zombies files/plants-vs-zombies.png"))->setPos(30,0);
+
         }
       } else {
         qDebug() << "Yes quit was *not* clicked";
@@ -252,5 +360,40 @@ void MainWindow::on_UserpushButton_clicked()
 
 void MainWindow::on_PeaShooterToolButton_clicked()
 {
+    plant_ID = 1;
+}
 
+void MainWindow::on_SunFlowerToolButton_clicked()
+{
+    plant_ID = 2;
+}
+
+void MainWindow::on_CherryBombToolButton_clicked()
+{
+    plant_ID = 3;
+}
+
+void MainWindow::on_WalNutToolButton_clicked()
+{
+    plant_ID = 4;
+}
+
+void MainWindow::on_PotatoMineToolButton_clicked()
+{
+    plant_ID = 5;
+}
+
+void MainWindow::on_SnowPeaToolButton_clicked()
+{
+    plant_ID = 6;
+}
+
+void MainWindow::on_ChomperToolButton_clicked()
+{
+    plant_ID = 7;
+}
+
+void MainWindow::on_RepeaterToolButton_clicked()
+{
+    plant_ID = 8;
 }

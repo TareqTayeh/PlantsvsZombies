@@ -12,12 +12,13 @@ void sunpoints::advance(int phase)
 {
     if(!phase) return;  // We don't do anything to prepare objects for advancing
     move(1.3);
-    QPointF p = this->pos();    // current position
-    qDebug() << p;
+    //QPointF p = this->pos();    // current position
+    //qDebug() << p;
 
     // Check boundaries (0,0)-(WIDTH,WIDTH)
     if (y() < (1) || y() > (310)) // make the sun dissapear
     {
+       setVisible(false);
        setYVelocity(0);
     }
 

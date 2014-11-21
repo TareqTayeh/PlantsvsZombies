@@ -29,8 +29,17 @@ int mouseClicking::getyPosition() const
 void mouseClicking::mousePressEvent(QMouseEvent *mouseEvent)
 {
     position = mouseEvent->pos();
+
+    mainwindow->drawPeaShooter(position.x(),position.y());
+    mainwindow->drawSunFlower(position.x(),position.y());
+    mainwindow->drawCherryBomb(position.x(),position.y());
+    mainwindow->drawWalNut(position.x(),position.y());
+    mainwindow->drawPotatoMine(position.x(),position.y());
+    mainwindow->drawSnowPea(position.x(),position.y());
+    mainwindow->drawChomper(position.x(),position.y());
+    mainwindow->drawRepeater(position.x(),position.y());
+
     qDebug() << position.x();
     qDebug() << position.y();
-    //setxPosition(position.x());
-    //setyPosition(position.y());
+    //mainwindow->drawRect(position.x(),position.y());
 }

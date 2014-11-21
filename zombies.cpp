@@ -12,12 +12,14 @@ void zombies::advance(int phase)
 {
     if(!phase) return;  // We don't do anything to prepare objects for advancing
     move(0.6);
-    QPointF p = this->pos();    // current position
-    qDebug() << p;
+    //QPointF p = this->pos();    // current position
+    //qDebug() << p;
 
     // Check boundaries (0,0)-(WIDTH,WIDTH)
     if (x() < (75) || x() > (750)) // make the zombie dissapear
     {
+       setPixmap(QPixmap("C://Users/User/Desktop/Plants vs Zombies files/pvz8.png"));
+       setPos(150,150);
        setXVelocity(0);
     }
 

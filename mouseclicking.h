@@ -2,12 +2,14 @@
 #define MOUSECLICKING_H
 
 #include "plants.h"
+#include "mainwindow.h"
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
 #include <QMouseEvent>
 #include <QPointF>
 #include <QDebug>
+#include <QPainter>
 
 class mouseClicking : public QGraphicsView
 {
@@ -19,6 +21,7 @@ public:
     void setyPosition(int);
     int getxPosition() const;
     int getyPosition() const;
+    MainWindow *mainwindow;
 
 signals:
 
