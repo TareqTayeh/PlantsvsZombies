@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     for (int i = 0; i < 5 ; i++)
     {
-        if (user.getUser(i)!=NULL && user.getUser(i)!="NULL")
+        if (user.getUser(i)!=NULL && user.getUser(i)!="0")
         {
             ui->UsercomboBox->addItem(user.getUser(i));
         }
@@ -37,6 +37,10 @@ MainWindow::MainWindow(QWidget *parent) :
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
     scene->addPixmap(QPixmap("C://Users/User/Desktop/Plants vs Zombies files/plants-vs-zombies.png"));
+
+    //Timer
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
 }
 
 MainWindow::~MainWindow()
@@ -102,7 +106,7 @@ void MainWindow::on_DeletepushButton_clicked()
         ui->UsercomboBox->clear(); //Clears combobox before readding non NULL users
         for (int i = 0; i < 5 ; i++)
         {
-            if (user.getUser(i)!=NULL && user.getUser(i)!="NULL")
+            if (user.getUser(i)!=NULL && user.getUser(i)!="0")
             {
                  ui->UsercomboBox->addItem(user.getUser(i));
             }
@@ -121,17 +125,17 @@ void MainWindow::on_NewpushButton_clicked()
     QString userName = (ui->NamelineEdit->text());
     if (reply == QMessageBox::Ok)
     {
-        if (user.getTotal()< 5)
-        {
+//        if (user.getTotal()< 5)
+//        {
             ui->UsercomboBox->addItem(userName);
             QString time = QString::number(QDateTime::currentDateTime().toTime_t());
             user.addLists(time,userName,"1");
             user.Read("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
             user.Sort();
-        }
-        else
-            QMessageBox::question(this,"Max 5 Users", "Maximum users reached. Delete a user before creating a new one.",
-                                  QMessageBox::Ok|QMessageBox::Cancel); //Max 5 users in csv
+//        }
+//        else
+//            QMessageBox::question(this,"Max 5 Users", "Maximum users reached. Delete a user before creating a new one.",
+//                                  QMessageBox::Ok|QMessageBox::Cancel); //Max 5 users in csv
     } 
 }
 
@@ -165,25 +169,18 @@ void MainWindow::on_StartpushButton_clicked()
     }
 
     //Adding lines vertically
-    scene->addLine(0,0,0,375,blackPen);
-    scene->addLine(75,0,75,375,blackPen);
-    scene->addLine(150,0,150,375,blackPen);
-    scene->addLine(225,0,225,375,blackPen);
-    scene->addLine(300,0,300,375,blackPen);
-    scene->addLine(375,0,375,375,blackPen);
-    scene->addLine(450,0,450,375,blackPen);
-    scene->addLine(525,0,525,375,blackPen);
-    scene->addLine(600,0,600,375,blackPen);
-    scene->addLine(675,0,675,375,blackPen);
-    scene->addLine(750,0,750,375,blackPen);
+    int squareSize = 75;
+
+    for(int i=0; i<751; i+=squareSize)
+    {
+        scene->addLine(i,0,i,375,blackPen);
+    }
 
     //Adding lines horizontally
-    scene->addLine(0,0,750,0,blackPen);
-    scene->addLine(0,75,750,75,blackPen);
-    scene->addLine(0,150,750,150,blackPen);
-    scene->addLine(0,225,750,225,blackPen);
-    scene->addLine(0,300,750,300,blackPen);
-    scene->addLine(0,375,750,375,blackPen);
+    for(int i=0; i <376; i+=squareSize)
+    {
+        scene->addLine(0,i,750,i,blackPen);
+    }
 
     //Adjusting graphicsview size
     ui->graphicsView->adjustSize();
@@ -198,8 +195,11 @@ void MainWindow::on_StartpushButton_clicked()
 
     //Adding sun(testing)
     srand(time(NULL));
-    QPixmap Sun("C://Users/User/Desktop/Plants vs Zombies files/Sun.png");
-    scene->addPixmap(Sun)->setOffset((rand()%675)+70,(rand()%300)+70);
+    QPixmap Sun1("C://Users/User/Desktop/Plants vs Zombies files/Sun.png");
+    QGraphicsPixmapItem *Sun = new sunpoints();
+    Sun->setPixmap(Sun1);
+    scene->addItem(Sun);
+    timer->start(18);
 }
 
 void MainWindow::on_RestartpushButton_clicked()
@@ -214,7 +214,11 @@ void MainWindow::on_QuitpushButton_clicked() //Application closes when user pres
                                     QMessageBox::Yes|QMessageBox::No);
       if (reply == QMessageBox::Yes) {
         qDebug() << "Yes quit was clicked";
-        QApplication::quit();
+        {
+            scene->setBackgroundBrush(QBrush(Qt::white));
+            scene->clear();
+            scene->addPixmap(QPixmap("C://Users/User/Desktop/Plants vs Zombies files/plants-vs-zombies.png"));
+        }
       } else {
         qDebug() << "Yes quit was *not* clicked";
       }

@@ -4,6 +4,7 @@
 #include "readingcsvfiles.h"
 #include "mouseclicking.h"
 #include "plants.h"
+#include "sunpoints.h"
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QDebug>
@@ -17,6 +18,7 @@
 #include <string>
 #include <QGraphicsPixmapItem>
 #include <ctime>
+#include <QTimer>
 
 namespace Ui {
 class MainWindow;
@@ -53,6 +55,7 @@ private:
     QString currentUserTime;
     QString currentUserLevel;
     QGraphicsScene *scene;
+    QTimer *timer;
 };
 
 #endif // MAINWINDOW_H

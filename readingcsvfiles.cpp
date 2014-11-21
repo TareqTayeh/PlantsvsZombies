@@ -177,9 +177,9 @@ void ReadingCSVFiles::deleteUser(QString name) //Deletes User
      {
          if (name == userList[i])
          {
-            userList[i]="NULL";
-            lastLevelPlayedList[i]="NULL";
-            timeStampList[i]="NULL";
+            userList[i]="0";
+            lastLevelPlayedList[i]="0";
+            timeStampList[i]="0";
          }
     }
     Write();
