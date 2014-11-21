@@ -5,6 +5,7 @@
 #include "mouseclicking.h"
 #include "plants.h"
 #include "sunpoints.h"
+#include "zombies.h"
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QDebug>

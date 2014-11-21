@@ -196,10 +196,17 @@ void MainWindow::on_StartpushButton_clicked()
     //Adding sun(testing)
     srand(time(NULL));
     QPixmap Sun1("C://Users/User/Desktop/Plants vs Zombies files/Sun.png");
-    QGraphicsPixmapItem *Sun = new sunpoints();
-    Sun->setPixmap(Sun1);
-    scene->addItem(Sun);
-    timer->start(18);
+    QGraphicsPixmapItem *SunItem = new sunpoints();
+    SunItem->setPixmap(Sun1);
+    scene->addItem(SunItem);
+
+    //Adding zombie(testing)
+    QPixmap zombie("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
+    QGraphicsPixmapItem *zombieItem = new zombies();
+    zombieItem->setPixmap(zombie);
+    scene->addItem(zombieItem);
+    zombieItem->setOffset(680,120);
+    timer->start(58);
 }
 
 void MainWindow::on_RestartpushButton_clicked()

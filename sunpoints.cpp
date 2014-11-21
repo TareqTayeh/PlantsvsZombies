@@ -11,7 +11,7 @@ sunpoints::sunpoints()
 void sunpoints::advance(int phase)
 {
     if(!phase) return;  // We don't do anything to prepare objects for advancing
-    move(1.1);
+    move(1.3);
     QPointF p = this->pos();    // current position
     qDebug() << p;
 
