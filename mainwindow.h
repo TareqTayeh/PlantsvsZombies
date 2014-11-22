@@ -79,6 +79,7 @@ private:
     QString currentUserLevel;
     QGraphicsScene *scene;
     QTimer *timer;
+    int squareSize;
     int plant_ID;
 };
 

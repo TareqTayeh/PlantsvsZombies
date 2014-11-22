@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->LevellineEdit->setPlaceholderText("Level");
 
     plant_ID = 0;
+    squareSize = 75;
 
     QString playersFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
     QString levelsFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_levels.csv");
@@ -104,98 +105,158 @@ void MainWindow::drawRect(int x, int y) //Testing
 
 void MainWindow::drawPeaShooter(int x, int y) //Drawing Pea Shooter when clicked
 {
-    if (plant_ID == 1)
+    if (plant_ID == 1 && x > squareSize)
     {
         QPixmap PeaShooter("C://Users/User/Desktop/Plants vs Zombies files/Peashooter_HD.png");
         QGraphicsPixmapItem *PeaShooterItem = new PeaShooterClass();
         PeaShooterItem->setPixmap(PeaShooter);
         scene->addItem(PeaShooterItem);
-        PeaShooterItem->setOffset(x,y);
+
+        //Drawing them in the correct place
+        x = (x/squareSize);
+        y = (y/squareSize);
+        PeaShooterItem->setOffset((x*squareSize)+5,(y*squareSize)+5);
+
+        //Setting plant_ID back to zero
+        plant_ID = 0;
     }
 }
 
 void MainWindow::drawSunFlower(int x, int y) //Drawing Sun Flower when clicked
 {
-    if (plant_ID == 2)
+    if (plant_ID == 2 && x > squareSize)
     {
         QPixmap SunFlower("C://Users/User/Desktop/Plants vs Zombies files/Sunflower_HD - Copy.png");
         QGraphicsPixmapItem *SunFlowerItem = new SunFlowerClass();
         SunFlowerItem->setPixmap(SunFlower);
         scene->addItem(SunFlowerItem);
-        SunFlowerItem->setOffset(x,y);
+
+        //Drawing them in the correct place
+        x = (x/squareSize);
+        y = (y/squareSize);
+        SunFlowerItem->setOffset((x*squareSize)+5,(y*squareSize));
+
+        //Setting plant_ID back to zero
+        plant_ID = 0;
     }
 }
 
 void MainWindow::drawCherryBomb(int x, int y)
 {
-    if (plant_ID == 3)
+    if (plant_ID == 3 && x > squareSize)
     {
         QPixmap CherryBomb("C://Users/User/Desktop/Plants vs Zombies files/Cherry Bomb HD - Copy.png");
         QGraphicsPixmapItem *CherryBombItem = new CherryBombClass();
         CherryBombItem->setPixmap(CherryBomb);
         scene->addItem(CherryBombItem);
-        CherryBombItem->setOffset(x,y);
+
+        //Drawing them in the correct place
+        x = (x/squareSize);
+        y = (y/squareSize);
+        CherryBombItem->setOffset((x*squareSize),(y*squareSize)+10);
+
+        //Setting plant_ID back to zero
+        plant_ID = 0;
     }
 }
 
 void MainWindow::drawWalNut(int x, int y)
 {
-    if (plant_ID == 4)
+    if (plant_ID == 4 && x > squareSize)
     {
         QPixmap WalNut("C://Users/User/Desktop/Plants vs Zombies files/Hd_Wall-nut - Copy.png");
         QGraphicsPixmapItem *WalNutItem = new WallNutClass;
         WalNutItem->setPixmap(WalNut);
         scene->addItem(WalNutItem);
-        WalNutItem->setOffset(x,y);
+
+
+        //Drawing them in the correct place
+        x = (x/squareSize);
+        y = (y/squareSize);
+        WalNutItem->setOffset((x*squareSize)+5,(y*squareSize)+5);
+
+        //Setting plant_ID back to zero
+        plant_ID = 0;
+
+
     }
 }
 
 void MainWindow::drawPotatoMine(int x, int y)
 {
-    if (plant_ID == 5)
+    if (plant_ID == 5 && x > squareSize)
     {
         QPixmap PotatoMine("C://Users/User/Desktop/Plants vs Zombies files/Potato_Mine_HD - Copy.png");
         QGraphicsPixmapItem *PotatoMineItem = new PotatoMineClass;
         PotatoMineItem->setPixmap(PotatoMine);
         scene->addItem(PotatoMineItem);
-        PotatoMineItem->setOffset(x,y);
+
+        //Drawing them in the correct place
+        x = (x/squareSize);
+        y = (y/squareSize);
+        PotatoMineItem->setOffset((x*squareSize)+1,(y*squareSize)+5);
+
+        //Setting plant_ID back to zero
+        plant_ID = 0;
     }
 }
 
 void MainWindow::drawSnowPea(int x, int y)
 {
-    if (plant_ID == 6)
+    if (plant_ID == 6 && x > squareSize)
     {
         QPixmap SnowPea("C://Users/User/Desktop/Plants vs Zombies files/Snow_Pea_(HD_size) - Copy.png");
         QGraphicsPixmapItem *SnowPeaItem = new SnowPeaClass;
         SnowPeaItem->setPixmap(SnowPea);
         scene->addItem(SnowPeaItem);
-        SnowPeaItem->setOffset(x,y);
+
+        //Drawing them in the correct place
+        x = (x/squareSize);
+        y = (y/squareSize);
+        SnowPeaItem->setOffset((x*squareSize)+1,(y*squareSize)+5);
+
+        //Setting plant_ID back to zero
+        plant_ID = 0;
     }
 
 }
 
 void MainWindow::drawChomper(int x, int y)
 {
-    if (plant_ID == 7)
+    if (plant_ID == 7 && x > squareSize)
     {
         QPixmap Chomper("C://Users/User/Desktop/Plants vs Zombies files/ChomperHD2 - Copy.png");
         QGraphicsPixmapItem *ChomperItem = new ChomperClass;
         ChomperItem->setPixmap(Chomper);
         scene->addItem(ChomperItem);
-        ChomperItem->setOffset(x,y);
+
+
+        //Drawing them in the correct place
+        x = (x/squareSize);
+        y = (y/squareSize);
+        ChomperItem->setOffset((x*squareSize),(y*squareSize));
+
+        //Setting plant_ID back to zero
+        plant_ID = 0;
     }
 }
 
 void MainWindow::drawRepeater(int x, int y)
 {
-    if (plant_ID == 8)
+    if (plant_ID == 8 && x > squareSize)
     {
         QPixmap Repeater("C://Users/User/Desktop/Plants vs Zombies files/Repeater_HD_HD - Copy.png");
         QGraphicsPixmapItem *RepeaterItem = new RepeaterClass;
         RepeaterItem->setPixmap(Repeater);
         scene->addItem(RepeaterItem);
-        RepeaterItem->setOffset(x,y);
+
+        //Drawing them in the correct place
+        x = (x/squareSize);
+        y = (y/squareSize);
+        RepeaterItem->setOffset((x*squareSize)+2,(y*squareSize));
+
+        //Setting plant_ID back to zero
+        plant_ID = 0;
     }
 }
 
@@ -276,7 +337,6 @@ void MainWindow::on_StartpushButton_clicked()
     }
 
     //Adding lines vertically
-    int squareSize = 75;
 
     for(int i=0; i<751; i+=squareSize)
     {
@@ -313,6 +373,8 @@ void MainWindow::on_StartpushButton_clicked()
     zombieItem->setPixmap(regularzombie);
     scene->addItem(zombieItem);
     zombieItem->setOffset(680,120);
+
+    //Starting timer
     timer->start(58);
 }
 
