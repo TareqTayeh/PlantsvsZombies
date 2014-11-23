@@ -1,5 +1,6 @@
 #ifndef PLANTS_H
 #define PLANTS_H
+
 #include <QGraphicsItem>
 #include <QGraphicsPixmapItem>
 
@@ -9,6 +10,7 @@ public:
     plants();
     int setLife();
     int getPlantID();
+    int getCost();
 
 protected:
     int cost;

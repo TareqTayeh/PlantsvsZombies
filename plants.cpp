@@ -21,6 +21,11 @@ int plants::getPlantID()
     return plantID;
 }
 
+int plants::getCost()
+{
+    return cost;
+}
+
 
 PeaShooterClass::PeaShooterClass()
 {

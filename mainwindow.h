@@ -5,6 +5,7 @@
 #include "plants.h"
 #include "sunpoints.h"
 #include "zombies.h"
+#include "bullets.h"
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QDebug>
@@ -19,6 +20,7 @@
 #include <QGraphicsPixmapItem>
 #include <ctime>
 #include <QTimer>
+#include <QValidator>
 
 namespace Ui {
 class MainWindow;
@@ -81,6 +83,7 @@ private:
     QTimer *timer;
     int squareSize;
     int plant_ID;
+    QString cost;
 };
 
 #endif // MAINWINDOW_H

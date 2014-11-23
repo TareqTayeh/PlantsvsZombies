@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    user.Write();
+    user.Write(currentUserName);
     delete ui;
 }
 
@@ -107,18 +107,26 @@ void MainWindow::drawPeaShooter(int x, int y) //Drawing Pea Shooter when clicked
 {
     if (plant_ID == 1 && x > squareSize)
     {
-        QPixmap PeaShooter("C://Users/User/Desktop/Plants vs Zombies files/Peashooter_HD.png");
-        QGraphicsPixmapItem *PeaShooterItem = new PeaShooterClass();
-        PeaShooterItem->setPixmap(PeaShooter);
-        scene->addItem(PeaShooterItem);
+        if((currentUserLevel == "1" && y > 2*squareSize && y < 3*squareSize)
+                || (currentUserLevel == "2" && y > squareSize && y < 4*squareSize)
+                || (currentUserLevel == "3") || (currentUserLevel == "4") || (currentUserLevel == "5") ||
+                (currentUserLevel == "6") || (currentUserLevel == "7") || (currentUserLevel == "8") ||
+                (currentUserLevel == "9"))
+        {
+            QPixmap PeaShooter("C://Users/User/Desktop/Plants vs Zombies files/Peashooter_HD.png");
+            QGraphicsPixmapItem *PeaShooterItem = new PeaShooterClass();
+            PeaShooterItem->setPixmap(PeaShooter);
+            scene->addItem(PeaShooterItem);
 
-        //Drawing them in the correct place
-        x = (x/squareSize);
-        y = (y/squareSize);
-        PeaShooterItem->setOffset((x*squareSize)+5,(y*squareSize)+5);
+            //Drawing them in the correct place
+            x = (x/squareSize);
+            y = (y/squareSize);
+            PeaShooterItem->setOffset((x*squareSize)+5,(y*squareSize)+5);
 
-        //Setting plant_ID back to zero
-        plant_ID = 0;
+            //Setting plant_ID back to zero
+            plant_ID = 0;
+        }
+
     }
 }
 
@@ -126,18 +134,25 @@ void MainWindow::drawSunFlower(int x, int y) //Drawing Sun Flower when clicked
 {
     if (plant_ID == 2 && x > squareSize)
     {
-        QPixmap SunFlower("C://Users/User/Desktop/Plants vs Zombies files/Sunflower_HD - Copy.png");
-        QGraphicsPixmapItem *SunFlowerItem = new SunFlowerClass();
-        SunFlowerItem->setPixmap(SunFlower);
-        scene->addItem(SunFlowerItem);
+        if((currentUserLevel == "1" && y > 2*squareSize && y < 3*squareSize)
+                || (currentUserLevel == "2" && y > squareSize && y < 4*squareSize)
+                || (currentUserLevel == "3") || (currentUserLevel == "4") || (currentUserLevel == "5") ||
+                (currentUserLevel == "6") || (currentUserLevel == "7") || (currentUserLevel == "8") ||
+                (currentUserLevel == "9"))
+        {
+            QPixmap SunFlower("C://Users/User/Desktop/Plants vs Zombies files/Sunflower_HD - Copy.png");
+            QGraphicsPixmapItem *SunFlowerItem = new SunFlowerClass();
+            SunFlowerItem->setPixmap(SunFlower);
+            scene->addItem(SunFlowerItem);
 
-        //Drawing them in the correct place
-        x = (x/squareSize);
-        y = (y/squareSize);
-        SunFlowerItem->setOffset((x*squareSize)+5,(y*squareSize));
+            //Drawing them in the correct place
+            x = (x/squareSize);
+            y = (y/squareSize);
+            SunFlowerItem->setOffset((x*squareSize)+5,(y*squareSize));
 
-        //Setting plant_ID back to zero
-        plant_ID = 0;
+            //Setting plant_ID back to zero
+            plant_ID = 0;
+        }
     }
 }
 
@@ -145,18 +160,25 @@ void MainWindow::drawCherryBomb(int x, int y)
 {
     if (plant_ID == 3 && x > squareSize)
     {
-        QPixmap CherryBomb("C://Users/User/Desktop/Plants vs Zombies files/Cherry Bomb HD - Copy.png");
-        QGraphicsPixmapItem *CherryBombItem = new CherryBombClass();
-        CherryBombItem->setPixmap(CherryBomb);
-        scene->addItem(CherryBombItem);
+        if((currentUserLevel == "1" && y > 2*squareSize && y < 3*squareSize)
+                || (currentUserLevel == "2" && y > squareSize && y < 4*squareSize)
+                || (currentUserLevel == "3") || (currentUserLevel == "4") || (currentUserLevel == "5") ||
+                (currentUserLevel == "6") || (currentUserLevel == "7") || (currentUserLevel == "8") ||
+                (currentUserLevel == "9"))
+        {
+            QPixmap CherryBomb("C://Users/User/Desktop/Plants vs Zombies files/Cherry Bomb HD - Copy.png");
+            QGraphicsPixmapItem *CherryBombItem = new CherryBombClass();
+            CherryBombItem->setPixmap(CherryBomb);
+            scene->addItem(CherryBombItem);
 
-        //Drawing them in the correct place
-        x = (x/squareSize);
-        y = (y/squareSize);
-        CherryBombItem->setOffset((x*squareSize),(y*squareSize)+10);
+            //Drawing them in the correct place
+            x = (x/squareSize);
+            y = (y/squareSize);
+            CherryBombItem->setOffset((x*squareSize),(y*squareSize)+10);
 
-        //Setting plant_ID back to zero
-        plant_ID = 0;
+            //Setting plant_ID back to zero
+            plant_ID = 0;
+        }
     }
 }
 
@@ -164,21 +186,26 @@ void MainWindow::drawWalNut(int x, int y)
 {
     if (plant_ID == 4 && x > squareSize)
     {
-        QPixmap WalNut("C://Users/User/Desktop/Plants vs Zombies files/Hd_Wall-nut - Copy.png");
-        QGraphicsPixmapItem *WalNutItem = new WallNutClass;
-        WalNutItem->setPixmap(WalNut);
-        scene->addItem(WalNutItem);
+        if((currentUserLevel == "1" && y > 2*squareSize && y < 3*squareSize)
+                || (currentUserLevel == "2" && y > squareSize && y < 4*squareSize)
+                || (currentUserLevel == "3") || (currentUserLevel == "4") || (currentUserLevel == "5") ||
+                (currentUserLevel == "6") || (currentUserLevel == "7") || (currentUserLevel == "8") ||
+                (currentUserLevel == "9"))
+        {
+            QPixmap WalNut("C://Users/User/Desktop/Plants vs Zombies files/Hd_Wall-nut - Copy.png");
+            QGraphicsPixmapItem *WalNutItem = new WallNutClass;
+            WalNutItem->setPixmap(WalNut);
+            scene->addItem(WalNutItem);
 
 
-        //Drawing them in the correct place
-        x = (x/squareSize);
-        y = (y/squareSize);
-        WalNutItem->setOffset((x*squareSize)+5,(y*squareSize)+5);
+            //Drawing them in the correct place
+            x = (x/squareSize);
+            y = (y/squareSize);
+            WalNutItem->setOffset((x*squareSize)+5,(y*squareSize)+5);
 
-        //Setting plant_ID back to zero
-        plant_ID = 0;
-
-
+            //Setting plant_ID back to zero
+            plant_ID = 0;
+        }
     }
 }
 
@@ -186,18 +213,25 @@ void MainWindow::drawPotatoMine(int x, int y)
 {
     if (plant_ID == 5 && x > squareSize)
     {
-        QPixmap PotatoMine("C://Users/User/Desktop/Plants vs Zombies files/Potato_Mine_HD - Copy.png");
-        QGraphicsPixmapItem *PotatoMineItem = new PotatoMineClass;
-        PotatoMineItem->setPixmap(PotatoMine);
-        scene->addItem(PotatoMineItem);
+        if((currentUserLevel == "1" && y > 2*squareSize && y < 3*squareSize)
+                || (currentUserLevel == "2" && y > squareSize && y < 4*squareSize)
+                || (currentUserLevel == "3") || (currentUserLevel == "4") || (currentUserLevel == "5") ||
+                (currentUserLevel == "6") || (currentUserLevel == "7") || (currentUserLevel == "8") ||
+                (currentUserLevel == "9"))
+        {
+            QPixmap PotatoMine("C://Users/User/Desktop/Plants vs Zombies files/Potato_Mine_HD - Copy.png");
+            QGraphicsPixmapItem *PotatoMineItem = new PotatoMineClass;
+            PotatoMineItem->setPixmap(PotatoMine);
+            scene->addItem(PotatoMineItem);
 
-        //Drawing them in the correct place
-        x = (x/squareSize);
-        y = (y/squareSize);
-        PotatoMineItem->setOffset((x*squareSize)+1,(y*squareSize)+5);
+            //Drawing them in the correct place
+            x = (x/squareSize);
+            y = (y/squareSize);
+            PotatoMineItem->setOffset((x*squareSize)+1,(y*squareSize)+5);
 
-        //Setting plant_ID back to zero
-        plant_ID = 0;
+            //Setting plant_ID back to zero
+            plant_ID = 0;
+        }
     }
 }
 
@@ -205,39 +239,52 @@ void MainWindow::drawSnowPea(int x, int y)
 {
     if (plant_ID == 6 && x > squareSize)
     {
-        QPixmap SnowPea("C://Users/User/Desktop/Plants vs Zombies files/Snow_Pea_(HD_size) - Copy.png");
-        QGraphicsPixmapItem *SnowPeaItem = new SnowPeaClass;
-        SnowPeaItem->setPixmap(SnowPea);
-        scene->addItem(SnowPeaItem);
+        if((currentUserLevel == "1" && y > 2*squareSize && y < 3*squareSize)
+                || (currentUserLevel == "2" && y > squareSize && y < 4*squareSize)
+                || (currentUserLevel == "3") || (currentUserLevel == "4") || (currentUserLevel == "5") ||
+                (currentUserLevel == "6") || (currentUserLevel == "7") || (currentUserLevel == "8") ||
+                (currentUserLevel == "9"))
+        {
+            QPixmap SnowPea("C://Users/User/Desktop/Plants vs Zombies files/Snow_Pea_(HD_size) - Copy.png");
+            QGraphicsPixmapItem *SnowPeaItem = new SnowPeaClass;
+            SnowPeaItem->setPixmap(SnowPea);
+            scene->addItem(SnowPeaItem);
 
-        //Drawing them in the correct place
-        x = (x/squareSize);
-        y = (y/squareSize);
-        SnowPeaItem->setOffset((x*squareSize)+1,(y*squareSize)+5);
+            //Drawing them in the correct place
+            x = (x/squareSize);
+            y = (y/squareSize);
+            SnowPeaItem->setOffset((x*squareSize)+1,(y*squareSize)+5);
 
-        //Setting plant_ID back to zero
-        plant_ID = 0;
+            //Setting plant_ID back to zero
+            plant_ID = 0;
+        }
     }
-
 }
 
 void MainWindow::drawChomper(int x, int y)
 {
     if (plant_ID == 7 && x > squareSize)
     {
-        QPixmap Chomper("C://Users/User/Desktop/Plants vs Zombies files/ChomperHD2 - Copy.png");
-        QGraphicsPixmapItem *ChomperItem = new ChomperClass;
-        ChomperItem->setPixmap(Chomper);
-        scene->addItem(ChomperItem);
+        if((currentUserLevel == "1" && y > 2*squareSize && y < 3*squareSize)
+                || (currentUserLevel == "2" && y > squareSize && y < 4*squareSize)
+                || (currentUserLevel == "3") || (currentUserLevel == "4") || (currentUserLevel == "5") ||
+                (currentUserLevel == "6") || (currentUserLevel == "7") || (currentUserLevel == "8") ||
+                (currentUserLevel == "9"))
+        {
+            QPixmap Chomper("C://Users/User/Desktop/Plants vs Zombies files/ChomperHD2 - Copy.png");
+            QGraphicsPixmapItem *ChomperItem = new ChomperClass;
+            ChomperItem->setPixmap(Chomper);
+            scene->addItem(ChomperItem);
 
 
-        //Drawing them in the correct place
-        x = (x/squareSize);
-        y = (y/squareSize);
-        ChomperItem->setOffset((x*squareSize),(y*squareSize));
+            //Drawing them in the correct place
+            x = (x/squareSize);
+            y = (y/squareSize);
+            ChomperItem->setOffset((x*squareSize),(y*squareSize));
 
-        //Setting plant_ID back to zero
-        plant_ID = 0;
+            //Setting plant_ID back to zero
+            plant_ID = 0;
+        }
     }
 }
 
@@ -245,18 +292,25 @@ void MainWindow::drawRepeater(int x, int y)
 {
     if (plant_ID == 8 && x > squareSize)
     {
-        QPixmap Repeater("C://Users/User/Desktop/Plants vs Zombies files/Repeater_HD_HD - Copy.png");
-        QGraphicsPixmapItem *RepeaterItem = new RepeaterClass;
-        RepeaterItem->setPixmap(Repeater);
-        scene->addItem(RepeaterItem);
+        if((currentUserLevel == "1" && y > 2*squareSize && y < 3*squareSize)
+                || (currentUserLevel == "2" && y > squareSize && y < 4*squareSize)
+                || (currentUserLevel == "3") || (currentUserLevel == "4") || (currentUserLevel == "5") ||
+                (currentUserLevel == "6") || (currentUserLevel == "7") || (currentUserLevel == "8") ||
+                (currentUserLevel == "9"))
+        {
+            QPixmap Repeater("C://Users/User/Desktop/Plants vs Zombies files/Repeater_HD_HD - Copy.png");
+            QGraphicsPixmapItem *RepeaterItem = new RepeaterClass;
+            RepeaterItem->setPixmap(Repeater);
+            scene->addItem(RepeaterItem);
 
-        //Drawing them in the correct place
-        x = (x/squareSize);
-        y = (y/squareSize);
-        RepeaterItem->setOffset((x*squareSize)+2,(y*squareSize));
+            //Drawing them in the correct place
+            x = (x/squareSize);
+            y = (y/squareSize);
+            RepeaterItem->setOffset((x*squareSize)+2,(y*squareSize));
 
-        //Setting plant_ID back to zero
-        plant_ID = 0;
+            //Setting plant_ID back to zero
+            plant_ID = 0;
+        }
     }
 }
 
@@ -309,6 +363,9 @@ void MainWindow::on_NewpushButton_clicked()
 
 void MainWindow::on_StartpushButton_clicked()
 {
+    //Showing 0 sun points
+    ui->Pointslabel->setText("0");
+
     //Showing current user level on screen
     ui->LevellineEdit->setText(currentUserLevel);
 
@@ -373,6 +430,13 @@ void MainWindow::on_StartpushButton_clicked()
     zombieItem->setPixmap(regularzombie);
     scene->addItem(zombieItem);
     zombieItem->setOffset(680,120);
+
+    //Adding bullet(testing)
+    QPixmap Bullets("C://Users/User/Desktop/Plants vs Zombies files/Bullets.png");
+    QGraphicsPixmapItem *BulletsItem = new bullets();
+    BulletsItem->setPixmap(Bullets);
+    scene->addItem(BulletsItem);
+    BulletsItem->setOffset(75,150);
 
     //Starting timer
     timer->start(58);

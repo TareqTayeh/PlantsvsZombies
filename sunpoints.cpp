@@ -22,7 +22,7 @@ void sunpoints::advance(int phase)
        setYVelocity(0);
     }
 
-    setPos(400, y()); // move based on velocity
+    setPos(300, y()); // move based on velocity
 }
 
 void sunpoints::setPos(int x, int y) // sets the position (meters)

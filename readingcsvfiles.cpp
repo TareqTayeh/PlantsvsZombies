@@ -50,10 +50,35 @@ bool ReadingCSVFiles::Read(QString Filename) //Reads the file
     mFile.close();
 }
 
-bool ReadingCSVFiles::Write() //Writes to the file
+bool ReadingCSVFiles::Write()
 {
     QString playersFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
     QFile mFilename(playersFile);
+
+    if(mFilename.open(QFile::WriteOnly | QFile::Truncate))
+    {
+        QTextStream stream(&mFilename);
+        for (int i = 0; i < total; i++)
+        {
+            stream << timeStampList[i] << ":" << userList[i] << ":" << lastLevelPlayedList[i] <<"\r\n";
+        }
+
+         mFilename.close();
+    }
+}
+
+bool ReadingCSVFiles::Write(QString USER) //Writes to the file
+{
+    QString playersFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
+    QFile mFilename(playersFile);
+
+    for (int i = 0; i < total; i++)
+     {
+         if (USER == userList[i])
+         {
+            timeStampList[i]=QString::number(QDateTime::currentDateTime().toTime_t());
+         }
+    }
 
     if(mFilename.open(QFile::WriteOnly | QFile::Truncate))
     {

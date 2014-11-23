@@ -19,6 +19,7 @@ public:
     ReadingCSVFiles();
     bool Read(QString);
     bool Write();
+    bool Write(QString);
     void Sort();
     QString SearchName(QString);
     QString SearchTime(QString);
