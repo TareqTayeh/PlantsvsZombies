@@ -41,5 +41,4 @@ void mouseClicking::mousePressEvent(QMouseEvent *mouseEvent)
 
     qDebug() << position.x();
     qDebug() << position.y();
-    //mainwindow->drawRect(position.x(),position.y());
 }

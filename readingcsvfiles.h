@@ -17,7 +17,8 @@ class ReadingCSVFiles
 {
 public:
     ReadingCSVFiles();
-    bool Read(QString);
+    bool ReadPlayers(QString);
+    bool ReadLevels(QString);
     bool Write();
     bool Write(QString);
     void Sort();
@@ -36,6 +37,12 @@ private:
     QStringList userList;
     QStringList lastLevelPlayedList;
     QStringList timeStampList;
+    QStringList levelList;
+    QStringList sequenceList;
+    QStringList rowsList;
+    QStringList startList;
+    QStringList intervalList;
+    QStringList decrementList;
     int total;
 };
 

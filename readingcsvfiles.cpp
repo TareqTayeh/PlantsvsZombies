@@ -6,7 +6,51 @@ ReadingCSVFiles::ReadingCSVFiles()
    total = 0;
 }
 
-bool ReadingCSVFiles::Read(QString Filename) //Reads the file
+bool ReadingCSVFiles::ReadLevels(QString Filename) //Reads the file
+{
+    QFile mFile(Filename);
+
+    if(!mFile.open(QFile::ReadOnly | QFile::Text))
+    {
+        qDebug() << "Could not open file for reading, application closed with an error.";
+        while(true){ QApplication::quit();}
+    }
+
+    QTextStream t( &mFile ); // use a text stream
+    QString line;
+    levelList.clear();
+    sequenceList.clear();
+    rowsList.clear();
+    startList.clear();
+    intervalList.clear();
+    decrementList.clear();
+
+    while ( !t.atEnd() ) // loop until end of file...
+    {
+        line = t.readLine(); // line of text excluding '\n'
+        QStringList fields = line.split(':');
+
+        levelList.append(fields.at(0));
+        sequenceList.append(fields.at(1));
+        rowsList.append(fields.at(2));
+        startList.append(fields.at(3));
+        intervalList.append(fields.at(4));
+        decrementList.append(fields.at(5));
+    }
+
+    qDebug() << levelList;
+    qDebug() << sequenceList;
+    qDebug() << rowsList;
+    qDebug() << startList;
+    qDebug() << intervalList;
+    qDebug() << decrementList;
+
+    return true;
+
+    mFile.close();
+}
+
+bool ReadingCSVFiles::ReadPlayers(QString Filename)
 {
     QFile mFile(Filename);
 
@@ -208,7 +252,7 @@ void ReadingCSVFiles::deleteUser(QString name) //Deletes User
          }
     }
     Write();
-    Read("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
+    ReadPlayers("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
 }
 
 
