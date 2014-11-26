@@ -1,7 +1,7 @@
 #ifndef SUNPOINTS_H
 #define SUNPOINTS_H
 
-#include "mainwindow.h"
+//#include "mainwindow.h"
 #include <QGraphicsItem>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
@@ -13,8 +13,11 @@
 #include <ctime>
 #include <QRect>
 #include <QPainter>
+#include <QTimer>
 
-class sunpoints : public QGraphicsItem//, public QObject
+//class MainWindow;
+
+class sunpoints :  public QGraphicsItem//, public QObject
 {
     //Q_OBJECT
 
@@ -36,6 +39,9 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QPixmap Sun;
     QPointF Position;
+//    MainWindow *main_window;
+    bool isClicked;
+    int addSunPoints();
 
 signals:
     void mouse();
@@ -46,6 +52,7 @@ private:
     int random;
     int random1;
     int random2;
+    static int testing;
     double direction;
 };
 

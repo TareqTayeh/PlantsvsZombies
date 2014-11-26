@@ -1,5 +1,7 @@
 #include "sunpoints.h"
 
+int sunpoints::testing = 0;
+
 sunpoints::sunpoints()
 {
     srand(time(NULL));
@@ -12,6 +14,8 @@ sunpoints::sunpoints()
 
     //Adding sun(testing)
     Sun.load("C://Users/User/Desktop/Plants vs Zombies files/Sun.png");
+
+    isClicked = false;
 }
 
 void sunpoints::advance(int phase)
@@ -58,6 +62,10 @@ int sunpoints::y() const
 int sunpoints::randomValueX()
 {
     random = (rand()%675) + 75;
+    if (random > 700)
+    {
+        random = random - 70;
+    }
     return random;
 }
 
@@ -75,7 +83,10 @@ QRectF sunpoints::boundingRect() const
 void sunpoints::mousePressEvent(QGraphicsSceneMouseEvent *e)
 {
     //emit mouse();
+    //main_window->updateSunpoints();
+    isClicked = true;
     Position = e->pos();
+    testing++;
     delete this;
     qDebug() << "Sunclicked";
     qDebug() << endl << Position.x();
@@ -85,3 +96,15 @@ void sunpoints::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidg
 {
     painter->drawPixmap(boundingRect(),Sun,boundingRect());
 }
+
+int sunpoints::addSunPoints()
+{
+    qDebug() << testing;
+    if (testing == 1)
+    {
+        testing = 0;
+        return 25;
+    }
+
+}
+

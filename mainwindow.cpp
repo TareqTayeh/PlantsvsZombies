@@ -11,10 +11,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->NamelineEdit->setPlaceholderText("Name");
     ui->LevellineEdit->setPlaceholderText("Level");
 
+    sunDeleteTimer = new QTimer(this);
+    connect(sunDeleteTimer,SIGNAL(timeout()),this,SLOT(deleteSun()));
+    sunPointsUpdateTimer = new QTimer(this);
+    connect(sunPointsUpdateTimer,SIGNAL(timeout()),this,SLOT(updateSunpoints()));
+    //connect to function that iterates through all suns in a vector (or something similar) and deletes ones where
+    //sun.isClicked == true;
+
     plant_ID = 0;
     squareSize = 75;
     sunPointsTotal = 1000;
     timeoutTime = 5000;
+    sunUpdate = new sunpoints;
 
     QString playersFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
     QString levelsFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_levels.csv");
@@ -102,10 +110,11 @@ MainWindow::MainWindow(QWidget *parent) :
     seedRepeaterEnableTimer = new QTimer(this);
     connect(seedRepeaterEnableTimer, SIGNAL (timeout()),this,SLOT(seedRepeaterEnable()));
 
-
-
     //Allowing drawing plants on screen
     ui->graphicsView->mainwindow = this;
+
+    //Allowing sun to be collected
+    //sunUpdate->main_window = this;
 
     //Disabling buttons
     if (ui->UsercomboBox->count() == 0)
@@ -128,6 +137,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Connecting
     //this->connect(sunUpdate,SIGNAL(mouse()),this,SLOT(updateSunpoints()));
+
+    //sunUpdate = new sunpoints();
 }
 
 MainWindow::~MainWindow()
@@ -523,7 +534,7 @@ void MainWindow::drawRepeater(int x, int y) //Drawing Repeater when clicked
 
 void MainWindow::updateSunpoints()
 {
-    sunPointsTotal += 25;
+    sunPointsTotal +=  (sunUpdate->addSunPoints());
     ui->Pointslabel->setText("Sun Points\n" + QString::number(sunPointsTotal));
 }
 
@@ -531,17 +542,50 @@ void MainWindow::createSun()
 {
     //Adding sun (testing)
     sunpoints *sun = new sunpoints();
-    scene->addItem(sun);
+    sunAdd.push_back(sun);
+    scene->addItem(sunAdd[0]);
+    sunDeleteTimer->start(7500);
+    qDebug() << "Sun Added";
+}
+
+void MainWindow::deleteSun()
+{
+    scene->removeItem(sunAdd[0]);
+    sunAdd.pop_back();
+    //sunUpdate->isClicked = true;
+    qDebug() << "Sun Deleted";
+    //sunUpdate->deleteSUN();
+    sunDeleteTimer->stop();
 }
 
 void MainWindow::createRegularZombie()
 {
     //Adding zombie(testing)
-    QPixmap regularzombie("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
-    QGraphicsPixmapItem *zombieItem = new zombies();
-    zombieItem->setPixmap(regularzombie);
-    scene->addItem(zombieItem);
-    zombieItem->setOffset(680,120);
+    if (currentUserLevel == "1")
+    {
+        QPixmap regularzombie("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
+        QGraphicsPixmapItem *zombieItem = new zombies(2);
+        zombieItem->setPixmap(regularzombie);
+        scene->addItem(zombieItem);
+        zombieItem->setOffset(680,120);
+    }
+
+    else if (currentUserLevel == "2")
+    {
+        QPixmap regularzombie("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
+        QGraphicsPixmapItem *zombieItem = new zombies(1,1);
+        zombieItem->setPixmap(regularzombie);
+        scene->addItem(zombieItem);
+        zombieItem->setOffset(680,120);
+    }
+    else
+    {
+        QPixmap regularzombie("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
+        QGraphicsPixmapItem *zombieItem = new zombies();
+        zombieItem->setPixmap(regularzombie);
+        scene->addItem(zombieItem);
+        zombieItem->setOffset(680,120);
+    }
 }
 
 void MainWindow::seedPeaShooterTimeout()
@@ -709,19 +753,34 @@ void MainWindow::on_StartpushButton_clicked()
     scene->setBackgroundBrush(QBrush(darkGreenBrush));
     scene->addRect(0,0,75,375,blackPen,pale); //adding pale tile, the home coloumn
 
+    //Adding lawn mowers in the home column
+    QPixmap LawnMower("C://Users/User/Desktop/Plants vs Zombies files/Lawn_Mower.png");
+
     //Adding brown tiles according to level
-    if(currentUserLevel.toInt() == 1) //Only 1 green row will be shown
+    if(currentUserLevel.toInt() == 1) //Only 1 green row and lawnmower will be shown
     {
         scene->addRect(75,0,675,75,blackPen,brown);
         scene->addRect(75,75,675,75,blackPen,brown);
         scene->addRect(75,225,675,75,blackPen,brown);
         scene->addRect(75,300,675,75,blackPen,brown);
+        scene->addPixmap(LawnMower)->setOffset(0,160);
     }
 
-    if(currentUserLevel.toInt() == 2) //Only 3 green rows will be shown
+    else if(currentUserLevel.toInt() == 2) //Only 3 green rows and lawnmowers will be shown
     {
         scene->addRect(75,0,675,75,blackPen,brown);
         scene->addRect(75,300,675,75,blackPen,brown);
+        scene->addPixmap(LawnMower)->setOffset(0,85);
+        scene->addPixmap(LawnMower)->setOffset(0,160);
+        scene->addPixmap(LawnMower)->setOffset(0,235);
+    }
+    else
+    {
+        scene->addPixmap(LawnMower)->setOffset(0,10);
+        scene->addPixmap(LawnMower)->setOffset(0,85);
+        scene->addPixmap(LawnMower)->setOffset(0,160);
+        scene->addPixmap(LawnMower)->setOffset(0,235);
+        scene->addPixmap(LawnMower)->setOffset(0,310);
     }
 
     //Adding lines vertically
@@ -740,18 +799,11 @@ void MainWindow::on_StartpushButton_clicked()
     //Adjusting graphicsview size
     ui->graphicsView->adjustSize();
 
-    //Adding lawn mowers in the home column
-    QPixmap LawnMower("C://Users/User/Desktop/Plants vs Zombies files/Lawn_Mower.png");
-    scene->addPixmap(LawnMower)->setOffset(0,10);
-    scene->addPixmap(LawnMower)->setOffset(0,85);
-    scene->addPixmap(LawnMower)->setOffset(0,160);
-    scene->addPixmap(LawnMower)->setOffset(0,235);
-    scene->addPixmap(LawnMower)->setOffset(0,310);
-
     //Starting timer
     timer->start(58);
-    sunTimer->start(7500);
+    sunTimer->start(10000);
     regularZombieTimer->start(5000);
+    sunPointsUpdateTimer->start(0);
 
     //Adding bullet(testing)
 //    QPixmap Bullets("C://Users/User/Desktop/Plants vs Zombies files/Bullets.png");

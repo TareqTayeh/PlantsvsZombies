@@ -22,6 +22,7 @@
 #include <ctime>
 #include <QTimer>
 #include <QValidator>
+#include <QVector>
 
 namespace Ui {
 class MainWindow;
@@ -45,11 +46,12 @@ public:
     void drawSnowPea(int,int);
     void drawChomper(int,int);
     void drawRepeater(int,int); 
-    //sunpoints *sunUpdate;
+    sunpoints *sunUpdate;
 
 public slots:
     void updateSunpoints();
     void createSun();
+    void deleteSun();
     void createRegularZombie();
     void seedPeaShooterTimeout();
     void seedPeaShooterEnable();
@@ -122,11 +124,14 @@ private:
     QTimer *seedChomperEnableTimer;
     QTimer *seedRepeaterTimeoutTimer;
     QTimer *seedRepeaterEnableTimer;
+    QTimer *sunDeleteTimer;
+    QTimer *sunPointsUpdateTimer;
     int timeoutTime;
     int squareSize;
     int plant_ID;
     QString cost;
     int grid[5][10];
+    std::vector <sunpoints*> sunAdd;
     int sunPointsTotal;
 
 };

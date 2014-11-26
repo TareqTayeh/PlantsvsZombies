@@ -5,7 +5,26 @@ zombies::zombies()
     xCoordinate = 680;
     xVelocity = 1.1;
     random = 0;
-    random1 = 0;
+    random1 = (randomValue()*75);
+    random2 = 0;
+}
+
+zombies::zombies(int x) //User Level 1 (x is 2)
+{
+    xCoordinate = 680;
+    xVelocity = 1.1;
+    random = 0;
+    random1 = x*75;
+    random2 = 0;
+}
+
+zombies::zombies(int x, int y) // User Level 2 (x is 1,2 or 3)
+{
+    xCoordinate = 680;
+    xVelocity = 1.1;
+    random = 0;
+    random1 = (randomValue2()*75);
+    random2 = 0;
 }
 
 void zombies::advance(int phase)
@@ -23,7 +42,7 @@ void zombies::advance(int phase)
        setXVelocity(0);
     }
 
-    setPos(x(), 120); // move based on velocity
+    setPos(x(), random1); // move based on velocity
 }
 
 void zombies::setPos(int x, int y) // sets the position (meters)
@@ -59,6 +78,13 @@ int zombies::y() const
 int zombies::randomValue()
 {
     srand(time(NULL));
-    random = (rand()%675) + 75;
+    random = (rand()%5);
+    return random;
+}
+
+int zombies::randomValue2()
+{
+    srand(time(NULL));
+    random = (rand()%3)+1;
     return random;
 }
