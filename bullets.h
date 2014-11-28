@@ -8,6 +8,7 @@ class bullets : public QGraphicsPixmapItem
 {
 public:
     bullets();
+    bullets(int);
     void advance(int phase);
     void move(double time);
     void setPos(int,int);

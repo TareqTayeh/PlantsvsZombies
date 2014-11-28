@@ -47,12 +47,15 @@ public:
     void drawChomper(int,int);
     void drawRepeater(int,int); 
     sunpoints *sunUpdate;
+    zombies *zombieStop;
+    bool nameValidation(QString);
 
 public slots:
     void updateSunpoints();
     void createSun();
     void deleteSun();
     void createRegularZombie();
+    void createFlagZombie();
     void seedPeaShooterTimeout();
     void seedPeaShooterEnable();
     void seedSunFlowerTimeout();
@@ -69,6 +72,8 @@ public slots:
     void seedChomperEnable();
     void seedRepeaterTimeout();
     void seedRepeaterEnable();
+    void createBullet1();
+    void plantsCostt();
 
 private slots:
     void on_DeletepushButton_clicked();
@@ -107,6 +112,7 @@ private:
     QGraphicsScene *scene;
     QTimer *timer;
     QTimer *regularZombieTimer;
+    QTimer *flagZombieTimer;
     QTimer *sunTimer;
     QTimer *seedPeaShooterTimeoutTimer;
     QTimer *seedPeaShooterEnableTimer;
@@ -126,14 +132,19 @@ private:
     QTimer *seedRepeaterEnableTimer;
     QTimer *sunDeleteTimer;
     QTimer *sunPointsUpdateTimer;
+    QTimer *bulletsTimer1;
+    QTimer *plantsCostTimer;
     int timeoutTime;
     int squareSize;
     int plant_ID;
     QString cost;
-    int grid[5][10];
     std::vector <sunpoints*> sunAdd;
     int sunPointsTotal;
-
+    int grid[5][10];
+    int startListSave;
+    int levelOneCounter;
+    int xC1;
+    int yC1;
 };
 
 #endif // MAINWINDOW_H

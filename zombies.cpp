@@ -7,6 +7,11 @@ zombies::zombies()
     random = 0;
     random1 = (randomValue()*75);
     random2 = 0;
+    for (int n=0; n < 5; n++)
+        for (int m=0; m < 10; m++)
+        {
+          stop[n][m]=0;
+        }
 }
 
 zombies::zombies(int x) //User Level 1 (x is 2)
@@ -16,6 +21,11 @@ zombies::zombies(int x) //User Level 1 (x is 2)
     random = 0;
     random1 = x*75;
     random2 = 0;
+    for (int n=0; n < 5; n++)
+        for (int m=0; m < 10; m++)
+        {
+          stop[n][m]=0;
+        }
 }
 
 zombies::zombies(int x, int y) // User Level 2 (x is 1,2 or 3)
@@ -25,14 +35,17 @@ zombies::zombies(int x, int y) // User Level 2 (x is 1,2 or 3)
     random = 0;
     random1 = (randomValue2()*75);
     random2 = 0;
+    for (int n=0; n < 5; n++)
+        for (int m=0; m < 10; m++)
+        {
+          stop[n][m]=0;
+        }
 }
 
 void zombies::advance(int phase)
 {
     if(!phase) return;  // We don't do anything to prepare objects for advancing
-    move(0.6);
-    //QPointF p = this->pos();    // current position
-    //qDebug() << p;
+    move(0.3);
 
     // Check boundaries (0,0)-(WIDTH,WIDTH)
     if (x() < (75) || x() > (750)) // make the zombie dissapear
@@ -41,6 +54,8 @@ void zombies::advance(int phase)
        setPos(150,150);
        setXVelocity(0);
     }
+    //Check boundaries of zombies when plants are placed
+
 
     setPos(x(), random1); // move based on velocity
 }
@@ -87,4 +102,9 @@ int zombies::randomValue2()
     srand(time(NULL));
     random = (rand()%3)+1;
     return random;
+}
+
+void zombies::setStopValue(int a, int b)
+{
+    stop[a][b] = 1;
 }

@@ -11,6 +11,7 @@ public:
     int setLife();
     int getPlantID();
     int getCost();
+    double getSeeding();
 
 protected:
     int cost;

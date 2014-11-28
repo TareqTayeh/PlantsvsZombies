@@ -29,6 +29,11 @@ public:
     QString getUser1() const;
     QString getLevelofUser1() const;
     QString getTimeofUser1() const;
+    QString getLevelList(int) const;
+    QString getRowsList(int) const;
+    QString getStartList(int) const;
+    QString getIntervalList(int) const;
+    QString getDecrementList(int) const;
     int getTotal() const;
     void addLists(QString, QString, QString);
     void deleteUser(QString);

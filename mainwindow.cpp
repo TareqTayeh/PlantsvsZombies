@@ -15,14 +15,20 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(sunDeleteTimer,SIGNAL(timeout()),this,SLOT(deleteSun()));
     sunPointsUpdateTimer = new QTimer(this);
     connect(sunPointsUpdateTimer,SIGNAL(timeout()),this,SLOT(updateSunpoints()));
+    bulletsTimer1 = new QTimer(this);
+    connect(bulletsTimer1,SIGNAL(timeout()),this,SLOT(createBullet1()));
+    plantsCostTimer = new QTimer(this);
+    connect(plantsCostTimer,SIGNAL(timeout()),this,SLOT(plantsCostt()));
     //connect to function that iterates through all suns in a vector (or something similar) and deletes ones where
     //sun.isClicked == true;
 
     plant_ID = 0;
     squareSize = 75;
-    sunPointsTotal = 1000;
+    sunPointsTotal = 0;
     timeoutTime = 5000;
+    levelOneCounter = 0;
     sunUpdate = new sunpoints;
+    zombieStop = new zombies;
 
     QString playersFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
     QString levelsFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_levels.csv");
@@ -38,14 +44,12 @@ MainWindow::MainWindow(QWidget *parent) :
         }
     }
 
-
    //Assigning player that last played to current user
     currentUserName = user.getUser1();
     currentUserLevel = user.getLevelofUser1();
     currentUserTime = user.getTimeofUser1();
 
     setPictures(); //Setting pictures to appear in mainwindow.ui
-
 
     // Drawing main screen picture
     scene = new QGraphicsScene(this);
@@ -61,6 +65,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     regularZombieTimer = new QTimer(this);
     connect(regularZombieTimer,SIGNAL(timeout()),this,SLOT(createRegularZombie()));
+
+    flagZombieTimer = new QTimer(this);
+    connect(flagZombieTimer,SIGNAL(timeout()),this,SLOT(createFlagZombie()));
 
     seedPeaShooterTimeoutTimer = new QTimer(this);
     connect(seedPeaShooterTimeoutTimer, SIGNAL(timeout()),this,SLOT(seedPeaShooterTimeout()));
@@ -215,8 +222,18 @@ void MainWindow::drawPeaShooter(int x, int y) //Drawing Pea Shooter when clicked
             PeaShooterItem->setPixmap(PeaShooter);
             scene->addItem(PeaShooterItem);
 
+            //Adding bullet(testing)
+            bulletsTimer1->start(0);
+            xC1 = x; yC1 = y;
+//            QPixmap Bullets("C://Users/User/Desktop/Plants vs Zombies files/Bullets.png");
+//            QGraphicsPixmapItem *BulletsItem = new bullets(x);
+//            BulletsItem->setPixmap(Bullets);
+//            scene->addItem(BulletsItem);
+//            BulletsItem->setOffset(x/squareSize,y/squareSize);
+
             //Filling the space in the grid with a 1 indicating there is a plant there
             grid[y/squareSize][x/squareSize] = 1;
+
 
             //Drawing them in the correct place
             x = (x/squareSize);
@@ -229,7 +246,7 @@ void MainWindow::drawPeaShooter(int x, int y) //Drawing Pea Shooter when clicked
 
             //Seed timeout
             seedPeaShooterTimeoutTimer->start(0);
-            seedPeaShooterEnableTimer->start(timeoutTime);
+            seedPeaShooterEnableTimer->start((peaShooterObject.getSeeding())*1000);
 
             //Setting plant_ID back to zero
             plant_ID = 0;
@@ -275,7 +292,7 @@ void MainWindow::drawSunFlower(int x, int y) //Drawing Sun Flower when clicked
 
             //Seed timeout
             seedSunFlowerTimeoutTimer->start(0);
-            seedSunFlowerEnableTimer->start(timeoutTime);
+            seedSunFlowerEnableTimer->start((sunFlowerObject.getSeeding())*1000);
         }
     }
 }
@@ -317,7 +334,7 @@ void MainWindow::drawCherryBomb(int x, int y) //Drawing Cherry Bomb when clicked
 
             //Seed timeout
             seedCherryBombTimeoutTimer->start(0);
-            seedCherryBombEnableTimer->start(timeoutTime);
+            seedCherryBombEnableTimer->start((cherryBombObject.getSeeding())*1000);
         }
     }
 }
@@ -359,7 +376,7 @@ void MainWindow::drawWalNut(int x, int y) //Drawing WalNut when clicked
 
             //Seed timeout
             seedWallNutTimeoutTimer->start(0);
-            seedWallNutEnableTimer->start(timeoutTime);
+            seedWallNutEnableTimer->start((wallNutObject.getSeeding())*1000);
         }
     }
 }
@@ -401,7 +418,7 @@ void MainWindow::drawPotatoMine(int x, int y) //Drawing PotatoMine when clicked
 
             //Seed timeout
             seedPotatoMineTimeoutTimer->start(0);
-            seedPotatoMineEnableTimer->start(timeoutTime);
+            seedPotatoMineEnableTimer->start((potatoMineObject.getSeeding())*1000);
         }
     }
 }
@@ -443,7 +460,7 @@ void MainWindow::drawSnowPea(int x, int y) //Drawing Snow Pea when clicked
 
             //Seed timeout
             seedSnowPeaTimeoutTimer->start(0);
-            seedSnowPeaEnableTimer->start(timeoutTime);
+            seedSnowPeaEnableTimer->start((snowPeaObject.getSeeding())*1000);
         }
     }
 }
@@ -485,7 +502,7 @@ void MainWindow::drawChomper(int x, int y) //Drawing Chomper when clicked
 
             //Seed timeout
             seedChomperTimeoutTimer->start(0);
-            seedChomperEnableTimer->start(timeoutTime);
+            seedChomperEnableTimer->start((chomperObject.getSeeding())*1000);
         }
     }
 }
@@ -513,6 +530,7 @@ void MainWindow::drawRepeater(int x, int y) //Drawing Repeater when clicked
             //Filling the space in the grid with a 1 indicating there is a plant there
             grid[y/squareSize][x/squareSize] = 1;
 
+
             //Drawing them in the correct place
             x = (x/squareSize);
             y = (y/squareSize);
@@ -527,9 +545,35 @@ void MainWindow::drawRepeater(int x, int y) //Drawing Repeater when clicked
 
             //Seed timeout
             seedRepeaterTimeoutTimer->start(0);
-            seedRepeaterEnableTimer->start(timeoutTime);
+            seedRepeaterEnableTimer->start((repeaterObject.getSeeding())*1000);
         }
     }
+}
+
+bool MainWindow::nameValidation(QString userName)
+{
+    userName = userName.toLower();
+    bool valid = false;
+    if (userName.size() <=10)
+    {
+        for (int i = 0; i < userName.size(); i++)
+        {
+            if(userName[i].isLetterOrNumber())
+            {
+                valid = true;
+            }
+            else
+            {
+                valid = false;
+                break;
+            }
+        }
+    }
+
+    if (valid == true)
+        return true;
+    else
+        return false;
 }
 
 void MainWindow::updateSunpoints()
@@ -561,16 +605,48 @@ void MainWindow::deleteSun()
 void MainWindow::createRegularZombie()
 {
     //Adding zombie(testing)
-    if (currentUserLevel == "1")
+    if (currentUserLevel == user.getLevelList(0))
     {
         QPixmap regularzombie("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
         QGraphicsPixmapItem *zombieItem = new zombies(2);
         zombieItem->setPixmap(regularzombie);
         scene->addItem(zombieItem);
         zombieItem->setOffset(680,120);
+
+        if (levelOneCounter == 4)
+        {
+            startListSave = ((user.getIntervalList(0).toInt())*1000) - ((user.getDecrementList(0).toInt())*400);
+            regularZombieTimer->stop();
+            flagZombieTimer->start(startListSave);
+        }
+        if (levelOneCounter == 3)
+        {
+            startListSave = ((user.getIntervalList(0).toInt())*1000) - ((user.getDecrementList(0).toInt())*300);
+            regularZombieTimer->start(startListSave);
+            levelOneCounter++;
+        }
+        if (levelOneCounter == 2)
+        {
+            startListSave = ((user.getIntervalList(0).toInt())*1000) - ((user.getDecrementList(0).toInt())*200);
+            regularZombieTimer->start(startListSave);
+            levelOneCounter++;
+        }
+        if (levelOneCounter == 1)
+        {
+            startListSave = ((user.getIntervalList(0).toInt())*1000) - ((user.getDecrementList(0).toInt())*100);
+            regularZombieTimer->start(startListSave);
+            levelOneCounter++;
+        }
+        if (levelOneCounter == 0)
+        {
+            startListSave = user.getIntervalList(0).toInt();
+            startListSave = startListSave * 1000;
+            regularZombieTimer->start(startListSave);
+            levelOneCounter++;
+        }
     }
 
-    else if (currentUserLevel == "2")
+    else if (currentUserLevel == user.getLevelList(1))
     {
         QPixmap regularzombie("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
         QGraphicsPixmapItem *zombieItem = new zombies(1,1);
@@ -586,6 +662,16 @@ void MainWindow::createRegularZombie()
         scene->addItem(zombieItem);
         zombieItem->setOffset(680,120);
     }
+}
+
+void MainWindow::createFlagZombie()
+{
+    QPixmap flagzombie("C://Users/User/Desktop/Plants vs Zombies files/zombie2.png");
+    QGraphicsPixmapItem *flagzombieItem = new zombies(2);
+    flagzombieItem->setPixmap(flagzombie);
+    scene->addItem(flagzombieItem);
+    flagzombieItem->setOffset(680,250);
+    flagZombieTimer->stop();
 }
 
 void MainWindow::seedPeaShooterTimeout()
@@ -676,6 +762,65 @@ void MainWindow::seedRepeaterEnable()
     ui->RepeaterToolButton->setEnabled(true);
 }
 
+void MainWindow::createBullet1()
+{
+    QPixmap Bullets("C://Users/User/Desktop/Plants vs Zombies files/Bullets.png");
+    QGraphicsPixmapItem *BulletsItem = new bullets(xC1);
+    BulletsItem->setPixmap(Bullets);
+    scene->addItem(BulletsItem);
+    BulletsItem->setOffset(xC1/squareSize,yC1/squareSize);
+    bulletsTimer1->start(3000);
+}
+
+void MainWindow::plantsCostt()
+{
+    if (sunPointsTotal > 200 && seedRepeaterTimeoutTimer->isActive() == false)
+        ui->RepeaterToolButton->setEnabled(true);
+
+    if (sunPointsTotal < 200)
+    {
+        ui->RepeaterToolButton->setEnabled(false);
+        if(seedSnowPeaTimeoutTimer->isActive() == false)
+            ui->SnowPeaToolButton->setEnabled(true);
+    }
+
+    if (sunPointsTotal < 175)
+    {
+        ui->SnowPeaToolButton->setEnabled(false);
+        if (seedCherryBombTimeoutTimer->isActive() == false)
+            ui->CherryBombToolButton->setEnabled(true);
+        if (seedChomperTimeoutTimer->isActive() == false)
+            ui->ChomperToolButton->setEnabled(true);
+    }
+
+    if(sunPointsTotal < 150)
+    {
+        ui->CherryBombToolButton->setEnabled(false);
+        ui->ChomperToolButton->setEnabled(false);
+        if (seedSunFlowerTimeoutTimer->isActive() == false)
+            ui->PeaShooterToolButton->setEnabled(true);
+    }
+
+    if(sunPointsTotal < 100)
+    {
+        ui->PeaShooterToolButton->setEnabled(false);
+        if (seedSunFlowerTimeoutTimer->isActive() == false)
+            ui->SunFlowerToolButton->setEnabled(true);
+        if(seedWallNutTimeoutTimer->isActive() == false)
+            ui->WalNutToolButton->setEnabled(true);
+    }
+
+    if(sunPointsTotal < 50)
+    {
+        ui->WalNutToolButton->setEnabled(false);
+        ui->SunFlowerToolButton->setEnabled(false);
+        if (seedPotatoMineTimeoutTimer->isActive() == false)
+            ui->PotatoMineToolButton->setEnabled(true);
+    }
+
+    if(sunPointsTotal < 25)
+        ui->PotatoMineToolButton->setEnabled(false);
+}
 
 void MainWindow::on_DeletepushButton_clicked()
 {
@@ -715,20 +860,23 @@ void MainWindow::on_NewpushButton_clicked()
     //Validate name
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this,"New User",ui->NamelineEdit->text()+ "?", QMessageBox::Ok|QMessageBox::Cancel);
-    QString userName = (ui->NamelineEdit->text());
+    QString userNamee = (ui->NamelineEdit->text());
     if (reply == QMessageBox::Ok)
     {
 //        if (user.getTotal()< 5)
 //        {
-            ui->UsercomboBox->addItem(userName);
+        if (nameValidation(userNamee) == true)
+        {
+            ui->UsercomboBox->addItem(userNamee);
             QString time = QString::number(QDateTime::currentDateTime().toTime_t());
-            user.addLists(time,userName,"1");
+            user.addLists(time,userNamee,"1");
             user.ReadPlayers("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
             user.Sort();
             ui->UserpushButton->setEnabled(true);
             ui->StartpushButton->setEnabled(true);
             ui->RestartpushButton->setEnabled(true);
             ui->DeletepushButton->setEnabled(true);
+        }
 //        }
 //        else
 //            QMessageBox::question(this,"Max 5 Users", "Maximum users reached. Delete a user before creating a new one.",
@@ -757,7 +905,7 @@ void MainWindow::on_StartpushButton_clicked()
     QPixmap LawnMower("C://Users/User/Desktop/Plants vs Zombies files/Lawn_Mower.png");
 
     //Adding brown tiles according to level
-    if(currentUserLevel.toInt() == 1) //Only 1 green row and lawnmower will be shown
+    if(currentUserLevel == user.getLevelList(0)) //Only 1 green row and lawnmower will be shown
     {
         scene->addRect(75,0,675,75,blackPen,brown);
         scene->addRect(75,75,675,75,blackPen,brown);
@@ -766,7 +914,7 @@ void MainWindow::on_StartpushButton_clicked()
         scene->addPixmap(LawnMower)->setOffset(0,160);
     }
 
-    else if(currentUserLevel.toInt() == 2) //Only 3 green rows and lawnmowers will be shown
+    else if(currentUserLevel == user.getLevelList(1)) //Only 3 green rows and lawnmowers will be shown
     {
         scene->addRect(75,0,675,75,blackPen,brown);
         scene->addRect(75,300,675,75,blackPen,brown);
@@ -800,10 +948,33 @@ void MainWindow::on_StartpushButton_clicked()
     ui->graphicsView->adjustSize();
 
     //Starting timer
-    timer->start(58);
-    sunTimer->start(10000);
-    regularZombieTimer->start(5000);
-    sunPointsUpdateTimer->start(0);
+
+    plantsCostTimer->start(0);
+
+    if (currentUserLevel == user.getLevelList(0))
+    {
+        startListSave = user.getStartList(0).toInt();
+        startListSave = startListSave*1000;
+        timer->start(58);
+        sunTimer->start(10000);
+        regularZombieTimer->start(startListSave);
+        sunPointsUpdateTimer->start(0);
+    }
+    else if (currentUserLevel == user.getLevelList(1))
+    {
+        timer->start(58);
+        sunTimer->start(10000);
+        regularZombieTimer->start(5000);
+        sunPointsUpdateTimer->start(0);
+    }
+    else
+    {
+        timer->start(58);
+        sunTimer->start(10000);
+        regularZombieTimer->start(5000);
+        sunPointsUpdateTimer->start(0);
+    }
+
 
     //Adding bullet(testing)
 //    QPixmap Bullets("C://Users/User/Desktop/Plants vs Zombies files/Bullets.png");
@@ -819,6 +990,7 @@ void MainWindow::on_StartpushButton_clicked()
           grid[n][m]=0;
         }
 
+    //Disabling and Enabling buttons
     ui->QuitpushButton->setEnabled(true);
     ui->PeaShooterToolButton->setEnabled(true);
     ui->SunFlowerToolButton->setEnabled(true);
@@ -828,18 +1000,25 @@ void MainWindow::on_StartpushButton_clicked()
     ui->ChomperToolButton->setEnabled(true);
     ui->SnowPeaToolButton->setEnabled(true);
     ui->RepeaterToolButton->setEnabled(true);
+    ui->NewpushButton->setEnabled(false);
+    ui->DeletepushButton->setEnabled(false);
+    ui->UserpushButton->setEnabled(false);
+    ui->UsercomboBox->setEnabled(false);
+    ui->StartpushButton->setEnabled(false);
 }
 
 void MainWindow::on_RestartpushButton_clicked() //Game restarts
 {
+    timer->stop();
+
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, "Restart", "Are you sure you want to restart this level?",
-                                    QMessageBox::Yes|QMessageBox::No);
+                                    QMessageBox::Yes|QMessageBox::Cancel);
       if (reply == QMessageBox::Yes) {
         qDebug() << "Yes restart was clicked";
         {
             //Set default sun points
-            sunPointsTotal = 1000;
+            sunPointsTotal = 0;
 
             //Start
             on_StartpushButton_clicked();
@@ -856,14 +1035,17 @@ void MainWindow::on_RestartpushButton_clicked() //Game restarts
         }
       } else {
         qDebug() << "Restart was *not* clicked";
+        timer->start(58);
       }
 }
 
 void MainWindow::on_QuitpushButton_clicked() //Level closes when user presses Yes
 {
+    timer->stop();
+
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, "Quit", "Are you sure you want to leave this level?",
-                                    QMessageBox::Yes|QMessageBox::No);
+                                    QMessageBox::Yes|QMessageBox::Cancel);
       if (reply == QMessageBox::Yes) {
         qDebug() << "Yes quit was clicked";
         {
@@ -881,10 +1063,20 @@ void MainWindow::on_QuitpushButton_clicked() //Level closes when user presses Ye
             ui->ChomperToolButton->setEnabled(false);
             ui->SnowPeaToolButton->setEnabled(false);
             ui->RepeaterToolButton->setEnabled(false);
+            ui->NewpushButton->setEnabled(true);
+            ui->DeletepushButton->setEnabled(true);
+            ui->UserpushButton->setEnabled(true);
+            ui->UsercomboBox->setEnabled(true);
+            ui->StartpushButton->setEnabled(true);
 
+            timer->stop();
+            sunTimer->stop();
+            regularZombieTimer->stop();
+            sunPointsUpdateTimer->stop();
         }
       } else {
         qDebug() << "Yes quit was *not* clicked";
+        timer->start(58);
       }
 }
 

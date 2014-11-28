@@ -26,6 +26,11 @@ int plants::getCost()
     return cost;
 }
 
+double plants::getSeeding()
+{
+    return seeding;
+}
+
 
 PeaShooterClass::PeaShooterClass()
 {

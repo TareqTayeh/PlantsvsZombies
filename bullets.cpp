@@ -8,6 +8,14 @@ bullets::bullets()
     random1 = 0;
 }
 
+bullets::bullets(int x)
+{
+    xCoordinate = x;
+    xVelocity = 1.1;
+    random = 0;
+    random1 = 0;
+}
+
 void bullets::advance(int phase)
 {
     if(!phase) return;  // We don't do anything to prepare objects for advancing

@@ -14,14 +14,13 @@ sunpoints::sunpoints()
 
     //Adding sun(testing)
     Sun.load("C://Users/User/Desktop/Plants vs Zombies files/Sun.png");
-
     isClicked = false;
 }
 
 void sunpoints::advance(int phase)
 {
     if(!phase) return;  // We don't do anything to prepare objects for advancing
-    move(1.3);
+    move(2.8);
     //QPointF p = this->pos();    // current position
     //qDebug() << p;
 
@@ -71,7 +70,7 @@ int sunpoints::randomValueX()
 
 int sunpoints::randomValueY()
 {
-    random = (rand()%315);
+    random = (rand()%215);
     return random;
 }
 
@@ -99,7 +98,7 @@ void sunpoints::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidg
 
 int sunpoints::addSunPoints()
 {
-    qDebug() << testing;
+    //qDebug() << testing;
     if (testing == 1)
     {
         testing = 0;

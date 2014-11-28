@@ -22,6 +22,8 @@ public:
     int y() const;
     int randomValue();
     int randomValue2();
+    int stop[5][10];
+    void setStopValue(int, int);
 
 private:
     int xCoordinate;

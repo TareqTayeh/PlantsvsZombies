@@ -53,45 +53,51 @@ bool ReadingCSVFiles::ReadLevels(QString Filename) //Reads the file
 bool ReadingCSVFiles::ReadPlayers(QString Filename)
 {
     QFile mFile(Filename);
-
-    if(!mFile.open(QFile::ReadOnly | QFile::Text))
-    {
-        qDebug() << "Could not open file for reading, application closed with an error.";
-        while(true){ QApplication::quit();}
-    }
-
     QTextStream t( &mFile ); // use a text stream
-    QString line;
     userList.clear();
     lastLevelPlayedList.clear();
     timeStampList.clear();
 
-    while ( !t.atEnd() ) // loop until end of file...
+    if(!mFile.open(QFile::ReadOnly | QFile::Text))
     {
-        line = t.readLine(); // line of text excluding '\n'
-        QStringList fields = line.split(':');
-        if (fields.size() < 3)
+        qDebug() << "Could not open file for reading, starting application with no users";
+        userList[0]="0";
+        levelList[0]="0";
+        timeStampList[0]="0";
+        total = 1;
+        return false;
+    }
+    else
+    {
+        QString line;
+        while ( !t.atEnd() ) // loop until end of file...
         {
-            total = 0;
+            line = t.readLine(); // line of text excluding '\n'
+            QStringList fields = line.split(':');
+            if (fields.size() < 3)
+            {
+                total = 0;
 
-            return false;
+                return false;
+            }
+
+            timeStampList.append(fields.at(0));
+            userList.append(fields.at(1));
+            lastLevelPlayedList.append(fields.at(2));
+
+            total = userList.count();
         }
 
-        timeStampList.append(fields.at(0));
-        userList.append(fields.at(1));
-        lastLevelPlayedList.append(fields.at(2));
+        qDebug() << timeStampList;
+        qDebug() << userList;
+        qDebug() << lastLevelPlayedList;
 
-        total = userList.count();
+
+        return true;
+
+         mFile.close();
     }
 
-    qDebug() << timeStampList;
-    qDebug() << userList;
-    qDebug() << lastLevelPlayedList;
-
-
-    return true;
-
-    mFile.close();
 }
 
 bool ReadingCSVFiles::Write()
@@ -220,6 +226,31 @@ QString ReadingCSVFiles::getLevelofUser1() const //Returns the level of the user
 QString ReadingCSVFiles::getTimeofUser1() const //Returns the time of the user with the highest timestamp(as its sorted)
 {
     return timeStampList[0];
+}
+
+QString ReadingCSVFiles::getLevelList(int x) const
+{
+    return levelList[x];
+}
+
+QString ReadingCSVFiles::getRowsList(int x) const
+{
+    return rowsList[x];
+}
+
+QString ReadingCSVFiles::getStartList(int x) const
+{
+    return startList[x];
+}
+
+QString ReadingCSVFiles::getIntervalList(int x) const
+{
+    return intervalList[x];
+}
+
+QString ReadingCSVFiles::getDecrementList(int x) const
+{
+    return decrementList[x];
 }
 
 int ReadingCSVFiles::getTotal() const //Returns total number of users
