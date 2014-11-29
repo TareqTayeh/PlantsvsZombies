@@ -22,7 +22,6 @@ public:
     int getxPosition() const;
     int getyPosition() const;
     MainWindow *mainwindow;
-    sunpoints *sun;
 
 signals:
 

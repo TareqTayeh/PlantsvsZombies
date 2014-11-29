@@ -10,7 +10,7 @@ sunpoints::sunpoints()
     random = 0;
     random1 = randomValueY();
     random2 = randomValueX();
-    this->setPos(0,0);
+    //this->setPos(0,0);
 
     //Adding sun(testing)
     Sun.load("C://Users/User/Desktop/Plants vs Zombies files/Sun.png");

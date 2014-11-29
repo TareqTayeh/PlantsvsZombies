@@ -4,6 +4,7 @@
 ReadingCSVFiles user;
 int MainWindow::peaShooterCounter = 0;
 int MainWindow::snowPeaCounter = 0;
+int MainWindow::sunFlowerCounter = 0;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -37,6 +38,24 @@ MainWindow::MainWindow(QWidget *parent) :
 
     snowPeaBulletsTimer3 = new QTimer(this);
     connect(snowPeaBulletsTimer3,SIGNAL(timeout()),this,SLOT(createBullet3SnowPea()));
+
+    sunFlowerSunsCreateTimer1 = new QTimer(this);
+    connect(sunFlowerSunsCreateTimer1,SIGNAL(timeout()),this,SLOT(createSun1SunFlower()));
+
+    sunFlowerSunsCreateTimer2 = new QTimer(this);
+    connect(sunFlowerSunsCreateTimer2,SIGNAL(timeout()),this,SLOT(createSun2SunFlower()));
+
+    sunFlowerSunsCreateTimer3 = new QTimer(this);
+    connect(sunFlowerSunsCreateTimer3,SIGNAL(timeout()),this,SLOT(createSun3SunFlower()));
+
+    sunFlowerSunsDeleteTimer1 = new QTimer(this);
+    connect(sunFlowerSunsDeleteTimer1,SIGNAL(timeout()),this,SLOT(deleteSun1SunFlower()));
+
+    sunFlowerSunsDeleteTimer2 = new QTimer(this);
+    connect(sunFlowerSunsDeleteTimer2,SIGNAL(timeout()),this,SLOT(deleteSun2SunFlower()));
+
+    sunFlowerSunsDeleteTimer3 = new QTimer(this);
+    connect(sunFlowerSunsDeleteTimer3,SIGNAL(timeout()),this,SLOT(deleteSun3SunFlower()));
 
     plantsCostTimer = new QTimer(this);
     connect(plantsCostTimer,SIGNAL(timeout()),this,SLOT(plantsCostt()));
@@ -295,6 +314,9 @@ void MainWindow::drawPeaShooter(int x, int y) //Drawing Pea Shooter when clicked
             PeaShooterItem->setPixmap(PeaShooter);
             scene->addItem(PeaShooterItem);
 
+            //Removing Palette
+            ui->PeaShooterToolButton->setAutoFillBackground(false);
+
             //Filling the space in the grid with a 1 indicating there is a plant there
             grid[y/squareSize][x/squareSize] = 1;
 
@@ -350,12 +372,21 @@ void MainWindow::drawSunFlower(int x, int y) //Drawing Sun Flower when clicked
                 (currentUserLevel == "6") || (currentUserLevel == "7") || (currentUserLevel == "8") ||
                 (currentUserLevel == "9"))
         {
-            xPeaShooter1 = ((x/75)*75)+20; yPeaShooter1 = ((y/75)*75)+20;
+
+            if(sunFlowerCounter == 0)
+            {xSunFlower1 = ((x/75)*75)+20; ySunFlower1 = ((y/75)*75)+20;}
+            if(sunFlowerCounter == 1)
+            {xSunFlower2 = ((x/75)*75)+20; ySunFlower2 = ((y/75)*75)+20;}
+            if(sunFlowerCounter > 1)
+            {xSunFlower3 = ((x/75)*75)+20; ySunFlower3 = ((y/75)*75)+20;}
 
             QPixmap SunFlower("C://Users/User/Desktop/Plants vs Zombies files/Sunflower_HD - Copy.png");
             QGraphicsPixmapItem *SunFlowerItem = new SunFlowerClass();
             SunFlowerItem->setPixmap(SunFlower);
             scene->addItem(SunFlowerItem);
+
+            //Removing Palette
+            ui->SunFlowerToolButton->setAutoFillBackground(false);
 
             //Filling the space in the grid with a 1 indicating there is a plant there
             grid[y/squareSize][x/squareSize] = 1;
@@ -374,11 +405,23 @@ void MainWindow::drawSunFlower(int x, int y) //Drawing Sun Flower when clicked
 
             //Seed timeout
             seedSunFlowerTimeoutTimer->start(0);
-            seedSunFlowerEnableTimer->start((sunFlowerObject.getSeeding())*1000);
+            seedSunFlowerEnableTimer->start((sunFlowerObject.getSeeding())*1000);         
 
-            //Suns
-            sunpoints *sun = new sunpoints();
-            scene->addItem(sun);
+            //Adding Suns
+            if(sunFlowerCounter > 1)
+            {
+                sunFlowerSunsCreateTimer3->start((sunFlowerObject.getRate())*1000);
+            }
+            if(sunFlowerCounter == 1)
+            {
+                sunFlowerSunsCreateTimer2->start((sunFlowerObject.getRate())*1000);
+                sunFlowerCounter++;
+            }
+            if(sunFlowerCounter == 0)
+            {
+                sunFlowerSunsCreateTimer1->start((sunFlowerObject.getRate())*1000);
+                sunFlowerCounter++;
+            }
         }
     }
 }
@@ -402,6 +445,9 @@ void MainWindow::drawCherryBomb(int x, int y) //Drawing Cherry Bomb when clicked
             QGraphicsPixmapItem *CherryBombItem = new CherryBombClass();
             CherryBombItem->setPixmap(CherryBomb);
             scene->addItem(CherryBombItem);
+
+            //Removing Palette
+            ui->CherryBombToolButton->setAutoFillBackground(false);
 
             //Filling the space in the grid with a 1 indicating there is a plant there
             grid[y/squareSize][x/squareSize] = 1;
@@ -445,6 +491,9 @@ void MainWindow::drawWalNut(int x, int y) //Drawing WalNut when clicked
             WalNutItem->setPixmap(WalNut);
             scene->addItem(WalNutItem);
 
+            //Removing Palette
+            ui->WalNutToolButton->setAutoFillBackground(false);
+
             //Filling the space in the grid with a 1 indicating there is a plant there
             grid[y/squareSize][x/squareSize] = 1;
 
@@ -486,6 +535,9 @@ void MainWindow::drawPotatoMine(int x, int y) //Drawing PotatoMine when clicked
             QGraphicsPixmapItem *PotatoMineItem = new PotatoMineClass;
             PotatoMineItem->setPixmap(PotatoMine);
             scene->addItem(PotatoMineItem);
+
+            //Removing Palette
+            ui->PotatoMineToolButton->setAutoFillBackground(false);
 
             //Filling the space in the grid with a 1 indicating there is a plant there
             grid[y/squareSize][x/squareSize] = 1;
@@ -535,6 +587,9 @@ void MainWindow::drawSnowPea(int x, int y) //Drawing Snow Pea when clicked
             QGraphicsPixmapItem *SnowPeaItem = new SnowPeaClass;
             SnowPeaItem->setPixmap(SnowPea);
             scene->addItem(SnowPeaItem);
+
+            //Removing Palette
+            ui->SnowPeaToolButton->setAutoFillBackground(false);
 
             //Filling the space in the grid with a 1 indicating there is a plant there
             grid[y/squareSize][x/squareSize] = 1;
@@ -594,6 +649,9 @@ void MainWindow::drawChomper(int x, int y) //Drawing Chomper when clicked
             ChomperItem->setPixmap(Chomper);
             scene->addItem(ChomperItem);
 
+            //Removing Palette
+            ui->ChomperToolButton->setAutoFillBackground(false);
+
             //Filling the space in the grid with a 1 indicating there is a plant there
             grid[y/squareSize][x/squareSize] = 1;
 
@@ -636,9 +694,11 @@ void MainWindow::drawRepeater(int x, int y) //Drawing Repeater when clicked
             RepeaterItem->setPixmap(Repeater);
             scene->addItem(RepeaterItem);
 
+            //Removing Palette
+            ui->RepeaterToolButton->setAutoFillBackground(false);
+
             //Filling the space in the grid with a 1 indicating there is a plant there
             grid[y/squareSize][x/squareSize] = 1;
-
 
             //Drawing them in the correct place
             x = (x/squareSize);
@@ -906,6 +966,57 @@ void MainWindow::createBullet3SnowPea()
     qDebug() << "Snow Pea Bullets Added";
 }
 
+void MainWindow::createSun1SunFlower()
+{
+    sunFlowerSuns *sun1 = new sunFlowerSuns();
+    sunAdd1.push_back(sun1);
+    scene->addItem(sunAdd1[0]);
+    sun1->setPos(xSunFlower1,ySunFlower1);
+    sunFlowerSunsDeleteTimer1->start(7500);
+}
+
+void MainWindow::createSun2SunFlower()
+{
+    sunFlowerSuns *sun2 = new sunFlowerSuns();
+    sunAdd2.push_back(sun2);
+    scene->addItem(sunAdd2[0]);
+    sun2->setPos(xSunFlower2,ySunFlower2);
+    sunFlowerSunsDeleteTimer2->start(7500);
+}
+
+void MainWindow::createSun3SunFlower()
+{
+    sunFlowerSuns *sun3 = new sunFlowerSuns();
+    sunAdd3.push_back(sun3);
+    scene->addItem(sunAdd3[0]);
+    sun3->setPos(xSunFlower3,ySunFlower3);
+    sunFlowerSunsDeleteTimer3->start(7500);
+}
+
+void MainWindow::deleteSun1SunFlower()
+{
+    scene->removeItem(sunAdd1[0]);
+    sunAdd1.pop_back();
+    qDebug() << "Sun Deleted";
+    sunFlowerSunsDeleteTimer1->stop();
+}
+
+void MainWindow::deleteSun2SunFlower()
+{
+    scene->removeItem(sunAdd2[0]);
+    sunAdd2.pop_back();
+    qDebug() << "Sun Deleted";
+    sunFlowerSunsDeleteTimer2->stop();
+}
+
+void MainWindow::deleteSun3SunFlower()
+{
+    scene->removeItem(sunAdd3[0]);
+    sunAdd3.pop_back();
+    qDebug() << "Sun Deleted";
+    sunFlowerSunsDeleteTimer3->stop();
+}
+
 void MainWindow::plantsCostt()
 {
     if (sunPointsTotal > 200 && seedRepeaterTimeoutTimer->isActive() == false)
@@ -1144,7 +1255,7 @@ void MainWindow::on_RestartpushButton_clicked() //Game restarts
         qDebug() << "Yes restart was clicked";
         {
             //Set default sun points
-            sunPointsTotal = 0;
+            sunPointsTotal = 2000;
 
             //Start
             on_StartpushButton_clicked();
@@ -1196,7 +1307,7 @@ void MainWindow::on_QuitpushButton_clicked() //Level closes when user presses Ye
             ui->StartpushButton->setEnabled(true);
 
             //Setting sun points back to 0
-            sunPointsTotal = 0;
+            sunPointsTotal = 2000;
             ui->Pointslabel->setText("Sun Points");
 
             timer->stop();
@@ -1232,39 +1343,137 @@ void MainWindow::on_UserpushButton_clicked()
 void MainWindow::on_PeaShooterToolButton_clicked()
 {
     plant_ID = 1;
+
+    //Making buttons look selected/unselected
+    ui->PeaShooterToolButton->setPalette(QPalette(Qt::blue));
+    ui->PeaShooterToolButton->setAutoFillBackground(true);
+
+    ui->SunFlowerToolButton->setAutoFillBackground(false);
+    ui->CherryBombToolButton->setAutoFillBackground(false);
+    ui->WalNutToolButton->setAutoFillBackground(false);
+    ui->PotatoMineToolButton->setAutoFillBackground(false);
+    ui->SnowPeaToolButton->setAutoFillBackground(false);
+    ui->ChomperToolButton->setAutoFillBackground(false);
+    ui->RepeaterToolButton->setAutoFillBackground(false);
 }
 
 void MainWindow::on_SunFlowerToolButton_clicked()
 {
     plant_ID = 2;
+
+    //Making buttons look selected/unselected
+    ui->SunFlowerToolButton->setPalette(QPalette(Qt::blue));
+    ui->SunFlowerToolButton->setAutoFillBackground(true);
+
+    ui->PeaShooterToolButton->setAutoFillBackground(false);
+    ui->CherryBombToolButton->setAutoFillBackground(false);
+    ui->WalNutToolButton->setAutoFillBackground(false);
+    ui->PotatoMineToolButton->setAutoFillBackground(false);
+    ui->SnowPeaToolButton->setAutoFillBackground(false);
+    ui->ChomperToolButton->setAutoFillBackground(false);
+    ui->RepeaterToolButton->setAutoFillBackground(false);
+
 }
 
 void MainWindow::on_CherryBombToolButton_clicked()
 {
     plant_ID = 3;
+
+    //Making buttons look selected/unselected
+    ui->CherryBombToolButton->setPalette(QPalette(Qt::blue));
+    ui->CherryBombToolButton->setAutoFillBackground(true);
+
+    ui->SunFlowerToolButton->setAutoFillBackground(false);
+    ui->PeaShooterToolButton->setAutoFillBackground(false);
+    ui->WalNutToolButton->setAutoFillBackground(false);
+    ui->PotatoMineToolButton->setAutoFillBackground(false);
+    ui->SnowPeaToolButton->setAutoFillBackground(false);
+    ui->ChomperToolButton->setAutoFillBackground(false);
+    ui->RepeaterToolButton->setAutoFillBackground(false);
 }
 
 void MainWindow::on_WalNutToolButton_clicked()
 {
     plant_ID = 4;
+
+    //Making buttons look selected/unselected
+    ui->WalNutToolButton->setPalette(QPalette(Qt::blue));
+    ui->WalNutToolButton->setAutoFillBackground(true);
+
+    ui->SunFlowerToolButton->setAutoFillBackground(false);
+    ui->PeaShooterToolButton->setAutoFillBackground(false);
+    ui->CherryBombToolButton->setAutoFillBackground(false);
+    ui->PotatoMineToolButton->setAutoFillBackground(false);
+    ui->SnowPeaToolButton->setAutoFillBackground(false);
+    ui->ChomperToolButton->setAutoFillBackground(false);
+    ui->RepeaterToolButton->setAutoFillBackground(false);
 }
 
 void MainWindow::on_PotatoMineToolButton_clicked()
 {
     plant_ID = 5;
+
+    //Making buttons look selected/unselected
+    ui->PotatoMineToolButton->setPalette(QPalette(Qt::blue));
+    ui->PotatoMineToolButton->setAutoFillBackground(true);
+
+    ui->SunFlowerToolButton->setAutoFillBackground(false);
+    ui->PeaShooterToolButton->setAutoFillBackground(false);
+    ui->CherryBombToolButton->setAutoFillBackground(false);
+    ui->WalNutToolButton->setAutoFillBackground(false);
+    ui->SnowPeaToolButton->setAutoFillBackground(false);
+    ui->ChomperToolButton->setAutoFillBackground(false);
+    ui->RepeaterToolButton->setAutoFillBackground(false);
+
 }
 
 void MainWindow::on_SnowPeaToolButton_clicked()
 {
     plant_ID = 6;
+
+    //Making buttons look selected/unselected
+    ui->SnowPeaToolButton->setPalette(QPalette(Qt::blue));
+    ui->SnowPeaToolButton->setAutoFillBackground(true);
+
+    ui->SunFlowerToolButton->setAutoFillBackground(false);
+    ui->PeaShooterToolButton->setAutoFillBackground(false);
+    ui->CherryBombToolButton->setAutoFillBackground(false);
+    ui->WalNutToolButton->setAutoFillBackground(false);
+    ui->PotatoMineToolButton->setAutoFillBackground(false);
+    ui->ChomperToolButton->setAutoFillBackground(false);
+    ui->RepeaterToolButton->setAutoFillBackground(false);
 }
 
 void MainWindow::on_ChomperToolButton_clicked()
 {
     plant_ID = 7;
+
+    //Making buttons look selected/unselected
+    ui->ChomperToolButton->setPalette(QPalette(Qt::blue));
+    ui->ChomperToolButton->setAutoFillBackground(true);
+
+    ui->SunFlowerToolButton->setAutoFillBackground(false);
+    ui->PeaShooterToolButton->setAutoFillBackground(false);
+    ui->CherryBombToolButton->setAutoFillBackground(false);
+    ui->WalNutToolButton->setAutoFillBackground(false);
+    ui->PotatoMineToolButton->setAutoFillBackground(false);
+    ui->SnowPeaToolButton->setAutoFillBackground(false);
+    ui->RepeaterToolButton->setAutoFillBackground(false);
 }
 
 void MainWindow::on_RepeaterToolButton_clicked()
 {
     plant_ID = 8;
+
+    //Making buttons look selected/unselected
+    ui->RepeaterToolButton->setPalette(QPalette(Qt::blue));
+    ui->RepeaterToolButton->setAutoFillBackground(true);
+
+    ui->SunFlowerToolButton->setAutoFillBackground(false);
+    ui->PeaShooterToolButton->setAutoFillBackground(false);
+    ui->CherryBombToolButton->setAutoFillBackground(false);
+    ui->WalNutToolButton->setAutoFillBackground(false);
+    ui->PotatoMineToolButton->setAutoFillBackground(false);
+    ui->SnowPeaToolButton->setAutoFillBackground(false);
+    ui->ChomperToolButton->setAutoFillBackground(false);
 }

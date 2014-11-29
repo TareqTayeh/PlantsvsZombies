@@ -7,6 +7,7 @@
 #include "zombies.h"
 #include "bullets.h"
 #include "snowpeabullets.h"
+#include "sunflowersuns.h"
 #include <QGraphicsItem>
 #include <QMainWindow>
 #include <QMessageBox>
@@ -81,6 +82,12 @@ public slots:
     void createBullet1SnowPea();
     void createBullet2SnowPea();
     void createBullet3SnowPea();
+    void createSun1SunFlower();
+    void createSun2SunFlower();
+    void createSun3SunFlower();
+    void deleteSun1SunFlower();
+    void deleteSun2SunFlower();
+    void deleteSun3SunFlower();
     void plantsCostt();
 
 private slots:
@@ -146,12 +153,21 @@ private:
     QTimer *snowPeaBulletsTimer1;
     QTimer *snowPeaBulletsTimer2;
     QTimer *snowPeaBulletsTimer3;
+    QTimer *sunFlowerSunsCreateTimer1;
+    QTimer *sunFlowerSunsCreateTimer2;
+    QTimer *sunFlowerSunsCreateTimer3;
+    QTimer *sunFlowerSunsDeleteTimer1;
+    QTimer *sunFlowerSunsDeleteTimer2;
+    QTimer *sunFlowerSunsDeleteTimer3;
     QTimer *plantsCostTimer;
     int timeoutTime;
     int squareSize;
     int plant_ID;
     QString cost;
     std::vector <sunpoints*> sunAdd;
+    std::vector <sunFlowerSuns*> sunAdd1;
+    std::vector <sunFlowerSuns*> sunAdd2;
+    std::vector <sunFlowerSuns*> sunAdd3;
     int sunPointsTotal;
     int grid[5][10];
     int startListSave;
@@ -168,8 +184,15 @@ private:
     int ySnowPea2;
     int xSnowPea3;
     int ySnowPea3;
+    int xSunFlower1;
+    int ySunFlower1;
+    int xSunFlower2;
+    int ySunFlower2;
+    int xSunFlower3;
+    int ySunFlower3;
     static int peaShooterCounter;
     static int snowPeaCounter;
+    static int sunFlowerCounter;
 };
 
 #endif // MAINWINDOW_H

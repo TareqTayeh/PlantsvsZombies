@@ -43,7 +43,7 @@ public:
 signals:
     void mouse();
 
-private:
+protected:
     int xCoordinate;
     int yCoordinate;
     int random;

@@ -118,6 +118,38 @@ void zombies::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget
         }
     }
 
+    foreach(QGraphicsItem * j , list)
+    {
+        SnowPeaClass * item1 = dynamic_cast<SnowPeaClass *>(j);
+        if (item1)
+        {
+            setXVelocity(0);
+            //item->setLife(item->getLife() - 1);
+            qDebug() << item1->getLife();
+            if(item1->getLife() == 0)
+            {
+                delete item1;
+                setXVelocity(1.1);
+            }
+        }
+    }
+
+    foreach(QGraphicsItem * h , list)
+    {
+        SunFlowerClass * item2 = dynamic_cast<SunFlowerClass *>(h);
+        if (item2)
+        {
+            setXVelocity(0);
+            //item->setLife(item->getLife() - 1);
+            qDebug() << item2->getLife();
+            if(item2->getLife() == 0)
+            {
+                delete item2;
+                setXVelocity(1.1);
+            }
+        }
+    }
+
     painter->drawPixmap(boundingRect(),zombie,boundingRect());
 }
 
