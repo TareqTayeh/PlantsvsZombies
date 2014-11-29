@@ -7,11 +7,9 @@ zombies::zombies()
     random = 0;
     random1 = (randomValue()*75);
     random2 = 0;
-    for (int n=0; n < 5; n++)
-        for (int m=0; m < 10; m++)
-        {
-          stop[n][m]=0;
-        }
+
+    zombie.load("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
+    life = 10;
 }
 
 zombies::zombies(int x) //User Level 1 (x is 2)
@@ -21,11 +19,11 @@ zombies::zombies(int x) //User Level 1 (x is 2)
     random = 0;
     random1 = x*75;
     random2 = 0;
-    for (int n=0; n < 5; n++)
-        for (int m=0; m < 10; m++)
-        {
-          stop[n][m]=0;
-        }
+
+    zombie.load("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
+    zombieEating.load("C://Users/User/Desktop/Plants vs Zombies files/zombie3.png");
+    this->setPos(680,180);
+    life = 10;
 }
 
 zombies::zombies(int x, int y) // User Level 2 (x is 1,2 or 3)
@@ -35,34 +33,25 @@ zombies::zombies(int x, int y) // User Level 2 (x is 1,2 or 3)
     random = 0;
     random1 = (randomValue2()*75);
     random2 = 0;
-    for (int n=0; n < 5; n++)
-        for (int m=0; m < 10; m++)
-        {
-          stop[n][m]=0;
-        }
+
+    zombie.load("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
+    life = 10;
 }
 
 void zombies::advance(int phase)
 {
     if(!phase) return;  // We don't do anything to prepare objects for advancing
-    move(0.3);
+    move(1);
 
     // Check boundaries (0,0)-(WIDTH,WIDTH)
     if (x() < (75) || x() > (750)) // make the zombie dissapear
     {
-       setPixmap(QPixmap("C://Users/User/Desktop/Plants vs Zombies files/pvz8.png"));
-       setPos(150,150);
        setXVelocity(0);
     }
     //Check boundaries of zombies when plants are placed
 
 
     setPos(x(), random1); // move based on velocity
-}
-
-void zombies::setPos(int x, int y) // sets the position (meters)
-{
-    setOffset(x,y);
 }
 
 void zombies::move(double time) // sets current position based on previous position, velocity, and time
@@ -107,4 +96,61 @@ int zombies::randomValue2()
 void zombies::setStopValue(int a, int b)
 {
     stop[a][b] = 1;
+}
+
+void zombies::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+{
+    QList<QGraphicsItem *> list = collidingItems() ;
+
+    foreach(QGraphicsItem * i , list)
+    {
+        PeaShooterClass * item= dynamic_cast<PeaShooterClass *>(i);
+        if (item)
+        {
+            setXVelocity(0);
+            //item->setLife(item->getLife() - 1);
+            qDebug() << item->getLife();
+            if(item->getLife() == 0)
+            {
+                delete item;
+                setXVelocity(1.1);
+            }
+        }
+    }
+
+    painter->drawPixmap(boundingRect(),zombie,boundingRect());
+}
+
+QRectF zombies::boundingRect() const
+{
+    return QRectF(0,0,zombie.width(),zombie.height());
+}
+
+int zombies::getLife()
+{
+    return life;
+}
+
+
+flagzombies::flagzombies()
+{
+
+}
+
+flagzombies::flagzombies(int x)
+{
+    xCoordinate = 680;
+    xVelocity = 1.1;
+    random = 0;
+    random1 = x*75;
+    random2 = 0;
+
+    zombie.load("C://Users/User/Desktop/Plants vs Zombies files/zombie2.png");
+    this->setPos(680,180);
+    life = 10;
+}
+
+flagzombies::flagzombies(int x, int y)
+{
+
 }

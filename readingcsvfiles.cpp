@@ -52,50 +52,54 @@ bool ReadingCSVFiles::ReadLevels(QString Filename) //Reads the file
 
 bool ReadingCSVFiles::ReadPlayers(QString Filename)
 {
-    QFile mFile(Filename);
-    QTextStream t( &mFile ); // use a text stream
-    userList.clear();
-    lastLevelPlayedList.clear();
-    timeStampList.clear();
-
-    if(!mFile.open(QFile::ReadOnly | QFile::Text))
+    //QFile mFile(Filename);
+    QFile mFile;
+    mFile.setFileName("pvz_players.csv");
+    QDir::setCurrent("C://Users/User/Desktop/Plants vs Zombies files/");
+    if (mFile.exists() == false)
     {
-        qDebug() << "Could not open file for reading, starting application with no users";
-        userList[0]="0";
-        levelList[0]="0";
-        timeStampList[0]="0";
-        total = 1;
-        return false;
+        return true;
     }
     else
     {
-        QString line;
-        while ( !t.atEnd() ) // loop until end of file...
+        QTextStream t( &mFile ); // use a text stream
+        userList.clear();
+        lastLevelPlayedList.clear();
+        timeStampList.clear();
+
+        if(!mFile.open(QFile::ReadOnly | QFile::Text))
         {
-            line = t.readLine(); // line of text excluding '\n'
-            QStringList fields = line.split(':');
-            if (fields.size() < 3)
-            {
-                total = 0;
-
-                return false;
-            }
-
-            timeStampList.append(fields.at(0));
-            userList.append(fields.at(1));
-            lastLevelPlayedList.append(fields.at(2));
-
-            total = userList.count();
+            qDebug() << "Could not open file for reading, starting application with no users";
+            return false;
         }
 
-        qDebug() << timeStampList;
-        qDebug() << userList;
-        qDebug() << lastLevelPlayedList;
+            QString line;
+            while ( !t.atEnd() ) // loop until end of file...
+            {
+                line = t.readLine(); // line of text excluding '\n'
+                QStringList fields = line.split(':');
+                if (fields.size() < 3)
+                {
+                    total = 0;
+
+                    return false;
+                }
+
+                timeStampList.append(fields.at(0));
+                userList.append(fields.at(1));
+                lastLevelPlayedList.append(fields.at(2));
+
+                total = userList.count();
+            }
+
+            qDebug() << timeStampList;
+            qDebug() << userList;
+            qDebug() << lastLevelPlayedList;
 
 
-        return true;
+            return true;
 
-         mFile.close();
+             mFile.close();
     }
 
 }

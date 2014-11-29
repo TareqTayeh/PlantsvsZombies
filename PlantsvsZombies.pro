@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     zombies.cpp \
     bullets.cpp \
     mouseclicking.cpp \
-    sunpoints.cpp
+    sunpoints.cpp \
+    snowpeabullets.cpp
 
 HEADERS  += mainwindow.h \
     readingcsvfiles.h \
@@ -27,6 +28,7 @@ HEADERS  += mainwindow.h \
     zombies.h \
     bullets.h \
     mouseclicking.h \
-    sunpoints.h
+    sunpoints.h \
+    snowpeabullets.h
 
 FORMS    += mainwindow.ui

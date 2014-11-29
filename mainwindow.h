@@ -6,6 +6,7 @@
 #include "sunpoints.h"
 #include "zombies.h"
 #include "bullets.h"
+#include "snowpeabullets.h"
 #include <QGraphicsItem>
 #include <QMainWindow>
 #include <QMessageBox>
@@ -23,6 +24,8 @@
 #include <QTimer>
 #include <QValidator>
 #include <QVector>
+#include <QFile>
+#include <QDir>
 
 namespace Ui {
 class MainWindow;
@@ -72,7 +75,12 @@ public slots:
     void seedChomperEnable();
     void seedRepeaterTimeout();
     void seedRepeaterEnable();
-    void createBullet1();
+    void createBullet1PeaShooter();
+    void createBullet2PeaShooter();
+    void createBullet3PeaShooter();
+    void createBullet1SnowPea();
+    void createBullet2SnowPea();
+    void createBullet3SnowPea();
     void plantsCostt();
 
 private slots:
@@ -132,7 +140,12 @@ private:
     QTimer *seedRepeaterEnableTimer;
     QTimer *sunDeleteTimer;
     QTimer *sunPointsUpdateTimer;
-    QTimer *bulletsTimer1;
+    QTimer *peaShooterBulletsTimer1;
+    QTimer *peaShooterBulletsTimer2;
+    QTimer *peaShooterBulletsTimer3;
+    QTimer *snowPeaBulletsTimer1;
+    QTimer *snowPeaBulletsTimer2;
+    QTimer *snowPeaBulletsTimer3;
     QTimer *plantsCostTimer;
     int timeoutTime;
     int squareSize;
@@ -143,8 +156,20 @@ private:
     int grid[5][10];
     int startListSave;
     int levelOneCounter;
-    int xC1;
-    int yC1;
+    int xPeaShooter1;
+    int yPeaShooter1;
+    int xPeaShooter2;
+    int yPeaShooter2;
+    int xPeaShooter3;
+    int yPeaShooter3;
+    int xSnowPea1;
+    int ySnowPea1;
+    int xSnowPea2;
+    int ySnowPea2;
+    int xSnowPea3;
+    int ySnowPea3;
+    static int peaShooterCounter;
+    static int snowPeaCounter;
 };
 
 #endif // MAINWINDOW_H

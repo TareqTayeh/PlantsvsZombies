@@ -1,7 +1,6 @@
 #ifndef SUNPOINTS_H
 #define SUNPOINTS_H
 
-//#include "mainwindow.h"
 #include <QGraphicsItem>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
@@ -15,11 +14,9 @@
 #include <QPainter>
 #include <QTimer>
 
-//class MainWindow;
 
-class sunpoints :  public QGraphicsItem//, public QObject
+class sunpoints :  public QGraphicsItem
 {
-    //Q_OBJECT
 
 public:
     sunpoints();

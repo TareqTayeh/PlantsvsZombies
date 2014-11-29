@@ -1,8 +1,8 @@
-#ifndef ZOMBIES_H
-#define ZOMBIES_H
+#ifndef SNOWPEABULLETS_H
+#define SNOWPEABULLETS_H
 
+#include "zombies.h"
 #include "plants.h"
-#include "QTime"
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsItem>
@@ -11,15 +11,14 @@
 #include <QPainter>
 #include <QGraphicsScene>
 #include <QRect>
+#include <ctime>
+#include <QColor>
 
-class zombies : public QGraphicsItem
+class snowpeabullets : public QGraphicsItem
 {
 public:
-    zombies();
-    zombies(int);
-    zombies(int,int);
-    QPixmap zombie;
-    QPixmap zombieEating;
+    snowpeabullets();
+    snowpeabullets(int,int);
     void advance(int phase);
     void move(double time);
     double xVelocity;
@@ -29,29 +28,15 @@ public:
     int x() const;
     int y() const;
     int randomValue();
-    int randomValue2();
-    int stop[5][10];
-    void setStopValue(int, int);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
-    int getLife();
-    int life;
 
-protected:
+private:
     int xCoordinate;
     int yCoordinate;
     int random;
     int random1;
-    int random2;
     double direction;
 };
 
-class flagzombies : public zombies
-{
-public:
-    flagzombies();
-    flagzombies(int);
-    flagzombies(int,int);
-};
-
-#endif // ZOMBIES_H
+#endif // SNOWPEABULLETS_H

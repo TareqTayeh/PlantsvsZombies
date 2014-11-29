@@ -1,21 +1,27 @@
 #ifndef PLANTS_H
 #define PLANTS_H
 
+#include "bullets.h"
 #include <QGraphicsItem>
 #include <QGraphicsPixmapItem>
+#include <QTime>
+#include <QGraphicsScene>
 
 class plants : public QGraphicsPixmapItem
 {
 public:
     plants();
-    int setLife();
+    void setLife(double);
+    double getLife();
     int getPlantID();
     int getCost();
+    int getDamage();
     double getSeeding();
+    double getRate();
 
 protected:
     int cost;
-    int life;
+    double life;
     int range;
     int damage;
     double rate;
@@ -28,16 +34,19 @@ protected:
     int plantID;
 };
 
-class PeaShooterClass : public plants
+class PeaShooterClass  : public plants
 {
 public:
     PeaShooterClass();
+    PeaShooterClass(int,int);
+    void startBulletsTimer(int,int);
 };
 
 class SunFlowerClass : public plants
 {
 public:
     SunFlowerClass();
+    SunFlowerClass(int,int);
 };
 
 class CherryBombClass : public plants

@@ -16,6 +16,16 @@ plants::plants()
     plantID = 0;
 }
 
+void plants::setLife(double x)
+{
+    life = x;
+}
+
+double plants::getLife()
+{
+    return life;
+}
+
 int plants::getPlantID()
 {
     return plantID;
@@ -26,11 +36,20 @@ int plants::getCost()
     return cost;
 }
 
+int plants::getDamage()
+{
+    return damage;
+}
+
 double plants::getSeeding()
 {
     return seeding;
 }
 
+double plants::getRate()
+{
+    return rate;
+}
 
 PeaShooterClass::PeaShooterClass()
 {
@@ -45,6 +64,40 @@ PeaShooterClass::PeaShooterClass()
     sun = 0;
     need = 0;
     plantID = 1;
+}
+
+PeaShooterClass::PeaShooterClass(int xC1, int yC1)
+{
+    cost = 100;
+    life = 4;
+    range = 9999;
+    damage = 5;
+    rate = 1.5;
+    splash = 0;
+    bomb = 0;
+    seeding = 7.5;
+    sun = 0;
+    need = 0;
+    plantID = 1;
+
+    //bullets *pBullets = new bullets(xC1,yC1);
+    //scene()->addItem(pBullets);
+    //qDebug() << "Bullets Added";
+
+    //startBulletsTimer(xC1,yC1);
+}
+
+void PeaShooterClass::startBulletsTimer(int xC1, int yC1)
+{
+    QTime t;
+    t.start();
+    if (t.elapsed() >= 0)
+    {
+        bullets *pBullets = new bullets(xC1,yC1);
+        scene()->addItem(pBullets);
+        qDebug() << "Bullets Added";
+        t.restart();
+    }
 }
 
 
@@ -63,7 +116,6 @@ SunFlowerClass::SunFlowerClass()
     need = 0;
     plantID = 2;
 }
-
 
 CherryBombClass::CherryBombClass()
 {

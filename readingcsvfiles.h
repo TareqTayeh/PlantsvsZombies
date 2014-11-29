@@ -12,6 +12,7 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QDateTime>
+#include <QDir>
 
 class ReadingCSVFiles
 {

@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 
 ReadingCSVFiles user;
+int MainWindow::peaShooterCounter = 0;
+int MainWindow::snowPeaCounter = 0;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -11,20 +13,37 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->NamelineEdit->setPlaceholderText("Name");
     ui->LevellineEdit->setPlaceholderText("Level");
 
+    //Timers
     sunDeleteTimer = new QTimer(this);
     connect(sunDeleteTimer,SIGNAL(timeout()),this,SLOT(deleteSun()));
+
     sunPointsUpdateTimer = new QTimer(this);
     connect(sunPointsUpdateTimer,SIGNAL(timeout()),this,SLOT(updateSunpoints()));
-    bulletsTimer1 = new QTimer(this);
-    connect(bulletsTimer1,SIGNAL(timeout()),this,SLOT(createBullet1()));
+
+    peaShooterBulletsTimer1 = new QTimer(this);
+    connect(peaShooterBulletsTimer1,SIGNAL(timeout()),this,SLOT(createBullet1PeaShooter()));
+
+    peaShooterBulletsTimer2 = new QTimer(this);
+    connect(peaShooterBulletsTimer2,SIGNAL(timeout()),this,SLOT(createBullet2PeaShooter()));
+
+    peaShooterBulletsTimer3 = new QTimer(this);
+    connect(peaShooterBulletsTimer3,SIGNAL(timeout()),this,SLOT(createBullet3PeaShooter()));
+
+    snowPeaBulletsTimer1 = new QTimer(this);
+    connect(snowPeaBulletsTimer1,SIGNAL(timeout()),this,SLOT(createBullet1SnowPea()));
+
+    snowPeaBulletsTimer2 = new QTimer(this);
+    connect(snowPeaBulletsTimer2,SIGNAL(timeout()),this,SLOT(createBullet2SnowPea()));
+
+    snowPeaBulletsTimer3 = new QTimer(this);
+    connect(snowPeaBulletsTimer3,SIGNAL(timeout()),this,SLOT(createBullet3SnowPea()));
+
     plantsCostTimer = new QTimer(this);
     connect(plantsCostTimer,SIGNAL(timeout()),this,SLOT(plantsCostt()));
-    //connect to function that iterates through all suns in a vector (or something similar) and deletes ones where
-    //sun.isClicked == true;
 
     plant_ID = 0;
     squareSize = 75;
-    sunPointsTotal = 0;
+    sunPointsTotal = 2000;
     timeoutTime = 5000;
     levelOneCounter = 0;
     sunUpdate = new sunpoints;
@@ -32,22 +51,67 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QString playersFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
     QString levelsFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_levels.csv");
-    user.ReadPlayers(playersFile); //Reading the pvz_players.csv
     user.ReadLevels(levelsFile); //Reading the pvz_levels.csv
-    user.Sort(); //Sorting the users
 
-    for (int i = 0; i < 5 ; i++)
+    QFile mFile;
+    mFile.setFileName("pvz_players.csv");
+    QDir::setCurrent("C://Users/User/Desktop/Plants vs Zombies files/");
+    if (mFile.exists() == false)
     {
-        if (user.getUser(i)!=NULL && user.getUser(i)!="0")
-        {
-            ui->UsercomboBox->addItem(user.getUser(i));
-        }
-    }
 
-   //Assigning player that last played to current user
-    currentUserName = user.getUser1();
-    currentUserLevel = user.getLevelofUser1();
-    currentUserTime = user.getTimeofUser1();
+    }
+    else
+    {
+        user.ReadPlayers(playersFile); //Reading the pvz_players.csv
+
+        user.Sort(); //Sorting the users
+
+        for (int i = 0; i < 5 ; i++)
+        {
+            if (user.getUser(i)!=NULL && user.getUser(i)!="0")
+            {
+                ui->UsercomboBox->addItem(user.getUser(i));
+            }
+            if (nameValidation(user.getUser(i)) == false && user.getUser(i)!="")
+            {
+                if (i == 0)
+                    ui->UsercomboBox->removeItem(0);
+                if (i == 1)
+                {
+                    ui->UsercomboBox->removeItem(1);
+                    ui->UsercomboBox->removeItem(0);
+                }
+                if (i == 2)
+                {
+                    ui->UsercomboBox->removeItem(0);
+                    ui->UsercomboBox->removeItem(1);
+                    ui->UsercomboBox->removeItem(2);
+                }
+                if (i == 3)
+                {
+                    ui->UsercomboBox->removeItem(0);
+                    ui->UsercomboBox->removeItem(1);
+                    ui->UsercomboBox->removeItem(2);
+                    ui->UsercomboBox->removeItem(3);
+                }
+                if (i == 4)
+                {
+                    ui->UsercomboBox->removeItem(0);
+                    ui->UsercomboBox->removeItem(1);
+                    ui->UsercomboBox->removeItem(2);
+                    ui->UsercomboBox->removeItem(3);
+                    ui->UsercomboBox->removeItem(4);
+                }
+                qDebug() << "Warning: Program starting with no users";
+                break;
+             }
+        }
+
+       //Assigning player that last played to current user
+        currentUserName = user.getUser1();
+        currentUserLevel = user.getLevelofUser1();
+        currentUserTime = user.getTimeofUser1();
+    }
 
     setPictures(); //Setting pictures to appear in mainwindow.ui
 
@@ -217,23 +281,22 @@ void MainWindow::drawPeaShooter(int x, int y) //Drawing Pea Shooter when clicked
                 (currentUserLevel == "6") || (currentUserLevel == "7") || (currentUserLevel == "8") ||
                 (currentUserLevel == "9"))
         {
+            qDebug() << peaShooterCounter;
+
+            if(peaShooterCounter == 0)
+            {xPeaShooter1 = ((x/75)*75)+20; yPeaShooter1 = ((y/75)*75)+20;}
+            if(peaShooterCounter == 1)
+            {xPeaShooter2 = ((x/75)*75)+20; yPeaShooter2 = ((y/75)*75)+20;}
+            if(peaShooterCounter > 1)
+            {xPeaShooter3 = ((x/75)*75)+20; yPeaShooter3 = ((y/75)*75)+20;}
+
             QPixmap PeaShooter("C://Users/User/Desktop/Plants vs Zombies files/Peashooter_HD.png");
-            QGraphicsPixmapItem *PeaShooterItem = new PeaShooterClass();
+            QGraphicsPixmapItem *PeaShooterItem = new PeaShooterClass(xPeaShooter1,yPeaShooter1);
             PeaShooterItem->setPixmap(PeaShooter);
             scene->addItem(PeaShooterItem);
 
-            //Adding bullet(testing)
-            bulletsTimer1->start(0);
-            xC1 = x; yC1 = y;
-//            QPixmap Bullets("C://Users/User/Desktop/Plants vs Zombies files/Bullets.png");
-//            QGraphicsPixmapItem *BulletsItem = new bullets(x);
-//            BulletsItem->setPixmap(Bullets);
-//            scene->addItem(BulletsItem);
-//            BulletsItem->setOffset(x/squareSize,y/squareSize);
-
             //Filling the space in the grid with a 1 indicating there is a plant there
             grid[y/squareSize][x/squareSize] = 1;
-
 
             //Drawing them in the correct place
             x = (x/squareSize);
@@ -250,6 +313,23 @@ void MainWindow::drawPeaShooter(int x, int y) //Drawing Pea Shooter when clicked
 
             //Setting plant_ID back to zero
             plant_ID = 0;
+
+            //Adding bullets
+            if(peaShooterCounter > 1)
+            {
+                peaShooterBulletsTimer3->start((peaShooterObject.getRate())*1000);
+            }
+            if(peaShooterCounter == 1)
+            {
+                peaShooterBulletsTimer2->start((peaShooterObject.getRate())*1000);
+                peaShooterCounter++;
+            }
+            if(peaShooterCounter == 0)
+            {
+                peaShooterBulletsTimer1->start((peaShooterObject.getRate())*1000);
+                peaShooterCounter++;
+            }
+
         }
 
     }
@@ -270,6 +350,8 @@ void MainWindow::drawSunFlower(int x, int y) //Drawing Sun Flower when clicked
                 (currentUserLevel == "6") || (currentUserLevel == "7") || (currentUserLevel == "8") ||
                 (currentUserLevel == "9"))
         {
+            xPeaShooter1 = ((x/75)*75)+20; yPeaShooter1 = ((y/75)*75)+20;
+
             QPixmap SunFlower("C://Users/User/Desktop/Plants vs Zombies files/Sunflower_HD - Copy.png");
             QGraphicsPixmapItem *SunFlowerItem = new SunFlowerClass();
             SunFlowerItem->setPixmap(SunFlower);
@@ -293,6 +375,10 @@ void MainWindow::drawSunFlower(int x, int y) //Drawing Sun Flower when clicked
             //Seed timeout
             seedSunFlowerTimeoutTimer->start(0);
             seedSunFlowerEnableTimer->start((sunFlowerObject.getSeeding())*1000);
+
+            //Suns
+            sunpoints *sun = new sunpoints();
+            scene->addItem(sun);
         }
     }
 }
@@ -438,6 +524,13 @@ void MainWindow::drawSnowPea(int x, int y) //Drawing Snow Pea when clicked
                 (currentUserLevel == "6") || (currentUserLevel == "7") || (currentUserLevel == "8") ||
                 (currentUserLevel == "9"))
         {
+            if(snowPeaCounter == 0)
+            {xSnowPea1 = ((x/75)*75)+20; ySnowPea1 = ((y/75)*75)+20;}
+            if(snowPeaCounter == 1)
+            {xSnowPea2 = ((x/75)*75)+20; ySnowPea2 = ((y/75)*75)+20;}
+            if(snowPeaCounter > 1)
+            {xSnowPea3 = ((x/75)*75)+20; ySnowPea3 = ((y/75)*75)+20;}
+
             QPixmap SnowPea("C://Users/User/Desktop/Plants vs Zombies files/Snow_Pea_(HD_size) - Copy.png");
             QGraphicsPixmapItem *SnowPeaItem = new SnowPeaClass;
             SnowPeaItem->setPixmap(SnowPea);
@@ -461,6 +554,22 @@ void MainWindow::drawSnowPea(int x, int y) //Drawing Snow Pea when clicked
             //Seed timeout
             seedSnowPeaTimeoutTimer->start(0);
             seedSnowPeaEnableTimer->start((snowPeaObject.getSeeding())*1000);
+
+            //Adding bullets
+            if(snowPeaCounter > 1)
+            {
+                snowPeaBulletsTimer3->start((snowPeaObject.getRate())*1000);
+            }
+            if(snowPeaCounter == 1)
+            {
+                snowPeaBulletsTimer2->start((snowPeaObject.getRate())*1000);
+                snowPeaCounter++;
+            }
+            if(snowPeaCounter == 0)
+            {
+                snowPeaBulletsTimer1->start((snowPeaObject.getRate())*1000);
+                snowPeaCounter++;
+            }
         }
     }
 }
@@ -607,11 +716,9 @@ void MainWindow::createRegularZombie()
     //Adding zombie(testing)
     if (currentUserLevel == user.getLevelList(0))
     {
-        QPixmap regularzombie("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
-        QGraphicsPixmapItem *zombieItem = new zombies(2);
-        zombieItem->setPixmap(regularzombie);
-        scene->addItem(zombieItem);
-        zombieItem->setOffset(680,120);
+        zombies *RegularZombie = new zombies(2);
+        scene->addItem(RegularZombie);
+        qDebug() << "Zombie Added";
 
         if (levelOneCounter == 4)
         {
@@ -648,29 +755,24 @@ void MainWindow::createRegularZombie()
 
     else if (currentUserLevel == user.getLevelList(1))
     {
-        QPixmap regularzombie("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
-        QGraphicsPixmapItem *zombieItem = new zombies(1,1);
-        zombieItem->setPixmap(regularzombie);
-        scene->addItem(zombieItem);
-        zombieItem->setOffset(680,120);
+        zombies *RegularZombie = new zombies(1,1);
+        scene->addItem(RegularZombie);
+        qDebug() << "Zombie Added";
     }
     else
     {
-        QPixmap regularzombie("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
-        QGraphicsPixmapItem *zombieItem = new zombies();
-        zombieItem->setPixmap(regularzombie);
-        scene->addItem(zombieItem);
-        zombieItem->setOffset(680,120);
+        zombies *RegularZombie = new zombies();
+        scene->addItem(RegularZombie);
+        qDebug() << "Zombie Added";
     }
+
 }
 
 void MainWindow::createFlagZombie()
 {
-    QPixmap flagzombie("C://Users/User/Desktop/Plants vs Zombies files/zombie2.png");
-    QGraphicsPixmapItem *flagzombieItem = new zombies(2);
-    flagzombieItem->setPixmap(flagzombie);
-    scene->addItem(flagzombieItem);
-    flagzombieItem->setOffset(680,250);
+    flagzombies *FlagZombie = new flagzombies(2);
+    scene->addItem(FlagZombie);
+    qDebug() << " Flag Zombie Added";
     flagZombieTimer->stop();
 }
 
@@ -762,14 +864,46 @@ void MainWindow::seedRepeaterEnable()
     ui->RepeaterToolButton->setEnabled(true);
 }
 
-void MainWindow::createBullet1()
+void MainWindow::createBullet1PeaShooter()
 {
-    QPixmap Bullets("C://Users/User/Desktop/Plants vs Zombies files/Bullets.png");
-    QGraphicsPixmapItem *BulletsItem = new bullets(xC1);
-    BulletsItem->setPixmap(Bullets);
-    scene->addItem(BulletsItem);
-    BulletsItem->setOffset(xC1/squareSize,yC1/squareSize);
-    bulletsTimer1->start(3000);
+    bullets *pBullets = new bullets(xPeaShooter1,yPeaShooter1);
+    scene->addItem(pBullets);
+    qDebug() << "Pea Shooter Bullets Added";
+}
+
+void MainWindow::createBullet2PeaShooter()
+{
+    bullets *aBullets = new bullets(xPeaShooter2,yPeaShooter2);
+    scene->addItem(aBullets);
+    qDebug() << "Pea Shooter Bullets Added";
+}
+
+void MainWindow::createBullet3PeaShooter()
+{
+    bullets *bBullets = new bullets(xPeaShooter3,yPeaShooter3);
+    scene->addItem(bBullets);
+    qDebug() << "Pea Shooter Bullets Added";
+}
+
+void MainWindow::createBullet1SnowPea()
+{
+    snowpeabullets *cBullets = new snowpeabullets(xSnowPea1,ySnowPea1);
+    scene->addItem(cBullets);
+    qDebug() << "Snow Pea Bullets Added";
+}
+
+void MainWindow::createBullet2SnowPea()
+{
+    snowpeabullets *dBullets = new snowpeabullets(xSnowPea2,ySnowPea2);
+    scene->addItem(dBullets);
+    qDebug() << "Snow Pea Bullets Added";
+}
+
+void MainWindow::createBullet3SnowPea()
+{
+    snowpeabullets *eBullets = new snowpeabullets(xSnowPea3,ySnowPea3);
+    scene->addItem(eBullets);
+    qDebug() << "Snow Pea Bullets Added";
 }
 
 void MainWindow::plantsCostt()
@@ -797,7 +931,7 @@ void MainWindow::plantsCostt()
     {
         ui->CherryBombToolButton->setEnabled(false);
         ui->ChomperToolButton->setEnabled(false);
-        if (seedSunFlowerTimeoutTimer->isActive() == false)
+        if (seedPeaShooterTimeoutTimer->isActive() == false)
             ui->PeaShooterToolButton->setEnabled(true);
     }
 
@@ -975,14 +1109,6 @@ void MainWindow::on_StartpushButton_clicked()
         sunPointsUpdateTimer->start(0);
     }
 
-
-    //Adding bullet(testing)
-//    QPixmap Bullets("C://Users/User/Desktop/Plants vs Zombies files/Bullets.png");
-//    QGraphicsPixmapItem *BulletsItem = new bullets();
-//    BulletsItem->setPixmap(Bullets);
-//    scene->addItem(BulletsItem);
-//    BulletsItem->setOffset(75,150);
-
     //Filling grid with 0s meaning there is no plant anywhere
     for (int n=0; n < 5; n++)
         for (int m=0; m < 10; m++)
@@ -1068,6 +1194,10 @@ void MainWindow::on_QuitpushButton_clicked() //Level closes when user presses Ye
             ui->UserpushButton->setEnabled(true);
             ui->UsercomboBox->setEnabled(true);
             ui->StartpushButton->setEnabled(true);
+
+            //Setting sun points back to 0
+            sunPointsTotal = 0;
+            ui->Pointslabel->setText("Sun Points");
 
             timer->stop();
             sunTimer->stop();

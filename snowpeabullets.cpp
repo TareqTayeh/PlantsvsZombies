@@ -1,6 +1,6 @@
-#include "bullets.h"
+#include "snowpeabullets.h"
 
-bullets::bullets()
+snowpeabullets::snowpeabullets()
 {
     xCoordinate = 75;
     xVelocity = 1.1;
@@ -8,7 +8,7 @@ bullets::bullets()
     random1 = 0;
 }
 
-bullets::bullets(int x, int y)
+snowpeabullets::snowpeabullets(int x, int y)
 {
     xCoordinate = x;
     yCoordinate = y;
@@ -17,7 +17,7 @@ bullets::bullets(int x, int y)
     random1 = 0;
 }
 
-void bullets::advance(int phase)
+void snowpeabullets::advance(int phase)
 {
     if(!phase) return;  // We don't do anything to prepare objects for advancing
     move(6.5);
@@ -35,39 +35,39 @@ void bullets::advance(int phase)
     setPos(x(), yCoordinate); // move based on velocity
 }
 
-void bullets::move(double time) // sets current position based on previous position, velocity, and time
+void snowpeabullets::move(double time) // sets current position based on previous position, velocity, and time
 {
     xCoordinate = xCoordinate + ( xVelocity * time);
 }
 
-void bullets::setYVelocity(double v)
+void snowpeabullets::setYVelocity(double v)
 {
     yVelocity = v;
 }
 
-void bullets::setXVelocity(double v)
+void snowpeabullets::setXVelocity(double v)
 {
     xVelocity = v;
 }
 
-int bullets::x() const
+int snowpeabullets::x() const
 {
     return xCoordinate;
 }
 
-int bullets::y() const
+int snowpeabullets::y() const
 {
     return yCoordinate;
 }
 
-int bullets::randomValue()
+int snowpeabullets::randomValue()
 {
     srand(time(NULL));
     random = (rand()%675) + 75;
     return random;
 }
 
-void bullets::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+void snowpeabullets::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     QList<QGraphicsItem *> list = collidingItems() ;
 
@@ -79,20 +79,21 @@ void bullets::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget
             setXVelocity(0);
             setVisible(false);
             item->life = item->getLife() - 1;
+            item->xVelocity = (item->xVelocity)*0.5;
             if (item->life <= 0)
                 delete item;
         }
     }
 
-    QPen pen(Qt::darkGreen, 1);
+    QPen pen(Qt::blue, 1);
     painter->setPen(pen);
-    QBrush b(Qt::green);
+    QBrush b(QColor(102,255,255));
     painter->setBrush(b);
     painter->drawEllipse(boundingRect());
 }
 
 
-QRectF bullets::boundingRect() const
+QRectF snowpeabullets::boundingRect() const
 {
     return QRectF(0,0,20,20);
 }
