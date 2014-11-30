@@ -1248,19 +1248,110 @@ void MainWindow::on_StartpushButton_clicked()
 
 void MainWindow::on_RestartpushButton_clicked() //Game restarts
 {
-    timer->stop();
-    regularZombieTimer->stop();
-    flagZombieTimer->stop();
-    sunTimer->stop();
-    peaShooterBulletsTimer1->stop();
-    peaShooterBulletsTimer2->stop();
-    peaShooterBulletsTimer3->stop();
-    snowPeaBulletsTimer1->stop();
-    snowPeaBulletsTimer2->stop();
-    snowPeaBulletsTimer3->stop();
-    sunFlowerSunsCreateTimer1->stop();
-    sunFlowerSunsCreateTimer2->stop();
-    sunFlowerSunsCreateTimer3->stop();
+    if (timer->isActive() == true)
+    {
+        timer->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (regularZombieTimer->isActive() == true)
+    {
+        regularZombieTimer->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (flagZombieTimer->isActive() == true)
+    {
+        flagZombieTimer->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (sunTimer->isActive() == true)
+    {
+        sunTimer->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (peaShooterBulletsTimer1->isActive() == true)
+    {
+        peaShooterBulletsTimer1->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (peaShooterBulletsTimer2->isActive() == true)
+    {
+        peaShooterBulletsTimer2->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (peaShooterBulletsTimer3->isActive() == true)
+    {
+        peaShooterBulletsTimer3->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (snowPeaBulletsTimer1->isActive() == true)
+    {
+        snowPeaBulletsTimer1->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (snowPeaBulletsTimer2->isActive() == true)
+    {
+        snowPeaBulletsTimer2->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (snowPeaBulletsTimer3->isActive() == true)
+    {
+        snowPeaBulletsTimer3->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (sunFlowerSunsCreateTimer1->isActive() == true)
+    {
+        sunFlowerSunsCreateTimer1->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (sunFlowerSunsCreateTimer2->isActive() == true)
+    {
+        sunFlowerSunsCreateTimer2->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (sunFlowerSunsCreateTimer3->isActive() == true)
+    {
+        sunFlowerSunsCreateTimer3->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
 
 //    QMessageBox::StandardButton reply;
 //    reply = QMessageBox::question(this, "Restart", "Are you sure you want to restart this level?",
@@ -1294,40 +1385,154 @@ void MainWindow::on_RestartpushButton_clicked() //Game restarts
             seedSnowPeaEnable();
             seedChomperEnable();
             seedRepeaterEnable();
+
+            for (int i = 0; i < 13; i++)
+            {
+                restartTimerCounters.pop_back();
+            }
         }
       } else {
         qDebug() << "Restart was *not* clicked";
-        timer->start();
-        regularZombieTimer->start();
-        flagZombieTimer->start();
-        sunTimer->start();
-        peaShooterBulletsTimer1->start();
-        peaShooterBulletsTimer2->start();
-        peaShooterBulletsTimer3->start();
-        snowPeaBulletsTimer1->start();
-        snowPeaBulletsTimer2->start();
-        snowPeaBulletsTimer3->start();
-        sunFlowerSunsCreateTimer1->start();
-        sunFlowerSunsCreateTimer2->start();
-        sunFlowerSunsCreateTimer3->start();
+
+        if (restartTimerCounters[0] == 1)
+            timer->start();
+        if (restartTimerCounters[1] == 1)
+            regularZombieTimer->start();
+        if (restartTimerCounters[2] == 1)
+            flagZombieTimer->start();
+        if (restartTimerCounters[3] == 1)
+            sunTimer->start();
+        if (restartTimerCounters[4] == 1)
+            peaShooterBulletsTimer1->start();
+        if (restartTimerCounters[5] == 1)
+            peaShooterBulletsTimer2->start();
+        if (restartTimerCounters[6] == 1)
+            peaShooterBulletsTimer3->start();
+        if (restartTimerCounters[7] == 1)
+            snowPeaBulletsTimer1->start();
+        if (restartTimerCounters[8] == 1)
+            snowPeaBulletsTimer2->start();
+        if (restartTimerCounters[9] == 1)
+            snowPeaBulletsTimer3->start();
+        if (restartTimerCounters[10] == 1)
+            sunFlowerSunsCreateTimer1->start();
+        if (restartTimerCounters[11] == 1)
+            sunFlowerSunsCreateTimer2->start();
+        if (restartTimerCounters[12] == 1)
+            sunFlowerSunsCreateTimer3->start();
+
+        for (int i = 0; i < 13; i++)
+        {
+            restartTimerCounters.pop_back();
+        }
       }
 }
 
 void MainWindow::on_QuitpushButton_clicked() //Level closes when user presses Yes
 {
-    timer->stop();
-    regularZombieTimer->stop();
-    flagZombieTimer->stop();
-    sunTimer->stop();
-    peaShooterBulletsTimer1->stop();
-    peaShooterBulletsTimer2->stop();
-    peaShooterBulletsTimer3->stop();
-    snowPeaBulletsTimer1->stop();
-    snowPeaBulletsTimer2->stop();
-    snowPeaBulletsTimer3->stop();
-    sunFlowerSunsCreateTimer1->stop();
-    sunFlowerSunsCreateTimer2->stop();
-    sunFlowerSunsCreateTimer3->stop();
+    if (timer->isActive() == true)
+    {
+        timer->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (regularZombieTimer->isActive() == true)
+    {
+        regularZombieTimer->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (flagZombieTimer->isActive() == true)
+    {
+        flagZombieTimer->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (sunTimer->isActive() == true)
+    {
+        sunTimer->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (peaShooterBulletsTimer1->isActive() == true)
+    {
+        peaShooterBulletsTimer1->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (peaShooterBulletsTimer2->isActive() == true)
+    {
+        peaShooterBulletsTimer2->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (peaShooterBulletsTimer3->isActive() == true)
+    {
+        peaShooterBulletsTimer3->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (snowPeaBulletsTimer1->isActive() == true)
+    {
+        snowPeaBulletsTimer1->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (snowPeaBulletsTimer2->isActive() == true)
+    {
+        snowPeaBulletsTimer2->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (snowPeaBulletsTimer3->isActive() == true)
+    {
+        snowPeaBulletsTimer3->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (sunFlowerSunsCreateTimer1->isActive() == true)
+    {
+        sunFlowerSunsCreateTimer1->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (sunFlowerSunsCreateTimer2->isActive() == true)
+    {
+        sunFlowerSunsCreateTimer2->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (sunFlowerSunsCreateTimer3->isActive() == true)
+    {
+        sunFlowerSunsCreateTimer3->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
 
 //    QMessageBox::StandardButton reply;
 //    reply = QMessageBox::question(this, "Quit", "Are you sure you want to leave this level?",
@@ -1439,23 +1644,46 @@ void MainWindow::on_QuitpushButton_clicked() //Level closes when user presses Ye
         sunFlowerSunsCreateTimer1->stop();
         sunFlowerSunsCreateTimer2->stop();
         sunFlowerSunsCreateTimer3->stop();
+
+        for (int i = 0; i < 13; i++)
+        {
+            restartTimerCounters.pop_back();
+        }
     }
 
     else{
         qDebug() << "Yes quit was *not* clicked";
-        timer->start(58);
-        regularZombieTimer->start();
-        flagZombieTimer->start();
-        sunTimer->start();
-        peaShooterBulletsTimer1->start();
-        peaShooterBulletsTimer2->start();
-        peaShooterBulletsTimer3->start();
-        snowPeaBulletsTimer1->start();
-        snowPeaBulletsTimer2->start();
-        snowPeaBulletsTimer3->start();
-        sunFlowerSunsCreateTimer1->start();
-        sunFlowerSunsCreateTimer2->start();
-        sunFlowerSunsCreateTimer3->start();
+        if (restartTimerCounters[0] == 1)
+            timer->start();
+        if (restartTimerCounters[1] == 1)
+            regularZombieTimer->start();
+        if (restartTimerCounters[2] == 1)
+            flagZombieTimer->start();
+        if (restartTimerCounters[3] == 1)
+            sunTimer->start();
+        if (restartTimerCounters[4] == 1)
+            peaShooterBulletsTimer1->start();
+        if (restartTimerCounters[5] == 1)
+            peaShooterBulletsTimer2->start();
+        if (restartTimerCounters[6] == 1)
+            peaShooterBulletsTimer3->start();
+        if (restartTimerCounters[7] == 1)
+            snowPeaBulletsTimer1->start();
+        if (restartTimerCounters[8] == 1)
+            snowPeaBulletsTimer2->start();
+        if (restartTimerCounters[9] == 1)
+            snowPeaBulletsTimer3->start();
+        if (restartTimerCounters[10] == 1)
+            sunFlowerSunsCreateTimer1->start();
+        if (restartTimerCounters[11] == 1)
+            sunFlowerSunsCreateTimer2->start();
+        if (restartTimerCounters[12] == 1)
+            sunFlowerSunsCreateTimer3->start();
+
+        for (int i = 0; i < 13; i++)
+        {
+            restartTimerCounters.pop_back();
+        }
     }
 }
 

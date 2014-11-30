@@ -170,6 +170,7 @@ private:
     std::vector <sunFlowerSuns*> sunAdd1;
     std::vector <sunFlowerSuns*> sunAdd2;
     std::vector <sunFlowerSuns*> sunAdd3;
+    std::vector <int> restartTimerCounters;
     int sunPointsTotal;
     int grid[5][10];
     int startListSave;
