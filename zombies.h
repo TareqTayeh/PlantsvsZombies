@@ -12,6 +12,7 @@
 #include <QGraphicsScene>
 #include <QRect>
 #include <QObjectList>
+#include <QTime>
 
 class zombies : public QGraphicsItem
 {
@@ -23,10 +24,8 @@ public:
     QPixmap zombieEating;
     void advance(int phase);
     void move(double time);
-    double xVelocity;
-    double yVelocity;
+    double speed;
     void setXVelocity(double);
-    void setYVelocity(double);
     int x() const;
     int y() const;
     int randomValue();
@@ -37,6 +36,7 @@ public:
     QRectF boundingRect() const;
     int getLife();
     int life;
+    QTime rateT;
 
 protected:
     int xCoordinate;
@@ -53,6 +53,25 @@ public:
     flagzombies();
     flagzombies(int);
     flagzombies(int,int);
+};
+
+class coneheadzombies : public zombies
+{
+public:
+    coneheadzombies();
+    coneheadzombies(int,int);
+};
+
+class bucketheadzombies : public zombies
+{
+public:
+    bucketheadzombies();
+};
+
+class newspaperzombies : public zombies
+{
+public:
+    newspaperzombies();
 };
 
 #endif // ZOMBIES_H

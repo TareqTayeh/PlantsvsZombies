@@ -3,7 +3,7 @@
 zombies::zombies()
 {
     xCoordinate = 680;
-    xVelocity = 1.1;
+    speed = 1.1;
     random = 0;
     random1 = (randomValue()*75);
     random2 = 0;
@@ -15,7 +15,7 @@ zombies::zombies()
 zombies::zombies(int x) //User Level 1 (x is 2)
 {
     xCoordinate = 680;
-    xVelocity = 1.1;
+    speed = 1.1;
     random = 0;
     random1 = x*75;
     random2 = 0;
@@ -29,7 +29,7 @@ zombies::zombies(int x) //User Level 1 (x is 2)
 zombies::zombies(int x, int y) // User Level 2 (x is 1,2 or 3)
 {
     xCoordinate = 680;
-    xVelocity = 1.1;
+    speed = 1.1;
     random = 0;
     random1 = (randomValue2()*75);
     random2 = 0;
@@ -56,17 +56,12 @@ void zombies::advance(int phase)
 
 void zombies::move(double time) // sets current position based on previous position, velocity, and time
 {
-    xCoordinate = xCoordinate - ( xVelocity * time);
-}
-
-void zombies::setYVelocity(double v)
-{
-    yVelocity = v;
+    xCoordinate = xCoordinate - ( speed * time);
 }
 
 void zombies::setXVelocity(double v)
 {
-    xVelocity = v;
+    speed = v;
 }
 
 int zombies::x() const
@@ -108,7 +103,7 @@ void zombies::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget
         if (item)
         {
             setXVelocity(0);
-            item->setLife(item->getLife() - 0.1);
+            item->setLife(item->getLife() - 1);
             qDebug() << item->getLife();
             if(item->getLife() <= 0)
             {
@@ -141,7 +136,7 @@ void zombies::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget
     {
         SunFlowerClass * item2 = dynamic_cast<SunFlowerClass *>(h);
         if (item2)
-        {
+        {       
             setXVelocity(0);
             item2->setLife(item2->getLife() - 2);
             qDebug() << item2->getLife();
@@ -207,14 +202,14 @@ void zombies::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget
         ChomperClass * item6 = dynamic_cast<ChomperClass *>(n);
         if (item6)
         {
+            setVisible(false);
             setXVelocity(0);
             item6->setLife(item6->getLife() - 1);
             qDebug() << item6->getLife();
             if(item6->getLife() <= 0)
             {
-                item6->setVisible(false);
+                item6->setVisible(false);    
                 //delete item6;
-                setXVelocity(1.1);
             }
         }
     }
@@ -252,20 +247,73 @@ flagzombies::flagzombies()
 
 }
 
-flagzombies::flagzombies(int x)
+flagzombies::flagzombies(int x) // User level 1
 {
     xCoordinate = 680;
-    xVelocity = 0.8;
+    speed = 0.9;
     random = 0;
     random1 = x*75;
     random2 = 0;
 
     zombie.load("C://Users/User/Desktop/Plants vs Zombies files/zombie2.png");
-    this->setPos(680,180);
+    this->setPos(680,160);
     life = 10;
 }
 
 flagzombies::flagzombies(int x, int y)
 {
 
+}
+
+
+coneheadzombies::coneheadzombies()
+{
+    xCoordinate = 680;
+    speed = 1.1;
+    random = 0;
+    random1 = (randomValue()*75);
+    random2 = 0;
+    this->setPos(680,130);
+
+    zombie.load("C://Users/User/Desktop/Plants vs Zombies files/zombie3.png");
+    life = 15; //28 is too high for my game so I chose 15
+}
+
+coneheadzombies::coneheadzombies(int x, int y)
+{
+    xCoordinate = 680;
+    speed = 1.1;
+    random = 0;
+    random1 = (randomValue2()*75);
+    random2 = 0;
+    this->setPos(680,130);
+
+    zombie.load("C://Users/User/Desktop/Plants vs Zombies files/zombie3.png");
+    life = 15; //28 is too high for my game so I chose 15
+}
+
+
+bucketheadzombies::bucketheadzombies()
+{
+    xCoordinate = 680;
+    speed = 1.1;
+    random = 0;
+    random1 = (randomValue()*75);
+    random2 = 0;
+
+    zombie.load("C://Users/User/Desktop/Plants vs Zombies files/zombie4.png");
+    life = 20; //65 is too high for my game so I chose 20
+}
+
+
+newspaperzombies::newspaperzombies()
+{
+    xCoordinate = 680;
+    speed = 1.1;
+    random = 0;
+    random1 = (randomValue()*75);
+    random2 = 0;
+
+    zombie.load("C://Users/User/Desktop/Plants vs Zombies files/zombie5.png");
+    life = 12; //16 is high for my game so I chose 12
 }

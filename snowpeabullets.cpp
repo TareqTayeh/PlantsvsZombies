@@ -79,7 +79,7 @@ void snowpeabullets::paint(QPainter *painter, const QStyleOptionGraphicsItem *, 
             setXVelocity(0);
             setVisible(false);
             item->life = item->getLife() - 1;
-            item->xVelocity = (item->xVelocity)*0.5;
+            item->speed = (item->speed)*0.5;
             if (item->life <= 0)
                 delete item;
         }

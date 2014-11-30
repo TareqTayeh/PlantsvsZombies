@@ -65,6 +65,9 @@ MainWindow::MainWindow(QWidget *parent) :
     sunPointsTotal = 2000;
     timeoutTime = 5000;
     levelOneCounter = 0;
+    levelTwoCounter = 0;
+    levelThreeCounter = 0;
+    levelFourCounter = 0;
     sunUpdate = new sunpoints;
     zombieStop = new zombies;
 
@@ -152,6 +155,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     flagZombieTimer = new QTimer(this);
     connect(flagZombieTimer,SIGNAL(timeout()),this,SLOT(createFlagZombie()));
+
+    coneheadZombieTimer = new QTimer(this);
+    connect(coneheadZombieTimer,SIGNAL(timeout()),this,SLOT(createConeheadZombie()));
+
+    bucketheadZombieTimer = new QTimer(this);
+    connect(bucketheadZombieTimer,SIGNAL(timeout()),this,SLOT(createBucketheadZombie()));
+
+    newspaperZombieTimer = new QTimer(this);
+    connect(newspaperZombieTimer,SIGNAL(timeout()),this,SLOT(createNewspaperZombie()));
 
     seedPeaShooterTimeoutTimer = new QTimer(this);
     connect(seedPeaShooterTimeoutTimer, SIGNAL(timeout()),this,SLOT(seedPeaShooterTimeout()));
@@ -311,15 +323,16 @@ void MainWindow::drawPeaShooter(int x, int y) //Drawing Pea Shooter when clicked
             {xPeaShooter3 = ((x/75)*75)+20; yPeaShooter3 = ((y/75)*75)+20;}
 
             QPixmap PeaShooter("C://Users/User/Desktop/Plants vs Zombies files/Peashooter_HD.png");
-            QGraphicsPixmapItem *PeaShooterItem = new PeaShooterClass(xPeaShooter1,yPeaShooter1);
+            PeaShooterClass *PeaShooterItem = new PeaShooterClass(xPeaShooter1,yPeaShooter1);
             PeaShooterItem->setPixmap(PeaShooter);
+            peaShooterRepeater.push_back(PeaShooterItem);
             scene->addItem(PeaShooterItem);
 
             //Removing Palette
             ui->PeaShooterToolButton->setAutoFillBackground(false);
 
-            //Filling the space in the grid with a 1 indicating there is a plant there
-            grid[y/squareSize][x/squareSize] = 1;
+            //Filling the space in the grid with a 2 indicating there is a plant there
+            grid[y/squareSize][x/squareSize] = 2;
 
             //Drawing them in the correct place
             x = (x/squareSize);
@@ -681,7 +694,7 @@ void MainWindow::drawRepeater(int x, int y) //Drawing Repeater when clicked
 
     //Validating for plant type, where user places plant, if there is enough sunpoints and user level
 
-    if (plant_ID == 8 && x > squareSize && grid[y/squareSize][x/squareSize] == 0 &&
+    if (plant_ID == 8 && x > squareSize && grid[y/squareSize][x/squareSize] == 2 &&
             ((repeaterObject.getCost() < sunPointsTotal) || repeaterObject.getCost() == sunPointsTotal))
     {
         if((currentUserLevel == "1" && y > 2*squareSize && y < 3*squareSize)
@@ -774,7 +787,7 @@ void MainWindow::deleteSun()
 
 void MainWindow::createRegularZombie()
 {
-    //Adding zombie(testing)
+    //Adding zombie
     if (currentUserLevel == user.getLevelList(0))
     {
         zombies *RegularZombie = new zombies(2);
@@ -819,6 +832,120 @@ void MainWindow::createRegularZombie()
         zombies *RegularZombie = new zombies(1,1);
         scene->addItem(RegularZombie);
         qDebug() << "Zombie Added";
+
+        if (levelTwoCounter == 3)
+        {
+            startListSave = ((user.getIntervalList(1).toInt())*1000) - ((user.getDecrementList(1).toInt())*300);
+            regularZombieTimer->stop();
+            coneheadZombieTimer->start(startListSave);
+        }
+        if (levelTwoCounter == 2)
+        {
+            startListSave = ((user.getIntervalList(1).toInt())*1000) - ((user.getDecrementList(1).toInt())*200);
+            regularZombieTimer->start(startListSave);
+            levelTwoCounter++;
+        }
+        if (levelTwoCounter == 1)
+        {
+            startListSave = ((user.getIntervalList(1).toInt())*1000) - ((user.getDecrementList(1).toInt())*100);
+            regularZombieTimer->start(startListSave);
+            levelTwoCounter++;
+        }
+        if (levelTwoCounter == 0)
+        {
+            startListSave = user.getIntervalList(1).toInt();
+            startListSave = startListSave * 1000;
+            regularZombieTimer->start(startListSave);
+            levelTwoCounter++;
+        }
+    }
+    else if (currentUserLevel == user.getLevelList(2))
+    {
+        zombies *RegularZombie = new zombies();
+        scene->addItem(RegularZombie);
+        qDebug() << "Zombie Added";
+
+        if (levelThreeCounter == 5)
+        {
+            startListSave = ((user.getIntervalList(0).toInt())*1000) - ((user.getDecrementList(0).toInt())*500);
+            regularZombieTimer->stop();
+            bucketheadZombieTimer->start(startListSave);
+        }
+        if (levelThreeCounter == 4)
+        {
+            startListSave = ((user.getIntervalList(2).toInt())*1000) - ((user.getDecrementList(2).toInt())*400);
+            regularZombieTimer->start(startListSave);
+            levelThreeCounter++;
+        }
+        if (levelThreeCounter == 3)
+        {
+            startListSave = ((user.getIntervalList(2).toInt())*1000) - ((user.getDecrementList(2).toInt())*300);
+            regularZombieTimer->start(startListSave);
+            levelThreeCounter++;
+        }
+        if (levelThreeCounter == 2)
+        {
+            startListSave = ((user.getIntervalList(2).toInt())*1000) - ((user.getDecrementList(2).toInt())*200);
+            regularZombieTimer->start(startListSave);
+            levelThreeCounter++;
+        }
+        if (levelThreeCounter == 1)
+        {
+            startListSave = ((user.getIntervalList(2).toInt())*1000) - ((user.getDecrementList(2).toInt())*100);
+            regularZombieTimer->start(startListSave);
+            levelThreeCounter++;
+        }
+        if (levelThreeCounter == 0)
+        {
+            startListSave = user.getIntervalList(2).toInt();
+            startListSave = startListSave * 1000;
+            regularZombieTimer->start(startListSave);
+            levelThreeCounter++;
+        }
+    }
+    else if (currentUserLevel == user.getLevelList(3))
+    {
+        zombies *RegularZombie = new zombies();
+        scene->addItem(RegularZombie);
+        qDebug() << "Zombie Added";
+
+        if (levelFourCounter == 5)
+        {
+            startListSave = ((user.getIntervalList(3).toInt())*1000) - ((user.getDecrementList(3).toInt())*500);
+            regularZombieTimer->stop();
+            newspaperZombieTimer->start(startListSave);
+        }
+        if (levelFourCounter == 4)
+        {
+            startListSave = ((user.getIntervalList(3).toInt())*1000) - ((user.getDecrementList(3).toInt())*400);
+            regularZombieTimer->start(startListSave);
+            levelFourCounter++;
+        }
+        if (levelFourCounter == 3)
+        {
+            startListSave = ((user.getIntervalList(3).toInt())*1000) - ((user.getDecrementList(3).toInt())*300);
+            regularZombieTimer->start(startListSave);
+            levelFourCounter++;
+        }
+        if (levelFourCounter == 2)
+        {
+            startListSave = ((user.getIntervalList(3).toInt())*1000) - ((user.getDecrementList(3).toInt())*200);
+            regularZombieTimer->start(startListSave);
+            levelFourCounter++;
+        }
+        if (levelFourCounter == 1)
+        {
+            startListSave = ((user.getIntervalList(3).toInt())*1000) - ((user.getDecrementList(3).toInt())*100);
+            regularZombieTimer->start(startListSave);
+            levelFourCounter++;
+        }
+        if (levelFourCounter == 0)
+        {
+            startListSave = user.getIntervalList(3).toInt();
+            startListSave = startListSave * 1000;
+            regularZombieTimer->start(startListSave);
+            levelFourCounter++;
+        }
     }
     else
     {
@@ -835,6 +962,30 @@ void MainWindow::createFlagZombie()
     scene->addItem(FlagZombie);
     qDebug() << " Flag Zombie Added";
     flagZombieTimer->stop();
+}
+
+void MainWindow::createConeheadZombie()
+{
+    coneheadzombies *ConeHeadZombie = new coneheadzombies(2,2);
+    scene->addItem(ConeHeadZombie);
+    qDebug() << " ConeHead Zombie Added";
+    coneheadZombieTimer->stop();
+}
+
+void MainWindow::createBucketheadZombie()
+{
+    bucketheadzombies *BucketHeadZombie = new bucketheadzombies();
+    scene->addItem(BucketHeadZombie);
+    qDebug() << " BucketHead Zombie Added";
+    bucketheadZombieTimer->stop();
+}
+
+void MainWindow::createNewspaperZombie()
+{
+    newspaperzombies *NewspaperZombie = new newspaperzombies();
+    scene->addItem(NewspaperZombie);
+    qDebug() << " Newspaper Zombie Added";
+    newspaperZombieTimer->stop();
 }
 
 void MainWindow::seedPeaShooterTimeout()
@@ -1209,9 +1360,11 @@ void MainWindow::on_StartpushButton_clicked()
     }
     else if (currentUserLevel == user.getLevelList(1))
     {
+        startListSave = user.getStartList(1).toInt();
+        startListSave = startListSave*1000;
         timer->start(58);
         sunTimer->start(10000);
-        regularZombieTimer->start(5000);
+        regularZombieTimer->start(startListSave);
         sunPointsUpdateTimer->start(0);
     }
     else
@@ -1352,6 +1505,30 @@ void MainWindow::on_RestartpushButton_clicked() //Game restarts
     else
         restartTimerCounters.push_back(0);
 
+    if (coneheadZombieTimer->isActive() == true)
+    {
+        coneheadZombieTimer->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (bucketheadZombieTimer->isActive() == true)
+    {
+        bucketheadZombieTimer->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (newspaperZombieTimer->isActive() == true)
+    {
+        newspaperZombieTimer->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
 
 //    QMessageBox::StandardButton reply;
 //    reply = QMessageBox::question(this, "Restart", "Are you sure you want to restart this level?",
@@ -1386,7 +1563,7 @@ void MainWindow::on_RestartpushButton_clicked() //Game restarts
             seedChomperEnable();
             seedRepeaterEnable();
 
-            for (int i = 0; i < 13; i++)
+            for (int i = 0; i < 16; i++)
             {
                 restartTimerCounters.pop_back();
             }
@@ -1420,8 +1597,14 @@ void MainWindow::on_RestartpushButton_clicked() //Game restarts
             sunFlowerSunsCreateTimer2->start();
         if (restartTimerCounters[12] == 1)
             sunFlowerSunsCreateTimer3->start();
+        if (restartTimerCounters[13] == 1)
+            coneheadZombieTimer->start();
+        if (restartTimerCounters[14] == 1)
+            bucketheadZombieTimer->start();
+        if (restartTimerCounters[15] == 1)
+            newspaperZombieTimer->start();
 
-        for (int i = 0; i < 13; i++)
+        for (int i = 0; i < 16; i++)
         {
             restartTimerCounters.pop_back();
         }
@@ -1529,6 +1712,30 @@ void MainWindow::on_QuitpushButton_clicked() //Level closes when user presses Ye
     if (sunFlowerSunsCreateTimer3->isActive() == true)
     {
         sunFlowerSunsCreateTimer3->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (coneheadZombieTimer->isActive() == true)
+    {
+        coneheadZombieTimer->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (bucketheadZombieTimer->isActive() == true)
+    {
+        bucketheadZombieTimer->stop();
+        restartTimerCounters.push_back(1);
+    }
+    else
+        restartTimerCounters.push_back(0);
+
+    if (newspaperZombieTimer->isActive() == true)
+    {
+        newspaperZombieTimer->stop();
         restartTimerCounters.push_back(1);
     }
     else
@@ -1645,7 +1852,7 @@ void MainWindow::on_QuitpushButton_clicked() //Level closes when user presses Ye
         sunFlowerSunsCreateTimer2->stop();
         sunFlowerSunsCreateTimer3->stop();
 
-        for (int i = 0; i < 13; i++)
+        for (int i = 0; i < 16; i++)
         {
             restartTimerCounters.pop_back();
         }
@@ -1679,8 +1886,14 @@ void MainWindow::on_QuitpushButton_clicked() //Level closes when user presses Ye
             sunFlowerSunsCreateTimer2->start();
         if (restartTimerCounters[12] == 1)
             sunFlowerSunsCreateTimer3->start();
+        if (restartTimerCounters[13] == 1)
+            coneheadZombieTimer->start();
+        if (restartTimerCounters[14] == 1)
+            bucketheadZombieTimer->start();
+        if (restartTimerCounters[15] == 1)
+            newspaperZombieTimer->start();
 
-        for (int i = 0; i < 13; i++)
+        for (int i = 0; i < 16; i++)
         {
             restartTimerCounters.pop_back();
         }

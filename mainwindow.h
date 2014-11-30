@@ -62,6 +62,9 @@ public slots:
     void deleteSun();
     void createRegularZombie();
     void createFlagZombie();
+    void createConeheadZombie();
+    void createBucketheadZombie();
+    void createNewspaperZombie();
     void seedPeaShooterTimeout();
     void seedPeaShooterEnable();
     void seedSunFlowerTimeout();
@@ -130,6 +133,9 @@ private:
     QTimer *timer;
     QTimer *regularZombieTimer;
     QTimer *flagZombieTimer;
+    QTimer *coneheadZombieTimer;
+    QTimer *bucketheadZombieTimer;
+    QTimer *newspaperZombieTimer;
     QTimer *sunTimer;
     QTimer *seedPeaShooterTimeoutTimer;
     QTimer *seedPeaShooterEnableTimer;
@@ -171,10 +177,14 @@ private:
     std::vector <sunFlowerSuns*> sunAdd2;
     std::vector <sunFlowerSuns*> sunAdd3;
     std::vector <int> restartTimerCounters;
+    std::vector <plants *> peaShooterRepeater;
     int sunPointsTotal;
     int grid[5][10];
     int startListSave;
     int levelOneCounter;
+    int levelTwoCounter;
+    int levelThreeCounter;
+    int levelFourCounter;
     int xPeaShooter1;
     int yPeaShooter1;
     int xPeaShooter2;
