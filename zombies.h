@@ -11,6 +11,7 @@
 #include <QPainter>
 #include <QGraphicsScene>
 #include <QRect>
+#include <QObjectList>
 
 class zombies : public QGraphicsItem
 {

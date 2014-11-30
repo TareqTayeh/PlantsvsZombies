@@ -99,7 +99,7 @@ bool ReadingCSVFiles::ReadPlayers(QString Filename)
 
             return true;
 
-             mFile.close();
+            mFile.close();
     }
 
 }

@@ -27,6 +27,8 @@
 #include <QVector>
 #include <QFile>
 #include <QDir>
+#include <QSpacerItem>
+#include <QGridLayout>
 
 namespace Ui {
 class MainWindow;

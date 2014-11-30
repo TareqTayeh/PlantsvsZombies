@@ -81,8 +81,8 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     else
     {
-        user.ReadPlayers(playersFile); //Reading the pvz_players.csv
-
+        if (user.ReadPlayers(playersFile) == true) //Reading the pvz_players.csv
+{
         user.Sort(); //Sorting the users
 
         for (int i = 0; i < 5 ; i++)
@@ -130,6 +130,7 @@ MainWindow::MainWindow(QWidget *parent) :
         currentUserName = user.getUser1();
         currentUserLevel = user.getLevelofUser1();
         currentUserTime = user.getTimeofUser1();
+        }
     }
 
     setPictures(); //Setting pictures to appear in mainwindow.ui
@@ -1132,7 +1133,8 @@ void MainWindow::on_NewpushButton_clicked()
 void MainWindow::on_StartpushButton_clicked()
 {
     //Showing sun points
-    ui->Pointslabel->setText("Sun Points\n" + QString::number(sunPointsTotal));
+    sunPointsTotal = 2000;
+    ui->Pointslabel->setText("Sun Points\n" + QString::number(sunPointsTotal));   
 
     //Showing current user level on screen
     ui->LevellineEdit->setText(currentUserLevel);
@@ -1247,11 +1249,34 @@ void MainWindow::on_StartpushButton_clicked()
 void MainWindow::on_RestartpushButton_clicked() //Game restarts
 {
     timer->stop();
+    regularZombieTimer->stop();
+    flagZombieTimer->stop();
+    sunTimer->stop();
+    peaShooterBulletsTimer1->stop();
+    peaShooterBulletsTimer2->stop();
+    peaShooterBulletsTimer3->stop();
+    snowPeaBulletsTimer1->stop();
+    snowPeaBulletsTimer2->stop();
+    snowPeaBulletsTimer3->stop();
+    sunFlowerSunsCreateTimer1->stop();
+    sunFlowerSunsCreateTimer2->stop();
+    sunFlowerSunsCreateTimer3->stop();
 
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Restart", "Are you sure you want to restart this level?",
-                                    QMessageBox::Yes|QMessageBox::Cancel);
-      if (reply == QMessageBox::Yes) {
+//    QMessageBox::StandardButton reply;
+//    reply = QMessageBox::question(this, "Restart", "Are you sure you want to restart this level?",
+//                                    QMessageBox::Yes|QMessageBox::Cancel);
+//      if (reply == QMessageBox::Yes) {
+
+    QMessageBox msg(this);
+    msg.setIconPixmap(QPixmap(":/error.svg"));
+    msg.setText("Restart");
+    msg.setInformativeText("Are you sure you want to restart this level?");
+    msg.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    msg.move((msg.width())*5,(msg.height())*10);
+    QSpacerItem* horizontalSpacer = new QSpacerItem(330, 60, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    QGridLayout* layout = (QGridLayout*)msg.layout();
+    layout->addItem(horizontalSpacer, layout->rowCount(), 5, 2, layout->columnCount());
+    if(msg.exec() == QMessageBox::Ok){
         qDebug() << "Yes restart was clicked";
         {
             //Set default sun points
@@ -1272,53 +1297,166 @@ void MainWindow::on_RestartpushButton_clicked() //Game restarts
         }
       } else {
         qDebug() << "Restart was *not* clicked";
-        timer->start(58);
+        timer->start();
+        regularZombieTimer->start();
+        flagZombieTimer->start();
+        sunTimer->start();
+        peaShooterBulletsTimer1->start();
+        peaShooterBulletsTimer2->start();
+        peaShooterBulletsTimer3->start();
+        snowPeaBulletsTimer1->start();
+        snowPeaBulletsTimer2->start();
+        snowPeaBulletsTimer3->start();
+        sunFlowerSunsCreateTimer1->start();
+        sunFlowerSunsCreateTimer2->start();
+        sunFlowerSunsCreateTimer3->start();
       }
 }
 
 void MainWindow::on_QuitpushButton_clicked() //Level closes when user presses Yes
 {
     timer->stop();
+    regularZombieTimer->stop();
+    flagZombieTimer->stop();
+    sunTimer->stop();
+    peaShooterBulletsTimer1->stop();
+    peaShooterBulletsTimer2->stop();
+    peaShooterBulletsTimer3->stop();
+    snowPeaBulletsTimer1->stop();
+    snowPeaBulletsTimer2->stop();
+    snowPeaBulletsTimer3->stop();
+    sunFlowerSunsCreateTimer1->stop();
+    sunFlowerSunsCreateTimer2->stop();
+    sunFlowerSunsCreateTimer3->stop();
 
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Quit", "Are you sure you want to leave this level?",
-                                    QMessageBox::Yes|QMessageBox::Cancel);
-      if (reply == QMessageBox::Yes) {
-        qDebug() << "Yes quit was clicked";
-        {
-            scene->setBackgroundBrush(QBrush(Qt::white));
-            scene->clear();
-            scene->addPixmap(QPixmap("C://Users/User/Desktop/Plants vs Zombies files/plants-vs-zombies.png"))->setPos(30,0);
+//    QMessageBox::StandardButton reply;
+//    reply = QMessageBox::question(this, "Quit", "Are you sure you want to leave this level?",
+//                                    QMessageBox::Yes|QMessageBox::Cancel);
+//      if (reply == QMessageBox::Yes) {
+//        qDebug() << "Yes quit was clicked";
+//        {
+//            scene->setBackgroundBrush(QBrush(Qt::white));
+//            scene->clear();
+//            scene->addPixmap(QPixmap("C://Users/User/Desktop/Plants vs Zombies files/plants-vs-zombies.png"))->setPos(30,0);
 
-            //Disabling buttons
-            ui->QuitpushButton->setEnabled(false);
-            ui->PeaShooterToolButton->setEnabled(false);
-            ui->SunFlowerToolButton->setEnabled(false);
-            ui->CherryBombToolButton->setEnabled(false);
-            ui->PotatoMineToolButton->setEnabled(false);
-            ui->WalNutToolButton->setEnabled(false);
-            ui->ChomperToolButton->setEnabled(false);
-            ui->SnowPeaToolButton->setEnabled(false);
-            ui->RepeaterToolButton->setEnabled(false);
-            ui->NewpushButton->setEnabled(true);
-            ui->DeletepushButton->setEnabled(true);
-            ui->UserpushButton->setEnabled(true);
-            ui->UsercomboBox->setEnabled(true);
-            ui->StartpushButton->setEnabled(true);
+//            //Disabling buttons
+//            ui->QuitpushButton->setEnabled(false);
+//            ui->PeaShooterToolButton->setEnabled(false);
+//            ui->SunFlowerToolButton->setEnabled(false);
+//            ui->CherryBombToolButton->setEnabled(false);
+//            ui->PotatoMineToolButton->setEnabled(false);
+//            ui->WalNutToolButton->setEnabled(false);
+//            ui->ChomperToolButton->setEnabled(false);
+//            ui->SnowPeaToolButton->setEnabled(false);
+//            ui->RepeaterToolButton->setEnabled(false);
+//            ui->NewpushButton->setEnabled(true);
+//            ui->DeletepushButton->setEnabled(true);
+//            ui->UserpushButton->setEnabled(true);
+//            ui->UsercomboBox->setEnabled(true);
+//            ui->StartpushButton->setEnabled(true);
 
-            //Setting sun points back to 0
-            sunPointsTotal = 2000;
-            ui->Pointslabel->setText("Sun Points");
+//            //Setting sun points back to 0
+//            sunPointsTotal = 2000;
+//            ui->Pointslabel->setText("Sun Points");
 
-            timer->stop();
-            sunTimer->stop();
-            regularZombieTimer->stop();
-            sunPointsUpdateTimer->stop();
-        }
-      } else {
+//            timer->stop();
+//            sunTimer->stop();
+//            regularZombieTimer->stop();
+//            sunPointsUpdateTimer->stop();
+//            flagZombieTimer->stop();
+//            peaShooterBulletsTimer1->stop();
+//            peaShooterBulletsTimer2->stop();
+//            peaShooterBulletsTimer3->stop();
+//            snowPeaBulletsTimer1->stop();
+//            snowPeaBulletsTimer2->stop();
+//            snowPeaBulletsTimer3->stop();
+//            sunFlowerSunsCreateTimer1->stop();
+//            sunFlowerSunsCreateTimer2->stop();
+//            sunFlowerSunsCreateTimer3->stop();
+//        }
+//      } else {
+//        qDebug() << "Yes quit was *not* clicked";
+//        timer->start(58);
+//        regularZombieTimer->start();
+//        flagZombieTimer->start();
+//        sunTimer->start();
+//        peaShooterBulletsTimer1->start();
+//        peaShooterBulletsTimer2->start();
+//        peaShooterBulletsTimer3->start();
+//        snowPeaBulletsTimer1->start();
+//        snowPeaBulletsTimer2->start();
+//        snowPeaBulletsTimer3->start();
+//        sunFlowerSunsCreateTimer1->start();
+//        sunFlowerSunsCreateTimer2->start();
+//        sunFlowerSunsCreateTimer3->start();
+//      }
+
+    QMessageBox msg(this);
+    msg.setIconPixmap(QPixmap(":/error.svg"));
+    msg.setText("Quit");
+    msg.setInformativeText("Are you sure you want to quit this level?");
+    msg.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    msg.move((msg.width())*5,(msg.height())*10);
+    QSpacerItem* horizontalSpacer = new QSpacerItem(330, 60, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    QGridLayout* layout = (QGridLayout*)msg.layout();
+    layout->addItem(horizontalSpacer, layout->rowCount(), 5, 2, layout->columnCount());
+    if(msg.exec() == QMessageBox::Ok){
+        scene->setBackgroundBrush(QBrush(Qt::white));
+        scene->clear();
+        scene->addPixmap(QPixmap("C://Users/User/Desktop/Plants vs Zombies files/plants-vs-zombies.png"))->setPos(30,0);
+
+        //Disabling buttons
+        ui->QuitpushButton->setEnabled(false);
+        ui->PeaShooterToolButton->setEnabled(false);
+        ui->SunFlowerToolButton->setEnabled(false);
+        ui->CherryBombToolButton->setEnabled(false);
+        ui->PotatoMineToolButton->setEnabled(false);
+        ui->WalNutToolButton->setEnabled(false);
+        ui->ChomperToolButton->setEnabled(false);
+        ui->SnowPeaToolButton->setEnabled(false);
+        ui->RepeaterToolButton->setEnabled(false);
+        ui->NewpushButton->setEnabled(true);
+        ui->DeletepushButton->setEnabled(true);
+        ui->UserpushButton->setEnabled(true);
+        ui->UsercomboBox->setEnabled(true);
+        ui->StartpushButton->setEnabled(true);
+
+        //Setting sun points back to 0
+        sunPointsTotal = 0;
+        ui->Pointslabel->setText("Sun Points");
+
+        timer->stop();
+        sunTimer->stop();
+        regularZombieTimer->stop();
+        sunPointsUpdateTimer->stop();
+        flagZombieTimer->stop();
+        peaShooterBulletsTimer1->stop();
+        peaShooterBulletsTimer2->stop();
+        peaShooterBulletsTimer3->stop();
+        snowPeaBulletsTimer1->stop();
+        snowPeaBulletsTimer2->stop();
+        snowPeaBulletsTimer3->stop();
+        sunFlowerSunsCreateTimer1->stop();
+        sunFlowerSunsCreateTimer2->stop();
+        sunFlowerSunsCreateTimer3->stop();
+    }
+
+    else{
         qDebug() << "Yes quit was *not* clicked";
         timer->start(58);
-      }
+        regularZombieTimer->start();
+        flagZombieTimer->start();
+        sunTimer->start();
+        peaShooterBulletsTimer1->start();
+        peaShooterBulletsTimer2->start();
+        peaShooterBulletsTimer3->start();
+        snowPeaBulletsTimer1->start();
+        snowPeaBulletsTimer2->start();
+        snowPeaBulletsTimer3->start();
+        sunFlowerSunsCreateTimer1->start();
+        sunFlowerSunsCreateTimer2->start();
+        sunFlowerSunsCreateTimer3->start();
+    }
 }
 
 void MainWindow::on_UserpushButton_clicked()
