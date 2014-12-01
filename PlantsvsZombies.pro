@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     mouseclicking.cpp \
     sunpoints.cpp \
     snowpeabullets.cpp \
-    sunflowersuns.cpp
+    sunflowersuns.cpp \
+    lawnmowers.cpp
 
 HEADERS  += mainwindow.h \
     readingcsvfiles.h \
@@ -31,6 +32,7 @@ HEADERS  += mainwindow.h \
     mouseclicking.h \
     sunpoints.h \
     snowpeabullets.h \
-    sunflowersuns.h
+    sunflowersuns.h \
+    lawnmowers.h
 
 FORMS    += mainwindow.ui

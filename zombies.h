@@ -3,6 +3,7 @@
 
 #include "plants.h"
 #include "QTime"
+#include "lawnmowers.h"
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsItem>
@@ -13,6 +14,10 @@
 #include <QRect>
 #include <QObjectList>
 #include <QTime>
+#include <QPixmap>
+#include <QMessageBox>
+#include <QSpacerItem>
+#include <QGridLayout>
 
 class zombies : public QGraphicsItem
 {
@@ -21,7 +26,7 @@ public:
     zombies(int);
     zombies(int,int);
     QPixmap zombie;
-    QPixmap zombieEating;
+    QPixmap theEnd;
     void advance(int phase);
     void move(double time);
     double speed;
@@ -37,6 +42,7 @@ public:
     int getLife();
     int life;
     QTime rateT;
+    int restartLevel();
 
 protected:
     int xCoordinate;
@@ -45,6 +51,7 @@ protected:
     int random1;
     int random2;
     double direction;
+    int restartL;
 };
 
 class flagzombies : public zombies

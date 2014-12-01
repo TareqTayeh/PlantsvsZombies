@@ -9,6 +9,7 @@ zombies::zombies()
     random2 = 0;
 
     zombie.load("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
+    theEnd.load("C://Users/User/Desktop/Plants vs Zombies files/pvz8");
     life = 10;
 }
 
@@ -21,7 +22,6 @@ zombies::zombies(int x) //User Level 1 (x is 2)
     random2 = 0;
 
     zombie.load("C://Users/User/Desktop/Plants vs Zombies files/PVZ_Zombie_Suit.png");
-    zombieEating.load("C://Users/User/Desktop/Plants vs Zombies files/zombie3.png");
     this->setPos(680,180);
     life = 10;
 }
@@ -40,13 +40,19 @@ zombies::zombies(int x, int y) // User Level 2 (x is 1,2 or 3)
 
 void zombies::advance(int phase)
 {
-    if(!phase) return;  // We don't do anything to prepare objects for advancing
+    if(!phase) return;
     move(1);
 
-    // Check boundaries (0,0)-(WIDTH,WIDTH)
-    if (x() < (75) || x() > (750)) // make the zombie dissapear
+    if (x() < (0) || x() > (750)) // make the zombie dissapear
     {
-       setXVelocity(0);
+        setXVelocity(0);
+        xCoordinate = 0.1;
+        restartL = 1;
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("The End");
+        msgBox.setText("Zombies have eaten your brain");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.exec();      
     }
     //Check boundaries of zombies when plants are placed
 
@@ -228,6 +234,20 @@ void zombies::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget
         }
     }
 
+    foreach(QGraphicsItem * z , list)
+    {
+        lawnmowers * item8 = dynamic_cast<lawnmowers *>(z);
+        if (item8)
+        {
+            setXVelocity(0);
+            //item7->setLife(item7->getLife() - 1);
+            //qDebug() << item7->getLife();
+            //delete item6;
+            setVisible(false);
+            item8->setVisible(false);
+        }
+    }
+
     painter->drawPixmap(boundingRect(),zombie,boundingRect());
 }
 
@@ -239,6 +259,16 @@ QRectF zombies::boundingRect() const
 int zombies::getLife()
 {
     return life;
+}
+
+int zombies::restartLevel()
+{
+    if (restartL == 1)
+    {
+        qDebug() << "RESTARTL:" << restartL;
+        restartL = 0;
+        return 1;
+    }
 }
 
 

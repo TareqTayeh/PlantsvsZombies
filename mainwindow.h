@@ -8,6 +8,7 @@
 #include "bullets.h"
 #include "snowpeabullets.h"
 #include "sunflowersuns.h"
+#include "lawnmowers.h"
 #include <QGraphicsItem>
 #include <QMainWindow>
 #include <QMessageBox>
@@ -54,6 +55,7 @@ public:
     void drawRepeater(int,int); 
     sunpoints *sunUpdate;
     zombies *zombieStop;
+    zombies *lvlRS;
     bool nameValidation(QString);
 
 public slots:
@@ -94,6 +96,7 @@ public slots:
     void deleteSun2SunFlower();
     void deleteSun3SunFlower();
     void plantsCostt();
+    void restartLvLF();
 
 private slots:
     void on_DeletepushButton_clicked();
@@ -168,6 +171,7 @@ private:
     QTimer *sunFlowerSunsDeleteTimer2;
     QTimer *sunFlowerSunsDeleteTimer3;
     QTimer *plantsCostTimer;
+    QTimer *restartLvl;
     int timeoutTime;
     int squareSize;
     int plant_ID;
@@ -181,6 +185,8 @@ private:
     std::vector <plants *> plantsVector;
     std::vector <zombies *> zombiesVector;
     std::vector <bullets *> bulletsVector;
+    std::vector <snowpeabullets *> snowpeabulletsVector;
+    std::vector <lawnmowers *> lawnmowersVector;
     int sunPointsTotal;
     int grid[5][10];
     int startListSave;

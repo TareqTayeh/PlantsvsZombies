@@ -60,9 +60,12 @@ MainWindow::MainWindow(QWidget *parent) :
     plantsCostTimer = new QTimer(this);
     connect(plantsCostTimer,SIGNAL(timeout()),this,SLOT(plantsCostt()));
 
+    restartLvl = new QTimer(this);
+    connect(restartLvl,SIGNAL(timeout()),this,SLOT(restartLvLF()));
+
     plant_ID = 0;
     squareSize = 75;
-    sunPointsTotal = 2000;
+    sunPointsTotal = 200;
     timeoutTime = 5000;
     levelOneCounter = 0;
     levelTwoCounter = 0;
@@ -70,6 +73,7 @@ MainWindow::MainWindow(QWidget *parent) :
     levelFourCounter = 0;
     sunUpdate = new sunpoints;
     zombieStop = new zombies;
+    lvlRS = new zombies;
 
     QString playersFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_players.csv");
     QString levelsFile("C://Users/User/Desktop/Plants vs Zombies files/pvz_levels.csv");
@@ -304,6 +308,63 @@ MainWindow::~MainWindow()
 
     }
     bulletsVector.clear();
+
+    for (unsigned int i = 0; i < snowpeabulletsVector.size(); i++)
+    {
+        delete snowpeabulletsVector[i];
+
+    }
+    snowpeabulletsVector.clear();
+
+    for (unsigned int i = 0; i < lawnmowersVector.size(); i++)
+    {
+        delete lawnmowersVector[i];
+
+    }
+    lawnmowersVector.clear();
+
+    delete zombieStop;
+    delete lvlRS;
+    delete sunUpdate;
+    delete timer;
+    delete regularZombieTimer;
+    delete flagZombieTimer;
+    delete coneheadZombieTimer;
+    delete bucketheadZombieTimer;
+    delete newspaperZombieTimer;
+    delete sunTimer;
+    delete seedPeaShooterTimeoutTimer;
+    delete seedPeaShooterEnableTimer;
+    delete seedSunFlowerTimeoutTimer;
+    delete seedSunFlowerEnableTimer;
+    delete seedCherryBombTimeoutTimer;
+    delete seedCherryBombEnableTimer;
+    delete seedWallNutTimeoutTimer;
+    delete seedWallNutEnableTimer;
+    delete seedPotatoMineTimeoutTimer;
+    delete seedPotatoMineEnableTimer;
+    delete seedSnowPeaTimeoutTimer;
+    delete seedSnowPeaEnableTimer;
+    delete seedChomperTimeoutTimer;
+    delete seedChomperEnableTimer;
+    delete seedRepeaterTimeoutTimer;
+    delete seedRepeaterEnableTimer;
+    delete sunDeleteTimer;
+    delete sunPointsUpdateTimer;
+    delete peaShooterBulletsTimer1;
+    delete peaShooterBulletsTimer2;
+    delete peaShooterBulletsTimer3;
+    delete snowPeaBulletsTimer1;
+    delete snowPeaBulletsTimer2;
+    delete snowPeaBulletsTimer3;
+    delete sunFlowerSunsCreateTimer1;
+    delete sunFlowerSunsCreateTimer2;
+    delete sunFlowerSunsCreateTimer3;
+    delete sunFlowerSunsDeleteTimer1;
+    delete sunFlowerSunsDeleteTimer2;
+    delete sunFlowerSunsDeleteTimer3;
+    delete plantsCostTimer;
+    delete restartLvl;
 
     scene->clear();
     delete ui;
@@ -1176,7 +1237,7 @@ void MainWindow::createBullet1SnowPea()
 {
     snowpeabullets *cBullets = new snowpeabullets(xSnowPea1,ySnowPea1);
     scene->addItem(cBullets);
-    bulletsVector.push_back(cBullets);
+    snowpeabulletsVector.push_back(cBullets);
     qDebug() << "Snow Pea Bullets Added";
 }
 
@@ -1184,7 +1245,7 @@ void MainWindow::createBullet2SnowPea()
 {
     snowpeabullets *dBullets = new snowpeabullets(xSnowPea2,ySnowPea2);
     scene->addItem(dBullets);
-    bulletsVector.push_back(dBullets);
+    snowpeabulletsVector.push_back(dBullets);
     qDebug() << "Snow Pea Bullets Added";
 }
 
@@ -1192,7 +1253,7 @@ void MainWindow::createBullet3SnowPea()
 {
     snowpeabullets *eBullets = new snowpeabullets(xSnowPea3,ySnowPea3);
     scene->addItem(eBullets);
-     bulletsVector.push_back(eBullets);
+    snowpeabulletsVector.push_back(eBullets);
     qDebug() << "Snow Pea Bullets Added";
 }
 
@@ -1249,7 +1310,7 @@ void MainWindow::deleteSun3SunFlower()
 
 void MainWindow::plantsCostt()
 {
-    if (sunPointsTotal > 200 && seedRepeaterTimeoutTimer->isActive() == false)
+    if (sunPointsTotal >= 200 && seedRepeaterTimeoutTimer->isActive() == false)
         ui->RepeaterToolButton->setEnabled(true);
 
     if (sunPointsTotal < 200)
@@ -1297,6 +1358,14 @@ void MainWindow::plantsCostt()
         ui->PotatoMineToolButton->setEnabled(false);
 }
 
+void MainWindow::restartLvLF()
+{
+    if (lvlRS->restartLevel() == 1)
+    {
+        on_StartpushButton_clicked();
+    }
+}
+
 void MainWindow::on_DeletepushButton_clicked()
 {
     textSearch = ui->UsercomboBox->currentText();
@@ -1332,7 +1401,6 @@ void MainWindow::on_DeletepushButton_clicked()
 
 void MainWindow::on_NewpushButton_clicked()
 {
-    //Validate name
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this,"New User",ui->NamelineEdit->text()+ "?", QMessageBox::Ok|QMessageBox::Cancel);
     QString userNamee = (ui->NamelineEdit->text());
@@ -1362,7 +1430,7 @@ void MainWindow::on_NewpushButton_clicked()
 void MainWindow::on_StartpushButton_clicked()
 {
     //Showing sun points
-    sunPointsTotal = 2000;
+    sunPointsTotal = 400;
     ui->Pointslabel->setText("Sun Points\n" + QString::number(sunPointsTotal));   
 
     //Showing current user level on screen
@@ -1387,24 +1455,38 @@ void MainWindow::on_StartpushButton_clicked()
         scene->addRect(75,75,675,75,blackPen,brown);
         scene->addRect(75,225,675,75,blackPen,brown);
         scene->addRect(75,300,675,75,blackPen,brown);
-        scene->addPixmap(LawnMower)->setOffset(0,160);
+
+        lawnmowers *LawnMowerItem1 = new lawnmowers;
+        LawnMowerItem1->setPixmap(LawnMower);
+        scene->addItem(LawnMowerItem1);
+        LawnMowerItem1->setOffset(0,160);
+        lawnmowersVector.push_back(LawnMowerItem1);
     }
 
     else if(currentUserLevel == user.getLevelList(1)) //Only 3 green rows and lawnmowers will be shown
     {
         scene->addRect(75,0,675,75,blackPen,brown);
         scene->addRect(75,300,675,75,blackPen,brown);
-        scene->addPixmap(LawnMower)->setOffset(0,85);
-        scene->addPixmap(LawnMower)->setOffset(0,160);
-        scene->addPixmap(LawnMower)->setOffset(0,235);
+
+        for (int i = 85; i < 236; i+=squareSize)
+        {
+            lawnmowers *LawnMowerItem = new lawnmowers;
+            LawnMowerItem->setPixmap(LawnMower);
+            scene->addItem(LawnMowerItem);
+            LawnMowerItem->setOffset(0,i);
+            lawnmowersVector.push_back(LawnMowerItem);
+        }
     }
     else
     {
-        scene->addPixmap(LawnMower)->setOffset(0,10);
-        scene->addPixmap(LawnMower)->setOffset(0,85);
-        scene->addPixmap(LawnMower)->setOffset(0,160);
-        scene->addPixmap(LawnMower)->setOffset(0,235);
-        scene->addPixmap(LawnMower)->setOffset(0,310);
+        for (int i = 10; i < 311; i+=squareSize)
+        {
+            lawnmowers *LawnMowerItem = new lawnmowers;
+            LawnMowerItem->setPixmap(LawnMower);
+            scene->addItem(LawnMowerItem);
+            LawnMowerItem->setOffset(0,i);
+            lawnmowersVector.push_back(LawnMowerItem);
+        }
     }
 
     //Adding lines vertically
@@ -1426,6 +1508,7 @@ void MainWindow::on_StartpushButton_clicked()
     //Starting timer
 
     plantsCostTimer->start(0);
+    restartLvl->start(0);
 
     if (currentUserLevel == user.getLevelList(0))
     {
@@ -1434,7 +1517,7 @@ void MainWindow::on_StartpushButton_clicked()
         timer->start(58);
         sunTimer->start(10000);
         regularZombieTimer->start(startListSave);
-        sunPointsUpdateTimer->start(0);
+        sunPointsUpdateTimer->start(0);      
     }
     else if (currentUserLevel == user.getLevelList(1))
     {
@@ -1626,7 +1709,7 @@ void MainWindow::on_RestartpushButton_clicked() //Game restarts
         qDebug() << "Yes restart was clicked";
         {
             //Set default sun points
-            sunPointsTotal = 2000;
+            sunPointsTotal = 200;
 
             //Start
             on_StartpushButton_clicked();
