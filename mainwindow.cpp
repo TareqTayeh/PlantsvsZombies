@@ -247,6 +247,65 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     user.Write(currentUserName);
+
+    //Avoiding memory leaks
+    for (unsigned int i = 0; i < sunAdd.size(); i++)
+    {
+        delete sunAdd[i];
+
+    }
+    sunAdd.clear();
+
+    for (unsigned int i = 0; i < sunAdd1.size(); i++)
+    {
+        delete sunAdd1[i];
+
+    }
+    sunAdd1.clear();
+
+    for (unsigned int i = 0; i < sunAdd2.size(); i++)
+    {
+        delete sunAdd2[i];
+
+    }
+    sunAdd2.clear();
+
+    for (unsigned int i = 0; i < sunAdd3.size(); i++)
+    {
+        delete sunAdd3[i];
+
+    }
+    sunAdd3.clear();
+
+    for (unsigned int i = 0; i < peaShooterRepeater.size(); i++)
+    {
+        delete peaShooterRepeater[i];
+
+    }
+    peaShooterRepeater.clear();
+
+    for (unsigned int i = 0; i < plantsVector.size(); i++)
+    {
+        delete plantsVector[i];
+
+    }
+    plantsVector.clear();
+
+    for (unsigned int i = 0; i < zombiesVector.size(); i++)
+    {
+        delete zombiesVector[i];
+
+    }
+    zombiesVector.clear();
+
+    for (unsigned int i = 0; i < bulletsVector.size(); i++)
+    {
+        delete bulletsVector[i];
+
+    }
+    bulletsVector.clear();
+
+    scene->clear();
     delete ui;
 }
 
@@ -326,6 +385,7 @@ void MainWindow::drawPeaShooter(int x, int y) //Drawing Pea Shooter when clicked
             PeaShooterClass *PeaShooterItem = new PeaShooterClass(xPeaShooter1,yPeaShooter1);
             PeaShooterItem->setPixmap(PeaShooter);
             peaShooterRepeater.push_back(PeaShooterItem);
+            plantsVector.push_back(PeaShooterItem);
             scene->addItem(PeaShooterItem);
 
             //Removing Palette
@@ -395,8 +455,9 @@ void MainWindow::drawSunFlower(int x, int y) //Drawing Sun Flower when clicked
             {xSunFlower3 = ((x/75)*75)+20; ySunFlower3 = ((y/75)*75)+20;}
 
             QPixmap SunFlower("C://Users/User/Desktop/Plants vs Zombies files/Sunflower_HD - Copy.png");
-            QGraphicsPixmapItem *SunFlowerItem = new SunFlowerClass();
+            SunFlowerClass *SunFlowerItem = new SunFlowerClass();
             SunFlowerItem->setPixmap(SunFlower);
+            plantsVector.push_back(SunFlowerItem);
             scene->addItem(SunFlowerItem);
 
             //Removing Palette
@@ -456,8 +517,9 @@ void MainWindow::drawCherryBomb(int x, int y) //Drawing Cherry Bomb when clicked
                 (currentUserLevel == "9"))
         {
             QPixmap CherryBomb("C://Users/User/Desktop/Plants vs Zombies files/Cherry Bomb HD - Copy.png");
-            QGraphicsPixmapItem *CherryBombItem = new CherryBombClass();
+            CherryBombClass *CherryBombItem = new CherryBombClass();
             CherryBombItem->setPixmap(CherryBomb);
+            plantsVector.push_back(CherryBombItem);
             scene->addItem(CherryBombItem);
 
             //Removing Palette
@@ -501,7 +563,8 @@ void MainWindow::drawWalNut(int x, int y) //Drawing WalNut when clicked
                 (currentUserLevel == "9"))
         {
             QPixmap WalNut("C://Users/User/Desktop/Plants vs Zombies files/Hd_Wall-nut - Copy.png");
-            QGraphicsPixmapItem *WalNutItem = new WallNutClass;
+            WallNutClass *WalNutItem = new WallNutClass;
+            plantsVector.push_back(WalNutItem);
             WalNutItem->setPixmap(WalNut);
             scene->addItem(WalNutItem);
 
@@ -546,8 +609,9 @@ void MainWindow::drawPotatoMine(int x, int y) //Drawing PotatoMine when clicked
                 (currentUserLevel == "9"))
         {
             QPixmap PotatoMine("C://Users/User/Desktop/Plants vs Zombies files/Potato_Mine_HD - Copy.png");
-            QGraphicsPixmapItem *PotatoMineItem = new PotatoMineClass;
+            PotatoMineClass *PotatoMineItem = new PotatoMineClass;
             PotatoMineItem->setPixmap(PotatoMine);
+            plantsVector.push_back(PotatoMineItem);
             scene->addItem(PotatoMineItem);
 
             //Removing Palette
@@ -598,8 +662,9 @@ void MainWindow::drawSnowPea(int x, int y) //Drawing Snow Pea when clicked
             {xSnowPea3 = ((x/75)*75)+20; ySnowPea3 = ((y/75)*75)+20;}
 
             QPixmap SnowPea("C://Users/User/Desktop/Plants vs Zombies files/Snow_Pea_(HD_size) - Copy.png");
-            QGraphicsPixmapItem *SnowPeaItem = new SnowPeaClass;
+            SnowPeaClass *SnowPeaItem = new SnowPeaClass;
             SnowPeaItem->setPixmap(SnowPea);
+            plantsVector.push_back(SnowPeaItem);
             scene->addItem(SnowPeaItem);
 
             //Removing Palette
@@ -659,8 +724,9 @@ void MainWindow::drawChomper(int x, int y) //Drawing Chomper when clicked
                 (currentUserLevel == "9"))
         {
             QPixmap Chomper("C://Users/User/Desktop/Plants vs Zombies files/ChomperHD2 - Copy.png");
-            QGraphicsPixmapItem *ChomperItem = new ChomperClass;
+            ChomperClass *ChomperItem = new ChomperClass;
             ChomperItem->setPixmap(Chomper);
+            plantsVector.push_back(ChomperItem);
             scene->addItem(ChomperItem);
 
             //Removing Palette
@@ -704,8 +770,9 @@ void MainWindow::drawRepeater(int x, int y) //Drawing Repeater when clicked
                 (currentUserLevel == "9"))
         {
             QPixmap Repeater("C://Users/User/Desktop/Plants vs Zombies files/Repeater_HD_HD - Copy.png");
-            QGraphicsPixmapItem *RepeaterItem = new RepeaterClass;
+            RepeaterClass *RepeaterItem = new RepeaterClass;
             RepeaterItem->setPixmap(Repeater);
+            plantsVector.push_back(RepeaterItem);
             scene->addItem(RepeaterItem);
 
             //Removing Palette
@@ -792,6 +859,7 @@ void MainWindow::createRegularZombie()
     {
         zombies *RegularZombie = new zombies(2);
         scene->addItem(RegularZombie);
+        zombiesVector.push_back(RegularZombie);
         qDebug() << "Zombie Added";
 
         if (levelOneCounter == 4)
@@ -960,6 +1028,7 @@ void MainWindow::createFlagZombie()
 {
     flagzombies *FlagZombie = new flagzombies(2);
     scene->addItem(FlagZombie);
+    zombiesVector.push_back(FlagZombie);
     qDebug() << " Flag Zombie Added";
     flagZombieTimer->stop();
 }
@@ -968,6 +1037,7 @@ void MainWindow::createConeheadZombie()
 {
     coneheadzombies *ConeHeadZombie = new coneheadzombies(2,2);
     scene->addItem(ConeHeadZombie);
+    zombiesVector.push_back(ConeHeadZombie);
     qDebug() << " ConeHead Zombie Added";
     coneheadZombieTimer->stop();
 }
@@ -976,6 +1046,7 @@ void MainWindow::createBucketheadZombie()
 {
     bucketheadzombies *BucketHeadZombie = new bucketheadzombies();
     scene->addItem(BucketHeadZombie);
+    zombiesVector.push_back(BucketHeadZombie);
     qDebug() << " BucketHead Zombie Added";
     bucketheadZombieTimer->stop();
 }
@@ -984,6 +1055,7 @@ void MainWindow::createNewspaperZombie()
 {
     newspaperzombies *NewspaperZombie = new newspaperzombies();
     scene->addItem(NewspaperZombie);
+    zombiesVector.push_back(NewspaperZombie);
     qDebug() << " Newspaper Zombie Added";
     newspaperZombieTimer->stop();
 }
@@ -1080,6 +1152,7 @@ void MainWindow::createBullet1PeaShooter()
 {
     bullets *pBullets = new bullets(xPeaShooter1,yPeaShooter1);
     scene->addItem(pBullets);
+    bulletsVector.push_back(pBullets);
     qDebug() << "Pea Shooter Bullets Added";
 }
 
@@ -1087,6 +1160,7 @@ void MainWindow::createBullet2PeaShooter()
 {
     bullets *aBullets = new bullets(xPeaShooter2,yPeaShooter2);
     scene->addItem(aBullets);
+    bulletsVector.push_back(aBullets);
     qDebug() << "Pea Shooter Bullets Added";
 }
 
@@ -1094,6 +1168,7 @@ void MainWindow::createBullet3PeaShooter()
 {
     bullets *bBullets = new bullets(xPeaShooter3,yPeaShooter3);
     scene->addItem(bBullets);
+    bulletsVector.push_back(bBullets);
     qDebug() << "Pea Shooter Bullets Added";
 }
 
@@ -1101,6 +1176,7 @@ void MainWindow::createBullet1SnowPea()
 {
     snowpeabullets *cBullets = new snowpeabullets(xSnowPea1,ySnowPea1);
     scene->addItem(cBullets);
+    bulletsVector.push_back(cBullets);
     qDebug() << "Snow Pea Bullets Added";
 }
 
@@ -1108,6 +1184,7 @@ void MainWindow::createBullet2SnowPea()
 {
     snowpeabullets *dBullets = new snowpeabullets(xSnowPea2,ySnowPea2);
     scene->addItem(dBullets);
+    bulletsVector.push_back(dBullets);
     qDebug() << "Snow Pea Bullets Added";
 }
 
@@ -1115,6 +1192,7 @@ void MainWindow::createBullet3SnowPea()
 {
     snowpeabullets *eBullets = new snowpeabullets(xSnowPea3,ySnowPea3);
     scene->addItem(eBullets);
+     bulletsVector.push_back(eBullets);
     qDebug() << "Snow Pea Bullets Added";
 }
 

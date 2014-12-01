@@ -178,6 +178,9 @@ private:
     std::vector <sunFlowerSuns*> sunAdd3;
     std::vector <int> restartTimerCounters;
     std::vector <plants *> peaShooterRepeater;
+    std::vector <plants *> plantsVector;
+    std::vector <zombies *> zombiesVector;
+    std::vector <bullets *> bulletsVector;
     int sunPointsTotal;
     int grid[5][10];
     int startListSave;
